@@ -3,13 +3,21 @@ import { ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconButton } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 
 import { TokenService } from '../../../core/auth/token';
 
 @Component({
   selector: 'app-login',
-  imports: [MatButtonModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, RouterLink],
+  imports: [
+    MatButtonModule,
+    MatIconButton,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    RouterLink,
+  ],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -19,11 +27,16 @@ export class Login {
   private readonly tokenService = inject(TokenService);
 
   protected readonly loading = signal(false);
+  protected readonly showPassword = signal(false);
 
   protected readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
+
+  protected toggleShowPassword(): void {
+    this.showPassword.update((v) => !v);
+  }
 
   protected submit(): void {
     if (this.loading()) {
