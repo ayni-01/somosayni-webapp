@@ -1,0 +1,106 @@
+<div class="page">
+  <section class="left" aria-labelledby="login-title">
+    <div class="brand" aria-label="Somos Ayni">
+      <div class="mark" aria-hidden="true"></div>
+      <div class="brand-text">
+        <div class="name">Somos Ayni</div>
+        <div class="tagline">Trabajo decente y crecimiento económico (ODS 8)</div>
+      </div>
+    </div>
+
+    <h1 id="login-title" class="title">Iniciar sesión</h1>
+    <p class="subtitle">Accede para postular a retos, obtener insignias y conectar con empresas.</p>
+
+    <form class="form" [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>Correo</mat-label>
+        <input matInput type="email" formControlName="email" autocomplete="email" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Contraseña</mat-label>
+        <input
+          matInput
+          type="password"
+          formControlName="password"
+          autocomplete="current-password"
+        />
+      </mat-form-field>
+
+      <button
+        mat-raised-button
+        color="primary"
+        class="primary"
+        type="submit"
+        [disabled]="loading()"
+      >
+        Continuar
+      </button>
+
+      <div class="actions" aria-label="Acciones de autenticación">
+        <a routerLink="/auth/login" class="link">¿Olvidaste tu contraseña?</a>
+        <a routerLink="/auth/login" class="link">Crear cuenta</a>
+      </div>
+    </form>
+  </section>
+
+  <section class="right" aria-label="Panel informativo">
+    <div class="hero">
+      <div class="hero-content">
+        <h2>Reciprocidad que impulsa tu empleabilidad</h2>
+        <p>
+          Resuelve retos prácticos, gana visibilidad y permite que tu talento sea evaluado con
+          evidencia.
+        </p>
+
+        <div class="hero-points">
+          <div class="point">
+            <span class="dot" aria-hidden="true"></span>
+            <span>Convocatorias y retos por empresas</span>
+          </div>
+          <div class="point">
+            <span class="dot" aria-hidden="true"></span>
+            <span>Rúbricas y preevaluación asistida por IA</span>
+          </div>
+          <div class="point">
+            <span class="dot" aria-hidden="true"></span>
+            <span>Insignias y perfil de competencias</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="illustration" role="img" aria-label="Colaboración y crecimiento profesional">
+        <svg viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#3498db" stop-opacity="0.95" />
+              <stop offset="1" stop-color="#006397" stop-opacity="0.9" />
+            </linearGradient>
+            <linearGradient id="g2" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0" stop-color="#ffffff" stop-opacity="0.16" />
+              <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+            </linearGradient>
+          </defs>
+
+          <rect x="0" y="0" width="640" height="480" rx="28" fill="url(#g2)" />
+
+          <g transform="translate(68 80)">
+            <rect x="0" y="178" width="504" height="150" rx="18" fill="rgba(255,255,255,0.18)" />
+            <rect x="84" y="134" width="336" height="80" rx="18" fill="rgba(255,255,255,0.22)" />
+            <rect x="136" y="118" width="232" height="44" rx="16" fill="rgba(255,255,255,0.22)" />
+
+            <path
+              d="M172 212c22-20 47-28 76-12 18 10 35 12 52 0 29-20 56-10 78 12 16 16 26 20 42 12 15-7 23-23 44-18 22 6 34 28 24 48-12 25-44 45-88 45-40 0-74-14-100-32-25 18-60 32-100 32-44 0-76-20-88-45-10-20 2-42 24-48 21-5 29 11 44 18 16 8 26 4 42-12Z"
+              fill="url(#g1)"
+            />
+
+            <circle cx="170" cy="110" r="42" fill="rgba(255,255,255,0.22)" />
+            <circle cx="170" cy="110" r="26" fill="rgba(255,255,255,0.3)" />
+            <circle cx="472" cy="110" r="42" fill="rgba(255,255,255,0.22)" />
+            <circle cx="472" cy="110" r="26" fill="rgba(255,255,255,0.3)" />
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+</div>
