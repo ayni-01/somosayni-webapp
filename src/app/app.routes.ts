@@ -1,19 +1,29 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/auth/auth.guard';
+import { AuthLayout } from './core/layout/auth-layout/auth-layout';
+import { Shell } from './core/layout/shell/shell';
 
 export const routes: Routes = [
+  { path: '', redirectTo: 'auth/registro', pathMatch: 'full' },
   {
-    path: '',
-    loadComponent: () => import('./core/layout/shell/shell').then((m) => m.Shell),
+    path: 'auth',
+    component: AuthLayout,
     children: [
       {
         path: '',
-        pathMatch: 'full',
-        redirectTo: 'home',
+        loadChildren: () => import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES),
       },
+    ],
+  },
+  {
+    path: 'app',
+    component: Shell,
+    canActivate: [authGuard],
+    children: [
+      { path: '', redirectTo: 'inicio', pathMatch: 'full' },
       {
-        path: 'home',
-        loadChildren: () =>
-          import('./features/home/home.routes').then((m) => m.HOME_ROUTES),
+        path: 'inicio',
+        loadChildren: () => import('./features/home/home.routes').then((m) => m.HOME_ROUTES),
       },
     ],
   },
