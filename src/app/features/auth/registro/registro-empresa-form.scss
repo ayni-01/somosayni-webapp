@@ -1,0 +1,12 @@
+.sa-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  &__submit {
+    margin-top: 8px;
+    height: 48px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+}
