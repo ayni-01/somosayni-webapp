@@ -1,5 +1,8 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { filter } from 'rxjs/operators';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -47,8 +50,11 @@ const ITEMS: NavItem[] = [
 export class Shell {
   private readonly auth = inject(AuthStore);
   private readonly router = inject(Router);
+  private readonly breakpoint = inject(BreakpointObserver);
 
   readonly usuario = this.auth.usuario;
+  readonly esMobile = signal(false);
+  readonly sidenavAbierto = signal(true);
 
   readonly subtitulo = computed(() => {
     const rol = this.usuario()?.rol;
@@ -61,6 +67,28 @@ export class Shell {
     if (!rol) return [];
     return ITEMS.filter(i => i.roles.includes(rol));
   });
+
+  readonly modoSidenav = computed(() => this.esMobile() ? 'over' as const : 'side' as const);
+
+  constructor() {
+    this.breakpoint.observe('(max-width: 1024px)')
+      .pipe(takeUntilDestroyed())
+      .subscribe(state => {
+        const mobile = state.matches;
+        this.esMobile.set(mobile);
+        this.sidenavAbierto.set(!mobile);
+      });
+
+    this.router.events
+      .pipe(filter(e => e instanceof NavigationEnd), takeUntilDestroyed())
+      .subscribe(() => {
+        if (this.esMobile()) this.sidenavAbierto.set(false);
+      });
+  }
+
+  alternarSidenav(): void {
+    this.sidenavAbierto.update(v => !v);
+  }
 
   cerrarSesion(): void {
     this.auth.cerrarSesion();

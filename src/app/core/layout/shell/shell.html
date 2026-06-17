@@ -1,7 +1,11 @@
 <a class="sa-skip-link" href="#sa-main">Saltar al contenido</a>
 
 <mat-sidenav-container class="sa-shell">
-  <mat-sidenav mode="side" opened class="sa-shell__sidenav">
+  <mat-sidenav
+    [mode]="modoSidenav()"
+    [opened]="sidenavAbierto()"
+    (openedChange)="sidenavAbierto.set($event)"
+    class="sa-shell__sidenav">
     <div class="sa-brand">
       <mat-icon aria-hidden="true">apps</mat-icon>
       <div>
@@ -22,6 +26,11 @@
 
   <mat-sidenav-content>
     <mat-toolbar class="sa-shell__topbar">
+      @if (esMobile()) {
+        <button mat-icon-button (click)="alternarSidenav()" aria-label="Abrir menú">
+          <mat-icon>menu</mat-icon>
+        </button>
+      }
       <span class="sa-shell__title">Somos Ayni</span>
       <span class="sa-shell__spacer"></span>
 

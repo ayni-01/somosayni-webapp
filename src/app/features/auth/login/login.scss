@@ -59,3 +59,11 @@
     letter-spacing: 0.5px;
   }
 }
+
+@media (max-width: 640px) {
+  .sa-login {
+    &__titulo {
+      font-size: 22px;
+    }
+  }
+}

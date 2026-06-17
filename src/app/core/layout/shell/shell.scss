@@ -111,3 +111,42 @@
     color: var(--sa-color-text-muted);
   }
 }
+
+@media (max-width: 1024px) {
+  .sa-shell {
+    &__main {
+      padding: 16px;
+    }
+  }
+
+  .sa-brand {
+    padding: 16px 12px;
+    gap: 10px;
+
+    > mat-icon {
+      width: 36px;
+      height: 36px;
+      font-size: 20px;
+    }
+
+    strong {
+      font-size: 13px;
+    }
+
+    small {
+      font-size: 10px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .sa-shell {
+    &__title {
+      display: none;
+    }
+
+    &__main {
+      padding: 12px;
+    }
+  }
+}

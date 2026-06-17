@@ -120,3 +120,37 @@
     gap: 8px;
   }
 }
+
+@media (max-width: 640px) {
+  .sa-card {
+    &__header {
+      ::ng-deep .mat-mdc-card-title {
+        font-size: 22px;
+      }
+    }
+
+    &__actions {
+      flex-direction: column;
+      align-items: stretch;
+
+      button, a {
+        width: 100%;
+        min-width: 0;
+      }
+    }
+  }
+
+  ::ng-deep .sa-card .mat-mdc-card-content,
+  ::ng-deep .sa-card .mat-mdc-card-header {
+    padding: 16px !important;
+  }
+
+  .sa-puntuacion__row {
+    gap: 12px;
+  }
+
+  .sa-puntuacion__valor {
+    font-size: 20px;
+    min-width: 60px;
+  }
+}

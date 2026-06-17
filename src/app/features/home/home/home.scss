@@ -197,3 +197,32 @@
   }
 }
 
+@media (max-width: 640px) {
+  .sa-dash__hero {
+    margin-bottom: 24px;
+
+    h1 {
+      font-size: 22px;
+    }
+  }
+
+  .sa-fila__content {
+    padding: 16px;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sa-acciones {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .sa-accion {
+    width: 100%;
+
+    &--primary {
+      min-width: 0;
+    }
+  }
+}
