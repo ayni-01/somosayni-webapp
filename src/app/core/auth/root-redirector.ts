@@ -14,7 +14,6 @@ export class RootRedirector implements OnInit {
 
   ngOnInit(): void {
     const destino = this.auth.estaAutenticado() ? '/app/inicio' : '/auth/login';
-    console.log('[RootRedirector] autenticado:', this.auth.estaAutenticado(), 'destino:', destino, 'token:', this.auth.token());
     this.router.navigateByUrl(destino, { replaceUrl: true });
   }
 }
