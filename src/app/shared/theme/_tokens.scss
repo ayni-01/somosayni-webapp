@@ -1,0 +1,29 @@
+:root {
+  --sa-color-bg:                #f6f9ff;
+  --sa-color-card:              #ffffff;
+  --sa-color-text:              #111827;
+  --sa-color-text-muted:        #6b7280;
+  --sa-color-stroke:            #e5e7eb;
+  --sa-color-primary:           #2b8ef3;
+  --sa-color-primary-strong:    #1f7fe0;
+  --sa-color-on-primary:        #ffffff;
+  --sa-color-accent-soft:       #eaf3ff;
+  --sa-color-accent-soft-2:     #cfe7ff;
+
+  --sa-status-success:          #16a34a;
+  --sa-status-warning:          #ca8a04;
+  --sa-status-info:             #2b8ef3;
+  --sa-status-neutral:          #6b7280;
+
+  --sa-radius:                  14px;
+  --sa-shadow:                  0 14px 36px rgba(17, 24, 39, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

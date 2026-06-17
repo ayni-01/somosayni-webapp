@@ -1,0 +1,29 @@
+<div class="sa-registro">
+  <mat-button-toggle-group
+    class="sa-registro__toggle"
+    [value]="rol()"
+    (change)="cambiarRol($event.value)"
+    aria-label="Selecciona el tipo de cuenta"
+  >
+    <mat-button-toggle value="TALENTO">Soy talento</mat-button-toggle>
+    <mat-button-toggle value="EMPRESA">Soy empresa</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <h1 class="sa-registro__titulo">Crear cuenta</h1>
+
+  @switch (rol()) {
+    @case ('TALENTO') {
+      <p class="sa-registro__subtitulo">Ingresa tus datos para configurar tu perfil profesional.</p>
+      <sa-registro-talento-form />
+    }
+    @case ('EMPRESA') {
+      <p class="sa-registro__subtitulo">Crea la cuenta de tu organización para acceder a la plataforma.</p>
+      <sa-registro-empresa-form />
+    }
+  }
+
+  <p class="sa-registro__footer">
+    ¿Ya tienes cuenta?
+    <a routerLink="/auth/login">Inicia sesión</a>
+  </p>
+</div>
