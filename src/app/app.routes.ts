@@ -4,7 +4,7 @@ import { AuthLayout } from './core/layout/auth-layout/auth-layout';
 import { Shell } from './core/layout/shell/shell';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'auth/registro', pathMatch: 'full' },
+  { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
   {
     path: 'auth',
     component: AuthLayout,

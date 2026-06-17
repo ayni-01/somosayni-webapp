@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_ENDPOINTS } from '../config/api-endpoints';
-import { RegistroRequest, Usuario } from '../../shared/models/usuario.model';
+import { LoginRequest, LoginResponse, RegistroRequest, Usuario } from '../../shared/models/usuario.model';
 
 @Injectable({ providedIn: 'root' })
 export class IdentidadApi {
@@ -11,5 +11,9 @@ export class IdentidadApi {
 
   registrar(body: RegistroRequest): Observable<Usuario> {
     return this.http.post<Usuario>(`${this.base}/auth/registro`, body);
+  }
+
+  login(body: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.base}/auth/login`, body);
   }
 }
