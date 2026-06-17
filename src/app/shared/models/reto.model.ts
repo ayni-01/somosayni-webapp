@@ -9,14 +9,18 @@ export interface Recompensa {
   descripcion: string;
 }
 
+export interface ItemDescripcion {
+  descripcion: string;
+}
+
 export interface Reto {
   id: string;
   empresaId: string;
   titulo: string;
   descripcion: string;
   categoria: Categoria;
-  requisitos: string[];
-  entregables: string[];
+  requisitos: ItemDescripcion[];
+  entregables: ItemDescripcion[];
   recompensa: Recompensa | null;
   fechaLimite: string | null;
   nivelDificultad: NivelDificultad;

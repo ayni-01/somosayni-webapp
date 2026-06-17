@@ -81,8 +81,8 @@
           <section class="sa-reto__seccion">
             <h2>Requisitos</h2>
             <ul class="sa-reto__lista">
-              @for (req of r.requisitos; track req) {
-                <li>{{ req }}</li>
+              @for (req of r.requisitos; track req.descripcion) {
+                <li>{{ req.descripcion }}</li>
               }
             </ul>
           </section>
@@ -92,8 +92,8 @@
           <section class="sa-reto__seccion">
             <h2>Entregables</h2>
             <ul class="sa-reto__lista">
-              @for (e of r.entregables; track e) {
-                <li>{{ e }}</li>
+              @for (e of r.entregables; track e.descripcion) {
+                <li>{{ e.descripcion }}</li>
               }
             </ul>
           </section>
