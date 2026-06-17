@@ -1,66 +1,102 @@
-<section class="sa-perfil">
-  <mat-card appearance="outlined" class="sa-perfil__card">
-    <mat-card-header class="sa-perfil__header">
-      <mat-card-title>Perfil corporativo</mat-card-title>
-      <mat-card-subtitle>Datos de tu empresa registrados en la plataforma.</mat-card-subtitle>
-    </mat-card-header>
+@if (cargando()) {
+  <div class="sa-cargando">
+    <mat-progress-spinner mode="indeterminate" diameter="36" />
+    <span>Cargando perfil...</span>
+  </div>
+} @else if (!perfil()) {
+  <div class="sa-vacio-page">
+    <mat-icon aria-hidden="true">business</mat-icon>
+    <h1>Aún no has creado tu perfil corporativo</h1>
+    <p>Completa el registro empresarial para empezar a publicar retos.</p>
+  </div>
+} @else {
+  @let p = perfil()!;
 
-    @if (cargando()) {
-      <mat-card-content>
-        <div class="sa-cargando">
-          <mat-progress-spinner mode="indeterminate" diameter="36" />
-          <span>Cargando perfil...</span>
-        </div>
-      </mat-card-content>
-    } @else {
-      <mat-card-content>
-        <div class="sa-aviso">
-          <mat-icon aria-hidden="true">info</mat-icon>
-          <span>Modo solo lectura. La edición de datos corporativos no está disponible actualmente. Contacta al administrador para realizar cambios.</span>
-        </div>
-
-        @if (estadoValidacion()) {
-          <div class="sa-estado">
-            <span class="sa-estado__label">Estado de validación:</span>
-            <mat-chip class="sa-chip-estado" [attr.data-validacion]="estadoValidacion()" disableRipple>
-              @switch (estadoValidacion()) {
-                @case ('VALIDADO')  { Validado }
-                @case ('PENDIENTE') { Pendiente de revisión }
-                @case ('RECHAZADO') { Rechazado }
-              }
-            </mat-chip>
-          </div>
-        }
-
-        @let p = perfil();
-        @if (p) {
-          <div class="sa-form">
-            <mat-form-field appearance="outline">
-              <mat-label>Razón social</mat-label>
-              <input matInput [value]="p.razonSocial" readonly>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>RUC</mat-label>
-              <input matInput [value]="p.ruc" readonly>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline">
-              <mat-label>Sector</mat-label>
-              <input matInput [value]="p.sector" readonly>
-            </mat-form-field>
-
-            @if (p.descripcion) {
-              <mat-form-field appearance="outline">
-                <mat-label>Descripción</mat-label>
-                <textarea matInput rows="4" [value]="p.descripcion" readonly></textarea>
-              </mat-form-field>
-            }
-          </div>
+  <section class="sa-empresa">
+    <header class="sa-hero">
+      <div class="sa-avatar" role="img" [attr.aria-label]="'Logo de ' + p.razonSocial">
+        @if (p.logo) {
+          <img [src]="p.logo" alt="">
         } @else {
-          <p class="sa-perfil__vacio">No se encontró un perfil corporativo asociado a tu cuenta.</p>
+          <span class="sa-avatar__iniciales">{{ iniciales() }}</span>
         }
+      </div>
+
+      <div class="sa-hero__cuerpo">
+        <span class="sa-hero__rol">Perfil corporativo</span>
+        <h1 class="sa-hero__titulo">{{ p.razonSocial }}</h1>
+        <div class="sa-hero__meta">
+          @if (sectorLegible()) {
+            <span class="sa-meta-item">
+              <mat-icon aria-hidden="true">domain</mat-icon>
+              {{ sectorLegible() }}
+            </span>
+          }
+          @if (usuario(); as u) {
+            <span class="sa-meta-item">
+              <mat-icon aria-hidden="true">mail</mat-icon>
+              {{ u.email }}
+            </span>
+          }
+        </div>
+      </div>
+
+      <div class="sa-estado" [attr.data-estado]="estadoValidacion()">
+        <mat-icon aria-hidden="true">{{ iconoEstado() }}</mat-icon>
+        <div>
+          <span class="sa-estado__etiqueta">Validación</span>
+          <strong class="sa-estado__valor">{{ etiquetaEstado() }}</strong>
+        </div>
+      </div>
+    </header>
+
+    <div class="sa-aviso" role="status">
+      <mat-icon aria-hidden="true">lock</mat-icon>
+      <div>
+        <strong>Modo solo lectura</strong>
+        <p>La edición de datos corporativos no está disponible aún. Contacta al administrador para realizar cambios.</p>
+      </div>
+    </div>
+
+    <mat-card appearance="outlined" class="sa-card">
+      <mat-card-header class="sa-card__header">
+        <div class="sa-card__titulo-wrap">
+          <mat-icon class="sa-card__icono" aria-hidden="true">badge</mat-icon>
+          <div>
+            <mat-card-title>Datos generales</mat-card-title>
+            <mat-card-subtitle>Información oficial de tu empresa.</mat-card-subtitle>
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-divider />
+      <mat-card-content class="sa-card__content">
+        <dl class="sa-campos">
+          <div class="sa-campo">
+            <dt>Razón social</dt>
+            <dd>{{ p.razonSocial }}</dd>
+          </div>
+          <div class="sa-campo">
+            <dt>RUC</dt>
+            <dd class="sa-mono">{{ p.ruc || '—' }}</dd>
+          </div>
+          <div class="sa-campo">
+            <dt>Sector</dt>
+            <dd>
+              @if (sectorLegible()) {
+                <span class="sa-pill">{{ sectorLegible() }}</span>
+              } @else {
+                <span class="sa-vacio-inline">No especificado</span>
+              }
+            </dd>
+          </div>
+          @if (p.descripcion) {
+            <div class="sa-campo sa-campo--full">
+              <dt>Descripción</dt>
+              <dd>{{ p.descripcion }}</dd>
+            </div>
+          }
+        </dl>
       </mat-card-content>
-    }
-  </mat-card>
-</section>
+    </mat-card>
+  </section>
+}
