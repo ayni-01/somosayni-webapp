@@ -1,0 +1,117 @@
+::ng-deep .sa-noti-menu {
+  width: 360px !important;
+  max-width: 90vw;
+}
+
+.sa-noti {
+  display: flex;
+  flex-direction: column;
+
+  &__header {
+    padding: 14px 16px 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h3 {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--sa-color-text);
+    }
+  }
+
+  &__badge {
+    padding: 2px 10px;
+    border-radius: 999px;
+    background: var(--sa-color-accent-soft);
+    color: var(--sa-color-primary);
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  &__estado {
+    padding: 24px 16px;
+    margin: 0;
+    text-align: center;
+    color: var(--sa-color-text-muted);
+    font-size: 13px;
+  }
+
+  &__lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 420px;
+    overflow-y: auto;
+  }
+
+  &__item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--sa-color-stroke);
+    cursor: pointer;
+    align-items: start;
+    transition: background 0.15s ease;
+
+    &:hover {
+      background: var(--sa-color-accent-soft);
+    }
+
+    &--leida {
+      opacity: 0.65;
+    }
+  }
+
+  &__icono {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--sa-color-accent-soft);
+    color: var(--sa-color-primary);
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+
+    &[data-tipo='APROBADO']  { background: rgba(22, 163, 74, 0.12); color: var(--sa-status-success); }
+    &[data-tipo='RECHAZADO'] { background: rgba(220, 38, 38, 0.12); color: #dc2626; }
+    &[data-tipo='INSIGNIA']  { background: rgba(202, 138, 4, 0.12); color: var(--sa-status-warning); }
+  }
+
+  &__cuerpo {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  &__tipo {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    font-weight: 700;
+    color: var(--sa-color-text-muted);
+  }
+
+  &__mensaje {
+    margin: 0;
+    font-size: 13px;
+    color: var(--sa-color-text);
+    line-height: 1.4;
+  }
+
+  &__fecha {
+    font-size: 11px;
+    color: var(--sa-color-text-muted);
+  }
+
+  &__pulso {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--sa-color-primary);
+    margin-top: 8px;
+  }
+}

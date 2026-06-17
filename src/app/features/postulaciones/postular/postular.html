@@ -1,0 +1,64 @@
+<section class="sa-postular">
+  <nav class="sa-postular__breadcrumb">
+    <a [routerLink]="['/app/postulaciones/reto', id()]">
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+      Volver al detalle del reto
+    </a>
+  </nav>
+
+  @if (cargando()) {
+    <div class="sa-cargando">
+      <mat-progress-spinner mode="indeterminate" diameter="36" />
+      <span>Cargando reto...</span>
+    </div>
+  } @else if (error() || !reto()) {
+    <div class="sa-error">
+      <h1>No encontramos este reto</h1>
+      <p>Es posible que haya sido cerrado o archivado.</p>
+      <a mat-flat-button color="primary" routerLink="/app/postulaciones/explorar">Volver a explorar</a>
+    </div>
+  } @else {
+    @let r = reto()!;
+    <mat-card appearance="outlined" class="sa-card">
+      <mat-card-header class="sa-card__header">
+        <span class="sa-card__chip">Postulando a</span>
+        <mat-card-title>{{ r.titulo }}</mat-card-title>
+        <mat-card-subtitle>
+          @switch (r.modalidad) {
+            @case ('REMOTO') { Remoto }
+            @case ('PRESENCIAL') { Presencial }
+            @case ('HIBRIDO') { Híbrido }
+          }
+          · {{ r.duracionDias }} días
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <form class="sa-form" [formGroup]="form" (ngSubmit)="enviar()" id="postular-form">
+          <mat-form-field appearance="outline">
+            <mat-label>URL de tu solución</mat-label>
+            <input matInput type="url" formControlName="urlSolucion" placeholder="https://github.com/..." required>
+            <mat-hint>Repositorio, demo en vivo, o documento con tu propuesta.</mat-hint>
+            @if (form.controls.urlSolucion.hasError('required') && form.controls.urlSolucion.touched) {
+              <mat-error>Ingresa la URL de tu solución</mat-error>
+            }
+            @if (form.controls.urlSolucion.hasError('pattern') && form.controls.urlSolucion.touched) {
+              <mat-error>URL inválida (debe empezar con http:// o https://)</mat-error>
+            }
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+
+      <mat-card-actions align="end" class="sa-card__actions">
+        <a mat-button [routerLink]="['/app/postulaciones/reto', r.id]">Cancelar</a>
+        <button mat-flat-button color="primary" type="submit" form="postular-form" [disabled]="form.invalid || enviando()">
+          @if (enviando()) {
+            Enviando...
+          } @else {
+            Enviar postulación
+          }
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  }
+</section>

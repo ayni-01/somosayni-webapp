@@ -1,0 +1,140 @@
+.sa-detalle {
+  max-width: 880px;
+  margin: 0 auto;
+
+  &__breadcrumb {
+    margin-bottom: 16px;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--sa-color-text-muted);
+      text-decoration: none;
+      font-size: 14px;
+
+      &:hover {
+        color: var(--sa-color-primary);
+      }
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
+
+.sa-cargando {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 0;
+  color: var(--sa-color-text-muted);
+}
+
+.sa-error {
+  text-align: center;
+  padding: 64px 24px;
+  background: var(--sa-color-accent-soft);
+  border-radius: var(--sa-radius);
+
+  h1 {
+    margin: 0 0 8px 0;
+    font-size: 22px;
+    color: var(--sa-color-text);
+  }
+
+  p {
+    margin: 0 0 16px 0;
+    color: var(--sa-color-text-muted);
+  }
+}
+
+.sa-reto {
+  border-radius: var(--sa-radius);
+
+  &__content {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  &__chips {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  &__titulo {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--sa-color-text);
+    line-height: 1.2;
+  }
+
+  &__meta {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin: 8px 0 0 0;
+
+    > div {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    dt {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--sa-color-text-muted);
+    }
+
+    dd {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--sa-color-text);
+    }
+  }
+
+  &__seccion {
+    h2 {
+      margin: 0 0 12px 0;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--sa-color-text);
+    }
+  }
+
+  &__descripcion {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--sa-color-text);
+    white-space: pre-wrap;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+
+    button, a {
+      height: 48px;
+      min-width: 200px;
+      font-weight: 600;
+    }
+  }
+}

@@ -1,0 +1,80 @@
+<section class="sa-explorar">
+  <header class="sa-explorar__header">
+    <h1>Explorar retos</h1>
+    <p>Encuentra oportunidades para aplicar tus habilidades, colaborar en proyectos reales y ganar experiencia.</p>
+  </header>
+
+  <div class="sa-filtros">
+    <mat-form-field appearance="outline" class="sa-filtros__texto">
+      <mat-label>Buscar por palabra clave</mat-label>
+      <input matInput [formControl]="texto" placeholder="Ej: React, finanzas, diseño...">
+      <mat-icon matIconPrefix aria-hidden="true">search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Modalidad</mat-label>
+      <mat-select [formControl]="modalidad">
+        <mat-option value="">Todas</mat-option>
+        @for (m of modalidades; track m) {
+          <mat-option [value]="m">
+            @switch (m) {
+              @case ('REMOTO') { Remoto }
+              @case ('PRESENCIAL') { Presencial }
+              @case ('HIBRIDO') { Híbrido }
+            }
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (texto.value || modalidad.value) {
+      <button mat-button type="button" (click)="limpiarFiltros()">
+        <mat-icon aria-hidden="true">clear</mat-icon>
+        Limpiar filtros
+      </button>
+    }
+  </div>
+
+  @if (cargando()) {
+    <div class="sa-cargando">
+      <mat-progress-spinner mode="indeterminate" diameter="36" />
+      <span>Cargando retos...</span>
+    </div>
+  } @else {
+    @if (resultados().length > 0) {
+      <div class="sa-grid">
+        @for (reto of resultados(); track reto.id) {
+          <mat-card appearance="outlined" class="sa-card">
+            <mat-card-content class="sa-card__content">
+              <header class="sa-card__header">
+                <mat-chip class="sa-chip-estado" [attr.data-modalidad]="reto.modalidad" disableRipple>
+                  @switch (reto.modalidad) {
+                    @case ('REMOTO') { Remoto }
+                    @case ('PRESENCIAL') { Presencial }
+                    @case ('HIBRIDO') { Híbrido }
+                  }
+                </mat-chip>
+                <span class="sa-card__duracion">{{ reto.duracionDias }} días</span>
+              </header>
+
+              <h2 class="sa-card__titulo">{{ reto.titulo }}</h2>
+              <p class="sa-card__descripcion">{{ reto.descripcion }}</p>
+
+              <footer class="sa-card__footer">
+                <a mat-flat-button color="primary" [routerLink]="['/app/postulaciones/reto', reto.id]">
+                  Ver detalles
+                </a>
+              </footer>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+    } @else {
+      <div class="sa-vacio">
+        <mat-icon class="sa-vacio__icon" aria-hidden="true">search</mat-icon>
+        <h2>No encontramos retos con esos filtros</h2>
+        <p>Ajusta los filtros o limpia la búsqueda para ver más oportunidades.</p>
+      </div>
+    }
+  }
+</section>

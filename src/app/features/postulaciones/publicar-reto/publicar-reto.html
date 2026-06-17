@@ -1,0 +1,69 @@
+<section class="sa-publicar">
+  <mat-card appearance="outlined" class="sa-publicar__card">
+    <mat-card-header class="sa-publicar__header">
+      <mat-card-title>Publicar nuevo reto</mat-card-title>
+      <mat-card-subtitle>Define el problema, la modalidad de trabajo y la duración esperada para convocar talento.</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form class="sa-form" [formGroup]="form" (ngSubmit)="publicar()" id="publicar-form">
+        <mat-form-field appearance="outline">
+          <mat-label>Título del reto</mat-label>
+          <input matInput formControlName="titulo" maxlength="100" required>
+          <mat-hint align="end">{{ form.controls.titulo.value?.length ?? 0 }}/100</mat-hint>
+          @if (form.controls.titulo.hasError('required') && form.controls.titulo.touched) {
+            <mat-error>Ingresa un título</mat-error>
+          }
+          @if (form.controls.titulo.hasError('minlength') && form.controls.titulo.touched) {
+            <mat-error>Mínimo 3 caracteres</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Descripción y entregables</mat-label>
+          <textarea matInput formControlName="descripcion" rows="6" required></textarea>
+          @if (form.controls.descripcion.hasError('minlength') && form.controls.descripcion.touched) {
+            <mat-error>Mínimo 20 caracteres</mat-error>
+          }
+        </mat-form-field>
+
+        <fieldset class="sa-modalidad">
+          <legend>Modalidad de trabajo</legend>
+          <mat-radio-group formControlName="modalidad" aria-label="Modalidad">
+            @for (m of modalidades; track m) {
+              <mat-radio-button [value]="m">
+                @switch (m) {
+                  @case ('REMOTO') { Remoto }
+                  @case ('PRESENCIAL') { Presencial }
+                  @case ('HIBRIDO') { Híbrido }
+                }
+              </mat-radio-button>
+            }
+          </mat-radio-group>
+        </fieldset>
+
+        <mat-form-field appearance="outline" class="sa-form__corto">
+          <mat-label>Duración (días)</mat-label>
+          <input matInput type="number" formControlName="duracionDias" min="1" max="180" required>
+          <mat-hint>Entre 1 y 180 días</mat-hint>
+          @if (form.controls.duracionDias.hasError('min') && form.controls.duracionDias.touched) {
+            <mat-error>Mínimo 1 día</mat-error>
+          }
+          @if (form.controls.duracionDias.hasError('max') && form.controls.duracionDias.touched) {
+            <mat-error>Máximo 180 días</mat-error>
+          }
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions align="end" class="sa-publicar__actions">
+      <button mat-flat-button color="primary" type="submit" form="publicar-form" [disabled]="form.invalid || enviando()">
+        @if (enviando()) {
+          Publicando...
+        } @else {
+          Publicar reto
+        }
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</section>

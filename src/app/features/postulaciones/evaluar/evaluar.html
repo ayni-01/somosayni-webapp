@@ -1,0 +1,60 @@
+<section class="sa-evaluar">
+  <nav class="sa-evaluar__breadcrumb">
+    <a [routerLink]="urlVuelta()">
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+      Volver a recibidos
+    </a>
+  </nav>
+
+  <mat-card appearance="outlined" class="sa-card">
+    <mat-card-header class="sa-card__header">
+      <mat-card-title>Evaluar postulación</mat-card-title>
+      <mat-card-subtitle>Define la puntuación, comparte feedback con el candidato y decide el resultado.</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form class="sa-form" [formGroup]="form" (ngSubmit)="enviar()" id="evaluar-form">
+        <div class="sa-puntuacion">
+          <label for="puntuacion">Puntuación</label>
+          <div class="sa-puntuacion__row">
+            <mat-slider min="0" max="100" step="1" discrete>
+              <input matSliderThumb id="puntuacion" formControlName="puntuacion">
+            </mat-slider>
+            <span class="sa-puntuacion__valor">{{ form.controls.puntuacion.value }}/100</span>
+          </div>
+        </div>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Feedback para el candidato</mat-label>
+          <textarea matInput formControlName="feedback" rows="6" maxlength="1000" required></textarea>
+          <mat-hint align="end">{{ form.controls.feedback.value?.length ?? 0 }}/1000</mat-hint>
+          @if (form.controls.feedback.hasError('required') && form.controls.feedback.touched) {
+            <mat-error>El feedback es obligatorio</mat-error>
+          }
+          @if (form.controls.feedback.hasError('minlength') && form.controls.feedback.touched) {
+            <mat-error>Mínimo 20 caracteres</mat-error>
+          }
+        </mat-form-field>
+
+        <fieldset class="sa-resultado">
+          <legend>Resultado</legend>
+          <mat-radio-group formControlName="resultado" aria-label="Resultado de la evaluación">
+            <mat-radio-button value="APROBADO">Aprobar postulación</mat-radio-button>
+            <mat-radio-button value="RECHAZADO">Rechazar postulación</mat-radio-button>
+          </mat-radio-group>
+        </fieldset>
+      </form>
+    </mat-card-content>
+
+    <mat-card-actions align="end" class="sa-card__actions">
+      <a mat-button [routerLink]="urlVuelta()">Cancelar</a>
+      <button mat-flat-button color="primary" type="submit" form="evaluar-form" [disabled]="form.invalid || enviando()">
+        @if (enviando()) {
+          Enviando evaluación...
+        } @else {
+          Enviar evaluación
+        }
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</section>

@@ -1,0 +1,40 @@
+.sa-registro {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  &__toggle {
+    align-self: center;
+    margin-bottom: 8px;
+  }
+
+  &__titulo {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--sa-color-text);
+  }
+
+  &__subtitulo {
+    margin: 0 0 12px 0;
+    color: var(--sa-color-text-muted);
+    font-size: 14px;
+  }
+
+  &__footer {
+    margin: 16px 0 0 0;
+    text-align: center;
+    font-size: 14px;
+    color: var(--sa-color-text-muted);
+
+    a {
+      color: var(--sa-color-primary);
+      text-decoration: none;
+      font-weight: 600;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

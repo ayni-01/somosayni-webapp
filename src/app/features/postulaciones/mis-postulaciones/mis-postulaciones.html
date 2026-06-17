@@ -1,0 +1,66 @@
+<section class="sa-mis-post">
+  <header class="sa-mis-post__header">
+    <h1>Mis postulaciones</h1>
+    <p>Revisa el estado de tus aplicaciones a los retos de innovación.</p>
+  </header>
+
+  @if (cargando()) {
+    <div class="sa-cargando">
+      <mat-progress-spinner mode="indeterminate" diameter="36" />
+      <span>Cargando postulaciones...</span>
+    </div>
+  } @else {
+    @let r = resumen();
+    <div class="sa-stats">
+      <mat-card appearance="outlined" class="sa-stat">
+        <mat-card-content>
+          <span class="sa-stat__label">Total postulaciones</span>
+          <span class="sa-stat__valor">{{ r.total }}</span>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="sa-stat">
+        <mat-card-content>
+          <span class="sa-stat__label">En revisión</span>
+          <span class="sa-stat__valor">{{ r.enRevision }}</span>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="sa-stat">
+        <mat-card-content>
+          <span class="sa-stat__label">Aprobadas</span>
+          <span class="sa-stat__valor">{{ r.aprobadas }}</span>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    @if (postulaciones().length === 0) {
+      <div class="sa-vacio">
+        <mat-icon class="sa-vacio__icon" aria-hidden="true">inbox</mat-icon>
+        <h2>Aún no tienes postulaciones</h2>
+        <p>Explora el catálogo y postúlate al primer reto que te interese.</p>
+        <a mat-flat-button color="primary" routerLink="/app/postulaciones/explorar">Explorar retos</a>
+      </div>
+    } @else {
+      <ul class="sa-lista">
+        @for (p of postulaciones(); track p.id) {
+          <mat-card appearance="outlined" class="sa-fila">
+            <mat-card-content class="sa-fila__content">
+              <div class="sa-fila__info">
+                <a class="sa-fila__titulo" [routerLink]="['/app/postulaciones/reto', p.retoId]">
+                  Reto: {{ p.retoId }}
+                </a>
+                <p class="sa-fila__meta">
+                  Solución: <a [href]="p.urlSolucion" target="_blank" rel="noopener">{{ p.urlSolucion }}</a>
+                </p>
+                <p class="sa-fila__fecha">Enviada {{ p.creadaEn | date:'mediumDate' }}</p>
+              </div>
+
+              <mat-chip class="sa-chip-estado" [attr.data-estado]="p.estado" disableRipple>
+                {{ etiquetaEstado(p.estado) }}
+              </mat-chip>
+            </mat-card-content>
+          </mat-card>
+        }
+      </ul>
+    }
+  }
+</section>

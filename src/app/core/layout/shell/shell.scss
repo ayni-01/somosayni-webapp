@@ -1,0 +1,113 @@
+.sa-skip-link {
+  position: absolute;
+  left: -9999px;
+
+  &:focus {
+    left: 16px;
+    top: 16px;
+    padding: 8px 16px;
+    background: var(--sa-color-primary);
+    color: var(--sa-color-on-primary);
+    border-radius: 8px;
+    z-index: 1000;
+  }
+}
+
+.sa-shell {
+  height: 100dvh;
+
+  &__sidenav {
+    width: 248px;
+    border-right: 1px solid var(--sa-color-stroke);
+    background: var(--sa-color-card);
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__topbar {
+    background: var(--sa-color-card);
+    border-bottom: 1px solid var(--sa-color-stroke);
+  }
+
+  &__title {
+    font-weight: 600;
+    color: var(--sa-color-text);
+  }
+
+  &__spacer {
+    flex: 1;
+  }
+
+  &__main {
+    padding: 32px;
+    background: var(--sa-color-bg);
+    min-height: calc(100dvh - 64px);
+  }
+}
+
+.sa-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 16px;
+  border-bottom: 1px solid var(--sa-color-stroke);
+
+  > mat-icon {
+    color: var(--sa-color-primary);
+    background: var(--sa-color-accent-soft);
+    border-radius: 10px;
+    padding: 6px;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    font-size: 24px;
+  }
+
+  strong {
+    display: block;
+    color: var(--sa-color-text);
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  small {
+    display: block;
+    color: var(--sa-color-text-muted);
+    font-size: 11px;
+  }
+}
+
+::ng-deep .sa-shell__sidenav .mat-mdc-list-item .mdc-list-item__primary-text {
+  letter-spacing: 0.3px;
+}
+
+.sa-active {
+  background: var(--sa-color-accent-soft);
+
+  span[matListItemTitle], mat-icon {
+    color: var(--sa-color-primary);
+  }
+}
+
+.sa-cuenta {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 220px;
+
+  &__email {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--sa-color-text);
+    word-break: break-all;
+  }
+
+  &__rol {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--sa-color-text-muted);
+  }
+}

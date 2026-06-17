@@ -1,0 +1,76 @@
+<section class="sa-detalle">
+  <nav class="sa-detalle__breadcrumb">
+    <a routerLink="/app/postulaciones/explorar">
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+      Volver a explorar
+    </a>
+  </nav>
+
+  @if (cargando()) {
+    <div class="sa-cargando">
+      <mat-progress-spinner mode="indeterminate" diameter="36" />
+      <span>Cargando reto...</span>
+    </div>
+  } @else if (error() || !reto()) {
+    <div class="sa-error">
+      <h1>No encontramos este reto</h1>
+      <p>Es posible que haya sido cerrado o archivado.</p>
+      <a mat-flat-button color="primary" routerLink="/app/postulaciones/explorar">Volver a explorar</a>
+    </div>
+  } @else {
+    @let r = reto()!;
+    <mat-card appearance="outlined" class="sa-reto">
+      <mat-card-content class="sa-reto__content">
+        <header class="sa-reto__header">
+          <div class="sa-reto__chips">
+            <mat-chip class="sa-chip-estado" [attr.data-modalidad]="r.modalidad" disableRipple>
+              @switch (r.modalidad) {
+                @case ('REMOTO') { Remoto }
+                @case ('PRESENCIAL') { Presencial }
+                @case ('HIBRIDO') { Híbrido }
+              }
+            </mat-chip>
+            <mat-chip class="sa-chip-estado" [attr.data-estado]="r.estado" disableRipple>
+              @switch (r.estado) {
+                @case ('ACTIVO') { Activo }
+                @case ('CERRADO') { Cerrado }
+                @case ('ARCHIVADO') { Archivado }
+                @case ('BORRADOR') { Borrador }
+              }
+            </mat-chip>
+          </div>
+
+          <h1 class="sa-reto__titulo">{{ r.titulo }}</h1>
+
+          <dl class="sa-reto__meta">
+            <div>
+              <dt>Duración</dt>
+              <dd>{{ r.duracionDias }} días</dd>
+            </div>
+            <div>
+              <dt>Publicado</dt>
+              <dd>{{ r.creadoEn | date:'mediumDate' }}</dd>
+            </div>
+          </dl>
+        </header>
+
+        <mat-divider />
+
+        <section class="sa-reto__seccion">
+          <h2>Descripción y entregables</h2>
+          <p class="sa-reto__descripcion">{{ r.descripcion }}</p>
+        </section>
+
+        <footer class="sa-reto__footer">
+          @if (puedePostular()) {
+            <a mat-flat-button color="primary" [routerLink]="['/app/postulaciones/reto', r.id, 'postular']">
+              Postular a este reto
+            </a>
+          } @else if (esTalento()) {
+            <button mat-flat-button disabled>Reto no disponible</button>
+          }
+        </footer>
+      </mat-card-content>
+    </mat-card>
+  }
+</section>

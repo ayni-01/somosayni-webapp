@@ -1,0 +1,50 @@
+<form class="sa-form" [formGroup]="form" (ngSubmit)="submit()">
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre completo</mat-label>
+    <input matInput formControlName="nombreCompleto" autocomplete="name" required>
+    @if (form.controls.nombreCompleto.hasError('required') && form.controls.nombreCompleto.touched) {
+      <mat-error>Ingresa tu nombre completo</mat-error>
+    }
+    @if (form.controls.nombreCompleto.hasError('minlength') && form.controls.nombreCompleto.touched) {
+      <mat-error>Mínimo 3 caracteres</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Correo electrónico</mat-label>
+    <input matInput type="email" formControlName="email" autocomplete="email" required>
+    @if (form.controls.email.hasError('required') && form.controls.email.touched) {
+      <mat-error>Ingresa tu correo</mat-error>
+    }
+    @if (form.controls.email.hasError('email') && form.controls.email.touched) {
+      <mat-error>Correo inválido</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Contraseña</mat-label>
+    <input matInput type="password" formControlName="password" autocomplete="new-password" required>
+    @if (form.controls.password.hasError('required') && form.controls.password.touched) {
+      <mat-error>Ingresa una contraseña</mat-error>
+    }
+    @if (form.controls.password.hasError('minlength') && form.controls.password.touched) {
+      <mat-error>Mínimo 8 caracteres</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Confirmar contraseña</mat-label>
+    <input matInput type="password" formControlName="confirmar" autocomplete="new-password" required>
+    @if (form.hasError('passwordsMismatch') && form.controls.confirmar.touched) {
+      <mat-error>Las contraseñas no coinciden</mat-error>
+    }
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" type="submit" class="sa-form__submit" [disabled]="form.invalid || enviando()">
+    @if (enviando()) {
+      Creando cuenta...
+    } @else {
+      Registrarse
+    }
+  </button>
+</form>

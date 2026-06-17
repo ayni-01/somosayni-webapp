@@ -1,0 +1,65 @@
+<form class="sa-form" [formGroup]="form" (ngSubmit)="submit()">
+  <mat-form-field appearance="outline">
+    <mat-label>Razón social</mat-label>
+    <input matInput formControlName="razonSocial" autocomplete="organization" required>
+    @if (form.controls.razonSocial.hasError('required') && form.controls.razonSocial.touched) {
+      <mat-error>Ingresa la razón social</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Correo corporativo</mat-label>
+    <input matInput type="email" formControlName="email" autocomplete="email" required>
+    @if (form.controls.email.hasError('email') && form.controls.email.touched) {
+      <mat-error>Correo inválido</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>RUC</mat-label>
+    <input matInput formControlName="ruc" inputmode="numeric" maxlength="11" required>
+    <mat-hint>11 dígitos</mat-hint>
+    @if (form.controls.ruc.hasError('required') && form.controls.ruc.touched) {
+      <mat-error>Ingresa el RUC</mat-error>
+    }
+    @if (form.controls.ruc.hasError('pattern') && form.controls.ruc.touched) {
+      <mat-error>RUC debe tener 11 dígitos</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Sector</mat-label>
+    <mat-select formControlName="sector" required>
+      @for (s of sectores; track s) {
+        <mat-option [value]="s">{{ s }}</mat-option>
+      }
+    </mat-select>
+    @if (form.controls.sector.hasError('required') && form.controls.sector.touched) {
+      <mat-error>Selecciona un sector</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Contraseña</mat-label>
+    <input matInput type="password" formControlName="password" autocomplete="new-password" required>
+    @if (form.controls.password.hasError('minlength') && form.controls.password.touched) {
+      <mat-error>Mínimo 8 caracteres</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Confirmar contraseña</mat-label>
+    <input matInput type="password" formControlName="confirmar" autocomplete="new-password" required>
+    @if (form.hasError('passwordsMismatch') && form.controls.confirmar.touched) {
+      <mat-error>Las contraseñas no coinciden</mat-error>
+    }
+  </mat-form-field>
+
+  <button mat-flat-button color="primary" type="submit" class="sa-form__submit" [disabled]="form.invalid || enviando()">
+    @if (enviando()) {
+      Creando cuenta...
+    } @else {
+      Registrarse
+    }
+  </button>
+</form>

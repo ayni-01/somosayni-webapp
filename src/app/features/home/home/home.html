@@ -1,0 +1,178 @@
+<section class="sa-dash">
+  @if (usuario(); as u) {
+    <header class="sa-dash__hero">
+      <div>
+        <h1>Hola, {{ u.email }}!</h1>
+        <p>
+          @switch (u.rol) {
+            @case ('TALENTO') { Bienvenido de vuelta. Explora nuevos retos y haz crecer tu portafolio. }
+            @case ('EMPRESA') { Bienvenido de vuelta. Aquí tienes un resumen del impacto de tus convocatorias. }
+            @case ('ADMIN')   { Panel de administración. }
+          }
+        </p>
+      </div>
+    </header>
+  }
+
+  @if (cargando()) {
+    <div class="sa-cargando">
+      <mat-progress-spinner mode="indeterminate" diameter="36" />
+      <span>Cargando tu información...</span>
+    </div>
+  } @else if (esTalento()) {
+    @let s = statsTalento();
+
+    <div class="sa-stats">
+      <mat-card appearance="outlined" class="sa-stat">
+        <mat-card-content>
+          <mat-icon class="sa-stat__icon" aria-hidden="true">pending_actions</mat-icon>
+          <span class="sa-stat__label">En progreso</span>
+          <span class="sa-stat__valor">{{ s.enProgreso }}</span>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="sa-stat">
+        <mat-card-content>
+          <mat-icon class="sa-stat__icon" aria-hidden="true">task_alt</mat-icon>
+          <span class="sa-stat__label">Completadas</span>
+          <span class="sa-stat__valor">{{ s.completadas }}</span>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="sa-stat sa-stat--destacado">
+        <mat-card-content>
+          <mat-icon class="sa-stat__icon" aria-hidden="true">workspace_premium</mat-icon>
+          <span class="sa-stat__label">Insignias</span>
+          <span class="sa-stat__valor">{{ s.insignias }}</span>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="sa-acciones">
+      <a mat-flat-button color="primary" routerLink="/app/postulaciones/explorar" class="sa-accion sa-accion--primary">
+        <mat-icon>emoji_events</mat-icon>
+        Explorar retos
+      </a>
+      <a mat-stroked-button routerLink="/app/identidad/perfil" class="sa-accion">
+        <mat-icon>account_circle</mat-icon>
+        Mi perfil
+      </a>
+    </div>
+
+    <mat-divider class="sa-bloque__divisor" />
+
+    <section class="sa-bloque">
+      <header class="sa-bloque__header">
+        <h2>Tus retos en progreso</h2>
+        <a routerLink="/app/postulaciones/mis-postulaciones" class="sa-bloque__link">Ver todas</a>
+      </header>
+
+      @if (retosEnProgreso().length === 0) {
+        <div class="sa-vacio">
+          <mat-icon class="sa-vacio__icon" aria-hidden="true">inbox</mat-icon>
+          <p>Aún no has postulado a ningún reto. Explora el catálogo para empezar.</p>
+          <a mat-flat-button color="primary" routerLink="/app/postulaciones/explorar">Explorar retos</a>
+        </div>
+      } @else {
+        <ul class="sa-lista">
+          @for (p of retosEnProgreso(); track p.id) {
+            <mat-card appearance="outlined" class="sa-fila">
+              <mat-card-content class="sa-fila__content">
+                <div class="sa-fila__info">
+                  <a class="sa-fila__titulo" [routerLink]="['/app/postulaciones/reto', p.retoId]">Reto {{ p.retoId }}</a>
+                  <p class="sa-fila__meta">Enviada {{ p.creadaEn | date:'mediumDate' }}</p>
+                </div>
+                <mat-chip class="sa-chip-estado" [attr.data-estado]="p.estado" disableRipple>
+                  @switch (p.estado) {
+                    @case ('ENVIADA') { Enviada }
+                    @case ('EN_REVISION') { En revisión }
+                  }
+                </mat-chip>
+              </mat-card-content>
+            </mat-card>
+          }
+        </ul>
+      }
+    </section>
+  } @else if (esEmpresa()) {
+    @let m = metricas();
+
+    <div class="sa-stats">
+      <mat-card appearance="outlined" class="sa-stat">
+        <mat-card-content>
+          <mat-icon class="sa-stat__icon" aria-hidden="true">flag</mat-icon>
+          <span class="sa-stat__label">Retos activos</span>
+          <span class="sa-stat__valor">{{ m?.retosActivos ?? 0 }}</span>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="sa-stat">
+        <mat-card-content>
+          <mat-icon class="sa-stat__icon" aria-hidden="true">inbox</mat-icon>
+          <span class="sa-stat__label">Postulaciones</span>
+          <span class="sa-stat__valor">{{ m?.postulacionesRecibidas ?? 0 }}</span>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="sa-stat sa-stat--destacado">
+        <mat-card-content>
+          <mat-icon class="sa-stat__icon" aria-hidden="true">trending_up</mat-icon>
+          <span class="sa-stat__label">Tasa conversión</span>
+          <span class="sa-stat__valor">{{ (m?.tasaConversion ?? 0) | number:'1.0-1' }}%</span>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="sa-acciones">
+      <a mat-flat-button color="primary" routerLink="/app/postulaciones/publicar" class="sa-accion sa-accion--primary">
+        <mat-icon>add_box</mat-icon>
+        Publicar reto
+      </a>
+      <a mat-stroked-button routerLink="/app/postulaciones/mis-retos" class="sa-accion">
+        <mat-icon>flag</mat-icon>
+        Mis retos
+      </a>
+    </div>
+
+    <mat-divider class="sa-bloque__divisor" />
+
+    <section class="sa-bloque">
+      <header class="sa-bloque__header">
+        <h2>Tus retos publicados</h2>
+        <a routerLink="/app/postulaciones/mis-retos" class="sa-bloque__link">Ver todos</a>
+      </header>
+
+      @if (retosRecientes().length === 0) {
+        <div class="sa-vacio">
+          <mat-icon class="sa-vacio__icon" aria-hidden="true">flag</mat-icon>
+          <p>Aún no has publicado ningún reto. Crea tu primer reto para empezar a convocar talento.</p>
+          <a mat-flat-button color="primary" routerLink="/app/postulaciones/publicar">Publicar reto</a>
+        </div>
+      } @else {
+        <ul class="sa-lista">
+          @for (r of retosRecientes(); track r.id) {
+            <mat-card appearance="outlined" class="sa-fila">
+              <mat-card-content class="sa-fila__content">
+                <div class="sa-fila__info">
+                  <a class="sa-fila__titulo" [routerLink]="['/app/postulaciones/reto', r.id]">{{ r.titulo }}</a>
+                  <p class="sa-fila__meta">
+                    @switch (r.modalidad) {
+                      @case ('REMOTO') { Remoto }
+                      @case ('PRESENCIAL') { Presencial }
+                      @case ('HIBRIDO') { Híbrido }
+                    }
+                    · {{ r.duracionDias }} días · publicado {{ r.creadoEn | date:'mediumDate' }}
+                  </p>
+                </div>
+                <mat-chip class="sa-chip-estado" [attr.data-estado]="r.estado" disableRipple>
+                  @switch (r.estado) {
+                    @case ('ACTIVO') { Activo }
+                    @case ('CERRADO') { Cerrado }
+                    @case ('ARCHIVADO') { Archivado }
+                    @case ('BORRADOR') { Borrador }
+                  }
+                </mat-chip>
+              </mat-card-content>
+            </mat-card>
+          }
+        </ul>
+      }
+    </section>
+  }
+</section>
