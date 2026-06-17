@@ -40,4 +40,18 @@ describe('PerfilesApi', () => {
     expect(req.request.method).toBe('POST');
     req.flush({});
   });
+
+  it('obtenerTalento → GET /perfiles/talento/:id', () => {
+    api.obtenerTalento('123').subscribe();
+    const req = http.expectOne('http://api/perfiles/perfiles/talento/123');
+    expect(req.request.method).toBe('GET');
+    req.flush({});
+  });
+
+  it('editarTalento → PUT /perfiles/talento/:id', () => {
+    api.editarTalento('123', {} as any).subscribe();
+    const req = http.expectOne('http://api/perfiles/perfiles/talento/123');
+    expect(req.request.method).toBe('PUT');
+    req.flush({});
+  });
 });
