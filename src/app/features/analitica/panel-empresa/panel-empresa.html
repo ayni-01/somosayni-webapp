@@ -5,31 +5,42 @@
   </header>
 
   @if (cargando()) {
-    <p class="sa-panel__cargando">Cargando métricas...</p>
+    <div class="sa-cargando">
+      <mat-progress-spinner mode="indeterminate" diameter="36" />
+      <span>Cargando métricas...</span>
+    </div>
   } @else {
     @let m = metricas();
     @if (m) {
       <div class="sa-stats">
-        <div class="sa-stat">
-          <mat-icon class="sa-stat__icon" aria-hidden="true">flag</mat-icon>
-          <span class="sa-stat__label">Retos activos</span>
-          <span class="sa-stat__valor">{{ m.retosActivos }}</span>
-        </div>
-        <div class="sa-stat">
-          <mat-icon class="sa-stat__icon" aria-hidden="true">inbox</mat-icon>
-          <span class="sa-stat__label">Postulaciones recibidas</span>
-          <span class="sa-stat__valor">{{ m.postulacionesRecibidas }}</span>
-        </div>
-        <div class="sa-stat">
-          <mat-icon class="sa-stat__icon" aria-hidden="true">verified_user</mat-icon>
-          <span class="sa-stat__label">Talentos aprobados</span>
-          <span class="sa-stat__valor">{{ m.talentosAprobados }}</span>
-        </div>
-        <div class="sa-stat sa-stat--destacado">
-          <mat-icon class="sa-stat__icon" aria-hidden="true">trending_up</mat-icon>
-          <span class="sa-stat__label">Tasa de conversión</span>
-          <span class="sa-stat__valor">{{ m.tasaConversion | number:'1.0-1' }}%</span>
-        </div>
+        <mat-card appearance="outlined" class="sa-stat">
+          <mat-card-content>
+            <mat-icon class="sa-stat__icon" aria-hidden="true">flag</mat-icon>
+            <span class="sa-stat__label">Retos activos</span>
+            <span class="sa-stat__valor">{{ m.retosActivos }}</span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card appearance="outlined" class="sa-stat">
+          <mat-card-content>
+            <mat-icon class="sa-stat__icon" aria-hidden="true">inbox</mat-icon>
+            <span class="sa-stat__label">Postulaciones recibidas</span>
+            <span class="sa-stat__valor">{{ m.postulacionesRecibidas }}</span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card appearance="outlined" class="sa-stat">
+          <mat-card-content>
+            <mat-icon class="sa-stat__icon" aria-hidden="true">verified_user</mat-icon>
+            <span class="sa-stat__label">Talentos aprobados</span>
+            <span class="sa-stat__valor">{{ m.talentosAprobados }}</span>
+          </mat-card-content>
+        </mat-card>
+        <mat-card appearance="outlined" class="sa-stat sa-stat--destacado">
+          <mat-card-content>
+            <mat-icon class="sa-stat__icon" aria-hidden="true">trending_up</mat-icon>
+            <span class="sa-stat__label">Tasa de conversión</span>
+            <span class="sa-stat__valor">{{ m.tasaConversion | number:'1.0-1' }}%</span>
+          </mat-card-content>
+        </mat-card>
       </div>
     }
 
@@ -40,27 +51,32 @@
 
       @if (embudo().length === 0) {
         <div class="sa-vacio">
+          <mat-icon class="sa-vacio__icon" aria-hidden="true">insights</mat-icon>
           <p>Aún no hay datos suficientes. Publica retos y recibe postulaciones para ver el embudo.</p>
         </div>
       } @else {
-        <div class="sa-tabla" role="table">
-          <div class="sa-tabla__head" role="row">
-            <span role="columnheader">Reto</span>
-            <span role="columnheader">Postulaciones</span>
-            <span role="columnheader">Aprobadas</span>
-            <span role="columnheader">Rechazadas</span>
-            <span role="columnheader">Conversión</span>
-          </div>
-          @for (item of embudo(); track item.retoId) {
-            <a class="sa-tabla__fila" role="row" [routerLink]="['/app/postulaciones/reto', item.retoId]">
-              <span class="sa-tabla__reto" role="cell">{{ item.titulo }}</span>
-              <span role="cell">{{ item.postulacionesTotal }}</span>
-              <span role="cell" class="sa-num sa-num--ok">{{ item.aprobadas }}</span>
-              <span role="cell" class="sa-num sa-num--ko">{{ item.rechazadas }}</span>
-              <span role="cell" class="sa-num">{{ conversionReto(item) | number:'1.0-1' }}%</span>
-            </a>
-          }
-        </div>
+        <mat-card appearance="outlined" class="sa-tabla-card">
+          <mat-card-content class="sa-tabla-card__content">
+            <div class="sa-tabla" role="table">
+              <div class="sa-tabla__head" role="row">
+                <span role="columnheader">Reto</span>
+                <span role="columnheader">Postulaciones</span>
+                <span role="columnheader">Aprobadas</span>
+                <span role="columnheader">Rechazadas</span>
+                <span role="columnheader">Conversión</span>
+              </div>
+              @for (item of embudo(); track item.retoId) {
+                <a class="sa-tabla__fila" role="row" [routerLink]="['/app/postulaciones/reto', item.retoId]">
+                  <span class="sa-tabla__reto" role="cell">{{ item.titulo }}</span>
+                  <span role="cell">{{ item.postulacionesTotal }}</span>
+                  <span role="cell" class="sa-num sa-num--ok">{{ item.aprobadas }}</span>
+                  <span role="cell" class="sa-num sa-num--ko">{{ item.rechazadas }}</span>
+                  <span role="cell" class="sa-num">{{ conversionReto(item) | number:'1.0-1' }}%</span>
+                </a>
+              }
+            </div>
+          </mat-card-content>
+        </mat-card>
       }
     </section>
   }

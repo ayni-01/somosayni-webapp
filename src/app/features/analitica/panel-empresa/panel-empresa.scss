@@ -8,12 +8,15 @@
     h1 { margin: 0 0 4px 0; font-size: 28px; font-weight: 700; color: var(--sa-color-text); }
     p { margin: 0; color: var(--sa-color-text-muted); font-size: 14px; }
   }
+}
 
-  &__cargando {
-    text-align: center;
-    color: var(--sa-color-text-muted);
-    padding: 48px 0;
-  }
+.sa-cargando {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 0;
+  color: var(--sa-color-text-muted);
 }
 
 .sa-stats {
@@ -24,15 +27,16 @@
 }
 
 .sa-stat {
-  background: var(--sa-color-card);
-  border: 1px solid var(--sa-color-stroke);
   border-radius: var(--sa-radius);
-  padding: 20px;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto;
-  column-gap: 12px;
-  align-items: center;
+
+  ::ng-deep .mat-mdc-card-content {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 12px;
+    align-items: center;
+  }
 
   &__icon {
     grid-row: 1 / 3;
@@ -61,7 +65,6 @@
 
   &--destacado {
     background: linear-gradient(135deg, var(--sa-color-accent-soft), var(--sa-color-accent-soft-2));
-    border-color: transparent;
 
     .sa-stat__valor {
       color: var(--sa-color-primary);
@@ -83,6 +86,9 @@
 }
 
 .sa-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   padding: 48px 24px;
   background: var(--sa-color-accent-soft);
@@ -92,12 +98,25 @@
   p { margin: 0; }
 }
 
-.sa-tabla {
-  background: var(--sa-color-card);
-  border: 1px solid var(--sa-color-stroke);
+.sa-vacio__icon {
+  font-size: 56px;
+  width: 56px;
+  height: 56px;
+  color: var(--sa-color-primary);
+  opacity: 0.6;
+  margin-bottom: 12px;
+}
+
+.sa-tabla-card {
   border-radius: var(--sa-radius);
   overflow: hidden;
 
+  &__content {
+    padding: 0 !important;
+  }
+}
+
+.sa-tabla {
   &__head, &__fila {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
