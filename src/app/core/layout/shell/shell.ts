@@ -9,6 +9,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { AuthStore } from '../../auth/auth.store';
 import { RolUsuario } from '../../../shared/models/usuario.model';
+import { NotificacionesBell } from '../../notificaciones/notificaciones-bell/notificaciones-bell';
 
 interface NavItem {
   label: string;
@@ -37,6 +38,7 @@ const ITEMS: NavItem[] = [
     RouterLink, RouterLinkActive, RouterOutlet,
     MatIconModule, MatButtonModule, MatToolbarModule,
     MatSidenavModule, MatListModule, MatMenuModule, MatDividerModule,
+    NotificacionesBell,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './shell.html',
