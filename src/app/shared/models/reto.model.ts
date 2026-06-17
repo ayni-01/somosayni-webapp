@@ -1,32 +1,27 @@
 export type EstadoReto = 'BORRADOR' | 'ACTIVO' | 'CERRADO' | 'ARCHIVADO';
-export type NivelDificultad = 'BASICO' | 'INTERMEDIO' | 'AVANZADO';
+export type Modalidad = 'REMOTO' | 'PRESENCIAL' | 'HIBRIDO';
 
 export interface Reto {
   id: string;
   empresaId: string;
   titulo: string;
   descripcion: string;
-  categoria: string;
-  nivel: NivelDificultad;
+  modalidad: Modalidad;
+  duracionDias: number;
   estado: EstadoReto;
-  cuposTotal: number;
-  cuposDisponibles: number;
   creadoEn: string;
 }
 
 export interface PublicarRetoRequest {
   titulo: string;
   descripcion: string;
-  categoria: string;
-  nivel: NivelDificultad;
-  cuposTotal: number;
+  empresaId: string;
+  modalidad: Modalidad;
+  duracionDias: number;
 }
 
 export interface FiltroRetos {
-  categoria?: string;
-  nivel?: NivelDificultad;
-  estado?: EstadoReto;
   texto?: string;
-  page?: number;
-  size?: number;
+  estado?: EstadoReto;
+  modalidad?: Modalidad;
 }
