@@ -29,7 +29,7 @@ export class RegistroTalentoForm {
 
   readonly form = this.fb.group({
     nombreCompleto: ['', [Validators.required, Validators.minLength(3)]],
-    correo: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(8)]],
     confirmar: ['', [Validators.required]],
   }, { validators: matchPasswords('password', 'confirmar') });
@@ -38,27 +38,19 @@ export class RegistroTalentoForm {
     if (this.form.invalid || this.enviando()) return;
     this.enviando.set(true);
 
-    const { nombreCompleto, correo, password } = this.form.getRawValue();
+    const { nombreCompleto, email, password } = this.form.getRawValue();
 
     this.identidadApi.registrar({
-      nombreCompleto: nombreCompleto!,
-      correo: correo!,
+      email: email!,
       password: password!,
       rol: 'TALENTO',
     }).pipe(
-      switchMap(usuario => this.perfilesApi.crearTalento({
-        usuarioId: usuario.id,
-        nombreCompleto: nombreCompleto!,
-        bio: '',
-        educacion: [],
-        experiencia: [],
-        portafolioUrl: null,
-      })),
+      switchMap(() => this.perfilesApi.crearTalento({ nombreCompleto: nombreCompleto! })),
       tap({
         next: () => {
           this.enviando.set(false);
           this.snack.open('Cuenta creada. Inicia sesión para continuar.', 'Cerrar', { duration: 4000 });
-          this.router.navigate(['/auth/login'], { queryParams: { correo } });
+          this.router.navigate(['/auth/login'], { queryParams: { email } });
         },
         error: () => this.enviando.set(false),
       }),

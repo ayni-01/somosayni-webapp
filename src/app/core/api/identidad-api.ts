@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_ENDPOINTS } from '../config/api-endpoints';
-import { LoginRequest, LoginResponse, RegistroRequest, Usuario } from '../../shared/models/usuario.model';
+import { CambiarPasswordRequest, LoginRequest, LoginResponse, RegistroRequest, Usuario } from '../../shared/models/usuario.model';
 
 @Injectable({ providedIn: 'root' })
 export class IdentidadApi {
@@ -15,5 +15,9 @@ export class IdentidadApi {
 
   login(body: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.base}/auth/login`, body);
+  }
+
+  cambiarPassword(body: CambiarPasswordRequest): Observable<void> {
+    return this.http.post<void>(`${this.base}/auth/cambiar-password`, body);
   }
 }

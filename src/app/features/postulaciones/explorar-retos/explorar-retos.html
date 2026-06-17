@@ -12,32 +12,22 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Categoría</mat-label>
-      <mat-select [formControl]="categoria">
+      <mat-label>Modalidad</mat-label>
+      <mat-select [formControl]="modalidad">
         <mat-option value="">Todas</mat-option>
-        @for (c of categorias; track c) {
-          <mat-option [value]="c">{{ c }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-      <mat-label>Nivel</mat-label>
-      <mat-select [formControl]="nivel">
-        <mat-option value="">Todos</mat-option>
-        @for (n of niveles; track n) {
-          <mat-option [value]="n">
-            @switch (n) {
-              @case ('BASICO') { Básico }
-              @case ('INTERMEDIO') { Intermedio }
-              @case ('AVANZADO') { Avanzado }
+        @for (m of modalidades; track m) {
+          <mat-option [value]="m">
+            @switch (m) {
+              @case ('REMOTO') { Remoto }
+              @case ('PRESENCIAL') { Presencial }
+              @case ('HIBRIDO') { Híbrido }
             }
           </mat-option>
         }
       </mat-select>
     </mat-form-field>
 
-    @if (texto.value || categoria.value || nivel.value) {
+    @if (texto.value || modalidad.value) {
       <button mat-button type="button" (click)="limpiarFiltros()">
         <mat-icon aria-hidden="true">clear</mat-icon>
         Limpiar filtros
@@ -48,26 +38,22 @@
   @if (cargando()) {
     <p class="sa-explorar__cargando">Cargando retos...</p>
   } @else {
-    @let pagina = resultados();
-    @if (pagina && pagina.content.length > 0) {
+    @if (resultados().length > 0) {
       <div class="sa-grid">
-        @for (reto of pagina.content; track reto.id) {
+        @for (reto of resultados(); track reto.id) {
           <article class="sa-card">
             <header class="sa-card__header">
-              <span class="sa-card__nivel" [attr.data-nivel]="reto.nivel">
-                @switch (reto.nivel) {
-                  @case ('BASICO') { Básico }
-                  @case ('INTERMEDIO') { Intermedio }
-                  @case ('AVANZADO') { Avanzado }
+              <span class="sa-card__modalidad" [attr.data-modalidad]="reto.modalidad">
+                @switch (reto.modalidad) {
+                  @case ('REMOTO') { Remoto }
+                  @case ('PRESENCIAL') { Presencial }
+                  @case ('HIBRIDO') { Híbrido }
                 }
               </span>
-              <span class="sa-card__cupos">
-                {{ reto.cuposDisponibles }}/{{ reto.cuposTotal }} cupos
-              </span>
+              <span class="sa-card__duracion">{{ reto.duracionDias }} días</span>
             </header>
 
             <h2 class="sa-card__titulo">{{ reto.titulo }}</h2>
-            <p class="sa-card__categoria">{{ reto.categoria }}</p>
             <p class="sa-card__descripcion">{{ reto.descripcion }}</p>
 
             <footer class="sa-card__footer">
@@ -78,15 +64,6 @@
           </article>
         }
       </div>
-
-      <mat-paginator
-        [length]="pagina.totalElements"
-        [pageSize]="pageSize()"
-        [pageIndex]="pageIndex()"
-        [pageSizeOptions]="[9, 18, 27]"
-        (page)="cambiarPagina($event)"
-        aria-label="Paginación de retos"
-      />
     } @else {
       <div class="sa-vacio">
         <h2>No encontramos retos con esos filtros</h2>

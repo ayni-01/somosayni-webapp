@@ -32,7 +32,7 @@ export class Login {
   readonly enviando = signal(false);
 
   readonly form = this.fb.group({
-    correo: [this.route.snapshot.queryParamMap.get('correo') ?? '', [Validators.required, Validators.email]],
+    email: [this.route.snapshot.queryParamMap.get('email') ?? '', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(8)]],
     recordarme: [false],
   });
@@ -41,12 +41,11 @@ export class Login {
     if (this.form.invalid || this.enviando()) return;
     this.enviando.set(true);
 
-    const { correo, password, recordarme } = this.form.getRawValue();
+    const { email, password } = this.form.getRawValue();
 
     this.identidadApi.login({
-      correo: correo!,
+      email: email!,
       password: password!,
-      recordarme: recordarme ?? false,
     }).pipe(
       tap({
         next: respuesta => {

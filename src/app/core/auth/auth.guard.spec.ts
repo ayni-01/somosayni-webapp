@@ -16,7 +16,7 @@ describe('authGuard', () => {
 
   it('permite navegacion cuando hay sesion', () => {
     const store = TestBed.inject(AuthStore);
-    store.iniciarSesion('t', { id: '1', correo: 'a@b.com', rol: 'TALENTO', creadoEn: '' });
+    store.iniciarSesion('t', { id: '1', email: 'a@b.com', rol: 'TALENTO', creadoEn: '' });
     const result = TestBed.runInInjectionContext(() => authGuard({} as any, {} as any));
     expect(result).toBe(true);
   });

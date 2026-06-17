@@ -23,34 +23,57 @@ describe('RetosApi', () => {
   });
 
   it('publicar envia POST a /retos', () => {
-    api.publicar({ titulo: 'X', descripcion: 'd', categoria: 'Tecnología', nivel: 'INTERMEDIO', cuposTotal: 5 }).subscribe();
+    api.publicar({
+      titulo: 'X',
+      descripcion: 'd',
+      empresaId: 'emp-1',
+      modalidad: 'REMOTO',
+      duracionDias: 30,
+    }).subscribe();
     const req = http.expectOne('http://api/retos/retos');
     expect(req.request.method).toBe('POST');
     expect(req.request.body.titulo).toBe('X');
+    expect(req.request.body.empresaId).toBe('emp-1');
+    expect(req.request.body.modalidad).toBe('REMOTO');
+    expect(req.request.body.duracionDias).toBe(30);
     req.flush({});
   });
 
   it('buscar envia GET a /retos con params', () => {
-    api.buscar({ categoria: 'Tecnología', page: 0, size: 10 }).subscribe();
+    api.buscar({ modalidad: 'REMOTO', estado: 'ACTIVO' }).subscribe();
     const req = http.expectOne(r => r.url === 'http://api/retos/retos');
     expect(req.request.method).toBe('GET');
-    expect(req.request.params.get('categoria')).toBe('Tecnología');
-    expect(req.request.params.get('page')).toBe('0');
-    req.flush({ content: [], totalElements: 0, totalPages: 0, page: 0, size: 10 });
+    expect(req.request.params.get('modalidad')).toBe('REMOTO');
+    expect(req.request.params.get('estado')).toBe('ACTIVO');
+    req.flush([]);
   });
 
   it('buscar sin filtros omite parametros vacios', () => {
-    api.buscar({ categoria: '', texto: undefined as any }).subscribe();
+    api.buscar({ texto: '', modalidad: undefined }).subscribe();
     const req = http.expectOne('http://api/retos/retos');
-    expect(req.request.params.has('categoria')).toBe(false);
     expect(req.request.params.has('texto')).toBe(false);
-    req.flush({ content: [], totalElements: 0, totalPages: 0, page: 0, size: 10 });
+    expect(req.request.params.has('modalidad')).toBe(false);
+    req.flush([]);
   });
 
   it('detalle envia GET a /retos/:id', () => {
     api.detalle('xyz').subscribe();
     const req = http.expectOne('http://api/retos/retos/xyz');
     expect(req.request.method).toBe('GET');
+    req.flush({});
+  });
+
+  it('cerrar envia POST a /retos/:id/cerrar', () => {
+    api.cerrar('1').subscribe();
+    const req = http.expectOne('http://api/retos/retos/1/cerrar');
+    expect(req.request.method).toBe('POST');
+    req.flush({});
+  });
+
+  it('duplicar envia POST a /retos/:id/duplicar', () => {
+    api.duplicar('1').subscribe();
+    const req = http.expectOne('http://api/retos/retos/1/duplicar');
+    expect(req.request.method).toBe('POST');
     req.flush({});
   });
 });

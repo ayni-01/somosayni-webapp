@@ -17,13 +17,13 @@ describe('AuthStore', () => {
   });
 
   it('iniciarSesion guarda token y usuario', () => {
-    store.iniciarSesion('jwt-xyz', { id: '1', correo: 'a@b.com', rol: 'TALENTO', creadoEn: '' });
-    expect(store.usuario()?.correo).toBe('a@b.com');
+    store.iniciarSesion('jwt-xyz', { id: '1', email: 'a@b.com', rol: 'TALENTO', creadoEn: '' });
+    expect(store.usuario()?.email).toBe('a@b.com');
     expect(store.estaAutenticado()).toBe(true);
   });
 
   it('cerrarSesion limpia el estado', () => {
-    store.iniciarSesion('jwt-xyz', { id: '1', correo: 'a@b.com', rol: 'TALENTO', creadoEn: '' });
+    store.iniciarSesion('jwt-xyz', { id: '1', email: 'a@b.com', rol: 'TALENTO', creadoEn: '' });
     store.cerrarSesion();
     expect(store.estaAutenticado()).toBe(false);
   });

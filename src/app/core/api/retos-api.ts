@@ -3,7 +3,6 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_ENDPOINTS } from '../config/api-endpoints';
 import { FiltroRetos, PublicarRetoRequest, Reto } from '../../shared/models/reto.model';
-import { Page } from '../../shared/models/page.model';
 
 @Injectable({ providedIn: 'root' })
 export class RetosApi {
@@ -14,15 +13,23 @@ export class RetosApi {
     return this.http.post<Reto>(`${this.base}/retos`, body);
   }
 
-  buscar(filtros: FiltroRetos = {}): Observable<Page<Reto>> {
+  buscar(filtros: FiltroRetos = {}): Observable<Reto[]> {
     let params = new HttpParams();
     for (const [k, v] of Object.entries(filtros)) {
       if (v !== undefined && v !== null && v !== '') params = params.set(k, String(v));
     }
-    return this.http.get<Page<Reto>>(`${this.base}/retos`, { params });
+    return this.http.get<Reto[]>(`${this.base}/retos`, { params });
   }
 
   detalle(id: string): Observable<Reto> {
     return this.http.get<Reto>(`${this.base}/retos/${id}`);
+  }
+
+  cerrar(id: string): Observable<Reto> {
+    return this.http.post<Reto>(`${this.base}/retos/${id}/cerrar`, {});
+  }
+
+  duplicar(id: string): Observable<Reto> {
+    return this.http.post<Reto>(`${this.base}/retos/${id}/duplicar`, {});
   }
 }
