@@ -44,6 +44,11 @@ export const routes: Routes = [
             (m) => m.POSTULACIONES_ROUTES,
           ),
       },
+      {
+        path: 'analitica',
+        loadChildren: () =>
+          import('./features/analitica/analitica.routes').then((m) => m.ANALITICA_ROUTES),
+      },
     ],
   },
   {
