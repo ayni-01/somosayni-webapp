@@ -48,6 +48,10 @@
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
+              <a mat-menu-item [routerLink]="['/app/postulaciones/reto', reto.id, 'recibidos']">
+                <mat-icon>inbox</mat-icon>
+                <span>Ver postulaciones</span>
+              </a>
               @if (reto.estado === 'ACTIVO') {
                 <button mat-menu-item (click)="cerrar(reto)">
                   <mat-icon>lock</mat-icon>

@@ -1,0 +1,52 @@
+<section class="sa-mis-post">
+  <header class="sa-mis-post__header">
+    <h1>Mis postulaciones</h1>
+    <p>Revisa el estado de tus aplicaciones a los retos de innovación.</p>
+  </header>
+
+  @if (cargando()) {
+    <p class="sa-mis-post__cargando">Cargando postulaciones...</p>
+  } @else {
+    @let r = resumen();
+    <div class="sa-stats">
+      <div class="sa-stat">
+        <span class="sa-stat__label">Total postulaciones</span>
+        <span class="sa-stat__valor">{{ r.total }}</span>
+      </div>
+      <div class="sa-stat">
+        <span class="sa-stat__label">En revisión</span>
+        <span class="sa-stat__valor">{{ r.enRevision }}</span>
+      </div>
+      <div class="sa-stat">
+        <span class="sa-stat__label">Aprobadas</span>
+        <span class="sa-stat__valor">{{ r.aprobadas }}</span>
+      </div>
+    </div>
+
+    @if (postulaciones().length === 0) {
+      <div class="sa-vacio">
+        <h2>Aún no tienes postulaciones</h2>
+        <p>Explora el catálogo y postúlate al primer reto que te interese.</p>
+        <a mat-flat-button color="primary" routerLink="/app/postulaciones/explorar">Explorar retos</a>
+      </div>
+    } @else {
+      <ul class="sa-lista">
+        @for (p of postulaciones(); track p.id) {
+          <li class="sa-fila">
+            <div class="sa-fila__info">
+              <a class="sa-fila__titulo" [routerLink]="['/app/postulaciones/reto', p.retoId]">
+                Reto: {{ p.retoId }}
+              </a>
+              <p class="sa-fila__meta">
+                Solución: <a [href]="p.urlSolucion" target="_blank" rel="noopener">{{ p.urlSolucion }}</a>
+              </p>
+              <p class="sa-fila__fecha">Enviada {{ p.creadaEn | date:'mediumDate' }}</p>
+            </div>
+
+            <span class="sa-fila__estado" [attr.data-estado]="p.estado">{{ etiquetaEstado(p.estado) }}</span>
+          </li>
+        }
+      </ul>
+    }
+  }
+</section>
