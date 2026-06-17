@@ -54,7 +54,9 @@
             <div class="sa-fila__acciones">
               <span class="sa-fila__estado" [attr.data-estado]="p.estado">{{ etiquetaEstado(p.estado) }}</span>
               @if (p.estado === 'ENVIADA' || p.estado === 'EN_REVISION') {
-                <a mat-flat-button color="primary" [routerLink]="['/app/postulaciones/postulacion', p.id, 'evaluar']">
+                <a mat-flat-button color="primary"
+                   [routerLink]="['/app/postulaciones/postulacion', p.id, 'evaluar']"
+                   [queryParams]="{ reto: id() }">
                   Evaluar
                 </a>
               }

@@ -1,0 +1,127 @@
+.sa-evaluar {
+  max-width: 720px;
+  margin: 0 auto;
+
+  &__breadcrumb {
+    margin-bottom: 16px;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--sa-color-text-muted);
+      text-decoration: none;
+      font-size: 14px;
+
+      &:hover {
+        color: var(--sa-color-primary);
+      }
+
+      mat-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
+
+.sa-card {
+  background: var(--sa-color-card);
+  border: 1px solid var(--sa-color-stroke);
+  border-radius: var(--sa-radius);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__header {
+    h1 {
+      margin: 0 0 4px 0;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--sa-color-text);
+    }
+
+    p {
+      margin: 0;
+      color: var(--sa-color-text-muted);
+      font-size: 14px;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+
+    button, a {
+      height: 48px;
+      min-width: 140px;
+      font-weight: 600;
+    }
+  }
+}
+
+.sa-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sa-puntuacion {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--sa-color-text-muted);
+    font-weight: 600;
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    mat-slider {
+      flex: 1;
+    }
+  }
+
+  &__valor {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--sa-color-primary);
+    min-width: 80px;
+    text-align: right;
+  }
+}
+
+.sa-resultado {
+  border: 1px solid var(--sa-color-stroke);
+  border-radius: var(--sa-radius);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--sa-color-card);
+
+  legend {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--sa-color-text-muted);
+    font-weight: 600;
+    padding: 0 6px;
+  }
+
+  mat-radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
