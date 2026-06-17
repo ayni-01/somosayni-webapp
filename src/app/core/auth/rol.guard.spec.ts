@@ -16,14 +16,14 @@ describe('rolGuard', () => {
 
   it('permite acceso cuando el rol esta permitido', () => {
     const store = TestBed.inject(AuthStore);
-    store.iniciarSesion('t', { id: '1', correo: 'a@b.com', rol: 'TALENTO', creadoEn: '' });
+    store.iniciarSesion('t', { id: '1', email: 'a@b.com', rol: 'TALENTO', creadoEn: '' });
     const result = TestBed.runInInjectionContext(() => rolGuard(['TALENTO'])({} as any, {} as any));
     expect(result).toBe(true);
   });
 
   it('redirige cuando el rol no esta permitido', () => {
     const store = TestBed.inject(AuthStore);
-    store.iniciarSesion('t', { id: '1', correo: 'a@b.com', rol: 'EMPRESA', creadoEn: '' });
+    store.iniciarSesion('t', { id: '1', email: 'a@b.com', rol: 'EMPRESA', creadoEn: '' });
     const result = TestBed.runInInjectionContext(() => rolGuard(['TALENTO'])({} as any, {} as any));
     expect(String(result)).toContain('app');
   });

@@ -23,18 +23,26 @@ describe('IdentidadApi', () => {
   });
 
   it('registrar envia POST a /auth/registro', () => {
-    api.registrar({ correo: 'a@b.com', password: 'x', rol: 'TALENTO', nombreCompleto: 'A' }).subscribe();
+    api.registrar({ email: 'a@b.com', password: 'x', rol: 'TALENTO' }).subscribe();
     const req = http.expectOne('http://api/identidad/auth/registro');
     expect(req.request.method).toBe('POST');
-    expect(req.request.body.correo).toBe('a@b.com');
-    req.flush({ id: '1', correo: 'a@b.com', rol: 'TALENTO', creadoEn: '' });
+    expect(req.request.body).toEqual({ email: 'a@b.com', password: 'x', rol: 'TALENTO' });
+    req.flush({ id: '1', email: 'a@b.com', rol: 'TALENTO', creadoEn: '' });
   });
 
   it('login envia POST a /auth/login y retorna LoginResponse', () => {
-    api.login({ correo: 'a@b.com', password: 'x', recordarme: false }).subscribe();
+    api.login({ email: 'a@b.com', password: 'x' }).subscribe();
     const req = http.expectOne('http://api/identidad/auth/login');
     expect(req.request.method).toBe('POST');
-    expect(req.request.body).toEqual({ correo: 'a@b.com', password: 'x', recordarme: false });
-    req.flush({ token: 'jwt-xyz', usuario: { id: '1', correo: 'a@b.com', rol: 'TALENTO', creadoEn: '' } });
+    expect(req.request.body).toEqual({ email: 'a@b.com', password: 'x' });
+    req.flush({ token: 'jwt-xyz', usuario: { id: '1', email: 'a@b.com', rol: 'TALENTO', creadoEn: '' } });
+  });
+
+  it('cambiarPassword envia POST a /auth/cambiar-password', () => {
+    api.cambiarPassword({ passwordActual: 'old', nuevaPassword: 'new' }).subscribe();
+    const req = http.expectOne('http://api/identidad/auth/cambiar-password');
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual({ passwordActual: 'old', nuevaPassword: 'new' });
+    req.flush(null);
   });
 });
