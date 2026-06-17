@@ -1,0 +1,62 @@
+<section class="sa-resumen">
+  <header class="sa-resumen__header">
+    <h1>Resumen de actividad</h1>
+    <p>Métricas clave de tu progreso en la plataforma.</p>
+  </header>
+
+  @if (cargando()) {
+    <p class="sa-resumen__cargando">Cargando resumen...</p>
+  } @else {
+    @let s = stats();
+
+    <div class="sa-stats">
+      <div class="sa-stat">
+        <mat-icon class="sa-stat__icon" aria-hidden="true">task_alt</mat-icon>
+        <span class="sa-stat__label">Retos completados</span>
+        <span class="sa-stat__valor">{{ s.completados }}</span>
+      </div>
+      <div class="sa-stat">
+        <mat-icon class="sa-stat__icon" aria-hidden="true">pending_actions</mat-icon>
+        <span class="sa-stat__label">En progreso</span>
+        <span class="sa-stat__valor">{{ s.enProgreso }}</span>
+      </div>
+      <div class="sa-stat sa-stat--destacado">
+        <mat-icon class="sa-stat__icon" aria-hidden="true">workspace_premium</mat-icon>
+        <span class="sa-stat__label">Insignias ganadas</span>
+        <span class="sa-stat__valor">{{ s.insignias }}</span>
+      </div>
+    </div>
+
+    <section class="sa-bloque">
+      <header class="sa-bloque__header">
+        <h2>Retos en progreso</h2>
+      </header>
+
+      @if (retosEnProgreso().length === 0) {
+        <div class="sa-vacio">
+          <p>No tienes postulaciones activas en este momento.</p>
+          <a class="sa-vacio__link" routerLink="/app/postulaciones/explorar">Explorar retos</a>
+        </div>
+      } @else {
+        <ul class="sa-lista">
+          @for (p of retosEnProgreso(); track p.id) {
+            <li class="sa-fila">
+              <div class="sa-fila__info">
+                <a class="sa-fila__titulo" [routerLink]="['/app/postulaciones/reto', p.retoId]">
+                  Reto: {{ p.retoId }}
+                </a>
+                <p class="sa-fila__meta">Enviada {{ p.creadaEn | date:'mediumDate' }}</p>
+              </div>
+              <span class="sa-fila__estado" [attr.data-estado]="p.estado">
+                @switch (p.estado) {
+                  @case ('ENVIADA') { Enviada }
+                  @case ('EN_REVISION') { En revisión }
+                }
+              </span>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  }
+</section>
