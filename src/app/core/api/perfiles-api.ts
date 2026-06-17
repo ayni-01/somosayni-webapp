@@ -26,10 +26,6 @@ export class PerfilesApi {
     return this.http.post<PerfilEmpresa>(`${this.base}/perfiles/empresa`, body);
   }
 
-  editarEmpresa(id: string, body: Partial<PerfilEmpresa>): Observable<PerfilEmpresa> {
-    return this.http.put<PerfilEmpresa>(`${this.base}/perfiles/empresa/${id}`, body);
-  }
-
   obtenerEmpresa(id: string): Observable<PerfilEmpresa> {
     return this.http.get<PerfilEmpresa>(`${this.base}/perfiles/empresa/${id}`);
   }
