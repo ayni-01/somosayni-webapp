@@ -29,7 +29,7 @@
             <div class="sa-noti__cuerpo">
               <span class="sa-noti__tipo">{{ etiquetaTipo(n.tipo) }}</span>
               <p class="sa-noti__mensaje">{{ n.mensaje }}</p>
-              <span class="sa-noti__fecha">{{ n.creadaEn | date:'short' }}</span>
+              <span class="sa-noti__fecha">{{ n.fechaCreacion | date:'short' }}</span>
             </div>
             @if (!n.leida) {
               <span class="sa-noti__pulso" aria-hidden="true"></span>

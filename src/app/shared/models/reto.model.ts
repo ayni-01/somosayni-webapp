@@ -1,28 +1,44 @@
 export type EstadoReto = 'BORRADOR' | 'ACTIVO' | 'CERRADO' | 'ARCHIVADO';
-export type Modalidad = 'REMOTO' | 'PRESENCIAL' | 'HIBRIDO';
+export type NivelDificultad = 'BASICO' | 'INTERMEDIO' | 'AVANZADO' | 'EXPERTO';
+export type TipoRecompensa = 'MONETARIA' | 'CERTIFICACION' | 'EXPERIENCIA' | 'MIXTA';
+
+export interface Recompensa {
+  tipo: TipoRecompensa;
+  monto: number;
+  descripcion: string;
+}
 
 export interface Reto {
   id: string;
   empresaId: string;
   titulo: string;
   descripcion: string;
-  modalidad: Modalidad;
-  duracionDias: number;
+  categoria: string;
+  requisitos: string[];
+  entregables: string[];
+  recompensa: Recompensa | null;
+  fechaLimite: string | null;
+  nivelDificultad: NivelDificultad;
   estado: EstadoReto;
-  creadoEn: string;
+  cuposDisponibles: number;
 }
 
 export interface PublicarRetoRequest {
   titulo: string;
   descripcion: string;
-  empresaId: string;
-  modalidad: Modalidad;
-  duracionDias: number;
+  categoria: string;
+  requisitos: string[];
+  entregables: string[];
+  tipoRecompensa: TipoRecompensa;
+  montoRecompensa: number;
+  fechaLimite: string | null;
+  nivelDificultad: NivelDificultad;
+  cuposDisponibles: number;
 }
 
 export interface FiltroRetos {
-  texto?: string;
+  categoria?: string;
+  nivelDificultad?: NivelDificultad;
   estado?: EstadoReto;
-  modalidad?: Modalidad;
   empresaId?: string;
 }

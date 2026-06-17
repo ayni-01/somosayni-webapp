@@ -4,6 +4,7 @@ export interface PerfilTalento {
   nombreCompleto: string;
   ubicacion: string | null;
   sobreMi: string | null;
+  fotoPerfil?: string | null;
 }
 
 export interface CrearTalentoRequest {

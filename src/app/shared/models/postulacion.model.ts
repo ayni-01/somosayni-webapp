@@ -1,4 +1,4 @@
-export type EstadoPostulacion = 'ENVIADA' | 'EN_REVISION' | 'APROBADA' | 'RECHAZADA' | 'FINALIZADA';
+export type EstadoPostulacion = 'EN_REVISION' | 'APROBADO' | 'RECHAZADO';
 export type ResultadoEvaluacion = 'APROBADO' | 'RECHAZADO';
 
 export interface Postulacion {
@@ -7,7 +7,7 @@ export interface Postulacion {
   retoId: string;
   urlSolucion: string;
   estado: EstadoPostulacion;
-  creadaEn: string;
+  fechaEnvio: string;
 }
 
 export interface PostularRequest {
@@ -18,10 +18,10 @@ export interface PostularRequest {
 export interface Evaluacion {
   id: string;
   postulacionId: string;
+  reclutadorId: string;
   puntuacion: number;
   resultado: ResultadoEvaluacion;
   feedback: string;
-  evaluadaEn: string;
 }
 
 export interface EvaluarRequest {

@@ -56,13 +56,10 @@
                   <a class="sa-fila__titulo" [routerLink]="['/app/postulaciones/reto', p.retoId]">
                     Reto: {{ p.retoId }}
                   </a>
-                  <p class="sa-fila__meta">Enviada {{ p.creadaEn | date:'mediumDate' }}</p>
+                  <p class="sa-fila__meta">Enviada {{ p.fechaEnvio | date:'mediumDate' }}</p>
                 </div>
                 <mat-chip class="sa-chip-estado" [attr.data-estado]="p.estado" disableRipple>
-                  @switch (p.estado) {
-                    @case ('ENVIADA') { Enviada }
-                    @case ('EN_REVISION') { En revisión }
-                  }
+                  En revisión
                 </mat-chip>
               </mat-card-content>
             </mat-card>

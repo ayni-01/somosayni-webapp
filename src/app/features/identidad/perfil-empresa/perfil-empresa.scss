@@ -60,3 +60,26 @@
   flex-direction: column;
   gap: 16px;
 }
+
+.sa-aviso {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: var(--sa-radius);
+  background: rgba(33, 150, 243, 0.08);
+  color: var(--sa-color-text);
+  margin-bottom: 16px;
+  font-size: 14px;
+
+  mat-icon {
+    color: #1976d2;
+    flex-shrink: 0;
+  }
+}
+
+.sa-perfil__vacio {
+  padding: 24px 0;
+  text-align: center;
+  color: var(--sa-color-text-muted);
+}

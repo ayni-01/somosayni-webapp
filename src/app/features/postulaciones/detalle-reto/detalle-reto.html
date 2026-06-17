@@ -23,12 +23,8 @@
       <mat-card-content class="sa-reto__content">
         <header class="sa-reto__header">
           <div class="sa-reto__chips">
-            <mat-chip class="sa-chip-estado" [attr.data-modalidad]="r.modalidad" disableRipple>
-              @switch (r.modalidad) {
-                @case ('REMOTO') { Remoto }
-                @case ('PRESENCIAL') { Presencial }
-                @case ('HIBRIDO') { Híbrido }
-              }
+            <mat-chip class="sa-chip-estado" [attr.data-nivel]="r.nivelDificultad" disableRipple>
+              {{ etiquetaNivel(r.nivelDificultad) }}
             </mat-chip>
             <mat-chip class="sa-chip-estado" [attr.data-estado]="r.estado" disableRipple>
               @switch (r.estado) {
@@ -41,25 +37,73 @@
           </div>
 
           <h1 class="sa-reto__titulo">{{ r.titulo }}</h1>
+          <p class="sa-reto__categoria">{{ r.categoria }}</p>
 
           <dl class="sa-reto__meta">
             <div>
-              <dt>Duración</dt>
-              <dd>{{ r.duracionDias }} días</dd>
+              <dt>Cupos disponibles</dt>
+              <dd>{{ r.cuposDisponibles }}</dd>
             </div>
-            <div>
-              <dt>Publicado</dt>
-              <dd>{{ r.creadoEn | date:'mediumDate' }}</dd>
-            </div>
+            @if (r.fechaLimite) {
+              <div>
+                <dt>Fecha límite</dt>
+                <dd>{{ r.fechaLimite | date:'mediumDate' }}</dd>
+              </div>
+            }
+            @if (r.recompensa) {
+              <div>
+                <dt>Recompensa</dt>
+                <dd>
+                  @switch (r.recompensa.tipo) {
+                    @case ('MONETARIA')     { Monetaria }
+                    @case ('CERTIFICACION') { Certificación }
+                    @case ('EXPERIENCIA')   { Experiencia }
+                    @case ('MIXTA')         { Mixta }
+                  }
+                  @if (r.recompensa.monto > 0) {
+                    · S/ {{ r.recompensa.monto }}
+                  }
+                </dd>
+              </div>
+            }
           </dl>
         </header>
 
         <mat-divider />
 
         <section class="sa-reto__seccion">
-          <h2>Descripción y entregables</h2>
+          <h2>Descripción</h2>
           <p class="sa-reto__descripcion">{{ r.descripcion }}</p>
         </section>
+
+        @if (r.requisitos.length > 0) {
+          <section class="sa-reto__seccion">
+            <h2>Requisitos</h2>
+            <ul class="sa-reto__lista">
+              @for (req of r.requisitos; track req) {
+                <li>{{ req }}</li>
+              }
+            </ul>
+          </section>
+        }
+
+        @if (r.entregables.length > 0) {
+          <section class="sa-reto__seccion">
+            <h2>Entregables</h2>
+            <ul class="sa-reto__lista">
+              @for (e of r.entregables; track e) {
+                <li>{{ e }}</li>
+              }
+            </ul>
+          </section>
+        }
+
+        @if (r.recompensa && r.recompensa.descripcion) {
+          <section class="sa-reto__seccion">
+            <h2>Detalle de recompensa</h2>
+            <p class="sa-reto__descripcion">{{ r.recompensa.descripcion }}</p>
+          </section>
+        }
 
         <footer class="sa-reto__footer">
           @if (puedePostular()) {

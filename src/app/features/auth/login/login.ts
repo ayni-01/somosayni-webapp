@@ -54,7 +54,6 @@ export class Login {
             id: respuesta.usuarioId,
             email: respuesta.email,
             rol: respuesta.rol,
-            creadoEn: '',
           });
           this.router.navigateByUrl('/app/inicio');
         },

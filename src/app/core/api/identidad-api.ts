@@ -18,6 +18,6 @@ export class IdentidadApi {
   }
 
   cambiarPassword(body: CambiarPasswordRequest): Observable<void> {
-    return this.http.post<void>(`${this.base}/auth/cambiar-password`, body);
+    return this.http.post<void>(`${this.base}/auth/password`, body);
   }
 }

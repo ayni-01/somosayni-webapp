@@ -24,12 +24,14 @@
         <span class="sa-card__chip">Postulando a</span>
         <mat-card-title>{{ r.titulo }}</mat-card-title>
         <mat-card-subtitle>
-          @switch (r.modalidad) {
-            @case ('REMOTO') { Remoto }
-            @case ('PRESENCIAL') { Presencial }
-            @case ('HIBRIDO') { Híbrido }
+          {{ r.categoria }} ·
+          @switch (r.nivelDificultad) {
+            @case ('BASICO')     { Básico }
+            @case ('INTERMEDIO') { Intermedio }
+            @case ('AVANZADO')   { Avanzado }
+            @case ('EXPERTO')    { Experto }
           }
-          · {{ r.duracionDias }} días
+          · {{ r.cuposDisponibles }} cupos
         </mat-card-subtitle>
       </mat-card-header>
 

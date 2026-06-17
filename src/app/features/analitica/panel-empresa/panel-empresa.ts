@@ -40,9 +40,4 @@ export class PanelEmpresa {
       }),
     ).subscribe();
   }
-
-  conversionReto(reto: EmbudoReto): number {
-    if (reto.postulacionesTotal === 0) return 0;
-    return (reto.aprobadas / reto.postulacionesTotal) * 100;
-  }
 }

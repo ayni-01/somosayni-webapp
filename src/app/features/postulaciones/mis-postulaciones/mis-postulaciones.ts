@@ -31,8 +31,8 @@ export class MisPostulaciones {
 
   readonly resumen = computed(() => {
     const lista = this.postulaciones();
-    const aprobadas = lista.filter(p => p.estado === 'APROBADA' || p.estado === 'FINALIZADA').length;
-    const enRevision = lista.filter(p => p.estado === 'ENVIADA' || p.estado === 'EN_REVISION').length;
+    const aprobadas = lista.filter(p => p.estado === 'APROBADO').length;
+    const enRevision = lista.filter(p => p.estado === 'EN_REVISION').length;
     return { total: lista.length, aprobadas, enRevision };
   });
 
@@ -51,11 +51,9 @@ export class MisPostulaciones {
 
   etiquetaEstado(estado: EstadoPostulacion): string {
     switch (estado) {
-      case 'ENVIADA': return 'Enviada';
       case 'EN_REVISION': return 'En revisión';
-      case 'APROBADA': return 'Aprobada';
-      case 'RECHAZADA': return 'Rechazada';
-      case 'FINALIZADA': return 'Finalizada';
+      case 'APROBADO': return 'Aprobado';
+      case 'RECHAZADO': return 'Rechazado';
     }
   }
 }
