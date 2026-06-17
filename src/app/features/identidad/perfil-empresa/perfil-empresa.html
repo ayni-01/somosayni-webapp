@@ -1,0 +1,80 @@
+<section class="sa-perfil">
+  <header class="sa-perfil__header">
+    <h1>Perfil corporativo</h1>
+    <p>Completa los datos de tu empresa para validar tu identidad ante los postulantes.</p>
+  </header>
+
+  @if (cargando()) {
+    <p class="sa-perfil__cargando">Cargando perfil...</p>
+  } @else {
+    @if (estado()) {
+      <div class="sa-estado" [attr.data-estado]="estado()">
+        <span class="sa-estado__label">Estado de validación:</span>
+        @switch (estado()) {
+          @case ('VALIDADA') { <span class="sa-estado__valor">Validada</span> }
+          @case ('PENDIENTE') { <span class="sa-estado__valor">Pendiente de revisión</span> }
+          @case ('RECHAZADA') { <span class="sa-estado__valor">Rechazada</span> }
+        }
+      </div>
+    }
+
+    <form class="sa-form" [formGroup]="form" (ngSubmit)="guardar()">
+      <mat-form-field appearance="outline">
+        <mat-label>Razón social</mat-label>
+        <input matInput formControlName="razonSocial" autocomplete="organization" required>
+        @if (form.controls.razonSocial.hasError('required') && form.controls.razonSocial.touched) {
+          <mat-error>Ingresa la razón social</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>RUC</mat-label>
+        <input matInput formControlName="ruc" inputmode="numeric" maxlength="11" required>
+        <mat-hint>11 dígitos</mat-hint>
+        @if (form.controls.ruc.hasError('pattern') && form.controls.ruc.touched) {
+          <mat-error>RUC debe tener 11 dígitos</mat-error>
+        }
+        @if (form.controls.ruc.hasError('required') && form.controls.ruc.touched) {
+          <mat-error>Ingresa el RUC</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Sector</mat-label>
+        <mat-select formControlName="sector" required>
+          @for (s of sectores; track s) {
+            <mat-option [value]="s">{{ s }}</mat-option>
+          }
+        </mat-select>
+        @if (form.controls.sector.hasError('required') && form.controls.sector.touched) {
+          <mat-error>Selecciona un sector</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>URL del logo</mat-label>
+        <input matInput type="url" formControlName="logoUrl" placeholder="https://...">
+        @if (form.controls.logoUrl.hasError('pattern')) {
+          <mat-error>URL inválida (debe empezar con http:// o https://)</mat-error>
+        }
+      </mat-form-field>
+
+      @if (form.controls.logoUrl.value) {
+        <div class="sa-logo-preview">
+          <span class="sa-logo-preview__label">Vista previa del logo:</span>
+          <img [src]="form.controls.logoUrl.value" alt="Vista previa del logo">
+        </div>
+      }
+
+      <footer class="sa-perfil__footer">
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || guardando()">
+          @if (guardando()) {
+            Guardando...
+          } @else {
+            Guardar cambios
+          }
+        </button>
+      </footer>
+    </form>
+  }
+</section>
