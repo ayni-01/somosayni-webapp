@@ -32,6 +32,11 @@ export const POSTULACIONES_ROUTES: Routes = [
     loadComponent: () => import('./mis-retos/mis-retos').then(m => m.MisRetos),
   },
   {
+    path: 'postulacion/:id/evaluar',
+    canActivate: [rolGuard(['EMPRESA'])],
+    loadComponent: () => import('./evaluar/evaluar').then(m => m.Evaluar),
+  },
+  {
     path: 'mis-postulaciones',
     canActivate: [rolGuard(['TALENTO'])],
     loadComponent: () => import('./mis-postulaciones/mis-postulaciones').then(m => m.MisPostulaciones),
