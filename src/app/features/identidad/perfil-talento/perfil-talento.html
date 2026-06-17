@@ -1,47 +1,134 @@
-<section class="sa-perfil">
-  <mat-card appearance="outlined" class="sa-perfil__card">
-    <mat-card-header class="sa-perfil__header">
-      <mat-card-title>Mi perfil profesional</mat-card-title>
-      <mat-card-subtitle>Completa tu información para que las empresas conozcan tu trayectoria.</mat-card-subtitle>
-    </mat-card-header>
-
-    @if (cargando()) {
-      <mat-card-content>
-        <div class="sa-cargando">
-          <mat-progress-spinner mode="indeterminate" diameter="36" />
-          <span>Cargando perfil...</span>
+@if (cargando()) {
+  <div class="sa-cargando">
+    <mat-progress-spinner mode="indeterminate" diameter="36" />
+    <span>Cargando perfil...</span>
+  </div>
+} @else {
+  <section class="sa-perfil">
+    <header class="sa-hero">
+      <div class="sa-avatar" role="img" [attr.aria-label]="'Avatar de ' + (form.controls.nombreCompleto.value || 'usuario')">
+        <span class="sa-avatar__iniciales">{{ iniciales() }}</span>
+      </div>
+      <div class="sa-hero__cuerpo">
+        <span class="sa-hero__rol">Perfil de talento</span>
+        <h1 class="sa-hero__titulo">
+          {{ form.controls.nombreCompleto.value || 'Tu nombre' }}
+        </h1>
+        @if (usuario(); as u) {
+          <p class="sa-hero__meta">
+            <mat-icon aria-hidden="true">mail</mat-icon>
+            {{ u.email }}
+          </p>
+        }
+        @if (form.controls.ubicacion.value) {
+          <p class="sa-hero__meta">
+            <mat-icon aria-hidden="true">place</mat-icon>
+            {{ form.controls.ubicacion.value }}
+          </p>
+        }
+      </div>
+      <div class="sa-progreso">
+        <div class="sa-progreso__cabecera">
+          <span class="sa-progreso__etiqueta">{{ etiquetaProgreso() }}</span>
+          <span class="sa-progreso__valor">{{ progreso() }}%</span>
         </div>
-      </mat-card-content>
-    } @else {
-      <mat-card-content>
-        <form class="sa-form" [formGroup]="form" (ngSubmit)="guardar()" id="perfil-talento-form">
+        <mat-progress-bar mode="determinate" [value]="progreso()" />
+        <span class="sa-progreso__hint">Completa los 3 campos para un perfil 100% atractivo.</span>
+      </div>
+    </header>
+
+    <form class="sa-form" [formGroup]="form" (ngSubmit)="guardar()" id="formPerfilTalento">
+      <mat-card appearance="outlined" class="sa-card">
+        <mat-card-header class="sa-card__header">
+          <div class="sa-card__titulo-wrap">
+            <mat-icon class="sa-card__icono" aria-hidden="true">person</mat-icon>
+            <div>
+              <mat-card-title>Datos personales</mat-card-title>
+              <mat-card-subtitle>Cómo te identificarán las empresas.</mat-card-subtitle>
+            </div>
+          </div>
+        </mat-card-header>
+        <mat-divider />
+        <mat-card-content class="sa-card__content">
           <mat-form-field appearance="outline">
             <mat-label>Nombre completo</mat-label>
-            <input matInput formControlName="nombreCompleto" required>
+            <input matInput formControlName="nombreCompleto" autocomplete="name" required>
+            <mat-icon matIconPrefix aria-hidden="true">badge</mat-icon>
+            @if (form.controls.nombreCompleto.hasError('required') && form.controls.nombreCompleto.touched) {
+              <mat-error>Ingresa tu nombre completo</mat-error>
+            }
+            @if (form.controls.nombreCompleto.hasError('minlength') && form.controls.nombreCompleto.touched) {
+              <mat-error>Mínimo 3 caracteres</mat-error>
+            }
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Ubicación</mat-label>
             <input matInput formControlName="ubicacion" placeholder="Ej: Lima, Perú">
+            <mat-icon matIconPrefix aria-hidden="true">place</mat-icon>
+            <mat-hint>Opcional. Ayuda a empresas locales a encontrarte.</mat-hint>
           </mat-form-field>
+        </mat-card-content>
+      </mat-card>
 
+      <mat-card appearance="outlined" class="sa-card">
+        <mat-card-header class="sa-card__header">
+          <div class="sa-card__titulo-wrap">
+            <mat-icon class="sa-card__icono" aria-hidden="true">auto_stories</mat-icon>
+            <div>
+              <mat-card-title>Sobre mí</mat-card-title>
+              <mat-card-subtitle>Cuenta tu historia y lo que te diferencia.</mat-card-subtitle>
+            </div>
+          </div>
+        </mat-card-header>
+        <mat-divider />
+        <mat-card-content class="sa-card__content">
           <mat-form-field appearance="outline">
-            <mat-label>Sobre mí</mat-label>
-            <textarea matInput formControlName="sobreMi" rows="6" maxlength="500"></textarea>
-            <mat-hint align="end">{{ form.controls.sobreMi.value?.length ?? 0 }}/500</mat-hint>
+            <mat-label>Tu presentación</mat-label>
+            <textarea
+              matInput
+              formControlName="sobreMi"
+              rows="7"
+              maxlength="500"
+              placeholder="Cuéntales a las empresas qué te apasiona, qué estás aprendiendo y qué tipo de retos buscas..."
+            ></textarea>
+            <mat-hint align="end">{{ contadorSobreMi() }}/500</mat-hint>
+            @if (form.controls.sobreMi.hasError('maxlength')) {
+              <mat-error>Máximo 500 caracteres</mat-error>
+            }
           </mat-form-field>
-        </form>
-      </mat-card-content>
 
-      <mat-card-actions align="end" class="sa-perfil__actions">
-        <button mat-flat-button color="primary" type="submit" form="perfil-talento-form" [disabled]="form.invalid || guardando()">
-          @if (guardando()) {
-            Guardando...
-          } @else {
-            Guardar cambios
-          }
-        </button>
-      </mat-card-actions>
-    }
-  </mat-card>
-</section>
+          <div class="sa-tips">
+            <mat-icon aria-hidden="true">tips_and_updates</mat-icon>
+            <div>
+              <strong>Consejos para destacar</strong>
+              <ul>
+                <li>Empieza con una frase potente que resuma quién eres.</li>
+                <li>Menciona 2 o 3 habilidades clave.</li>
+                <li>Cierra con el tipo de proyecto que te gustaría resolver.</li>
+              </ul>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </form>
+
+    <footer class="sa-acciones">
+      <button
+        mat-flat-button
+        color="primary"
+        type="submit"
+        form="formPerfilTalento"
+        [disabled]="form.invalid || guardando()"
+        class="sa-acciones__guardar"
+      >
+        @if (guardando()) {
+          <span>Guardando...</span>
+        } @else {
+          <mat-icon aria-hidden="true">save</mat-icon>
+          <span>Guardar cambios</span>
+        }
+      </button>
+    </footer>
+  </section>
+}
