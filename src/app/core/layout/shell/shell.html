@@ -26,6 +26,8 @@
       <span class="sa-shell__spacer"></span>
 
       @if (usuario(); as u) {
+        <sa-notificaciones-bell />
+
         <button mat-icon-button [matMenuTriggerFor]="menuCuenta" aria-label="Menú de cuenta">
           <mat-icon>account_circle</mat-icon>
         </button>
