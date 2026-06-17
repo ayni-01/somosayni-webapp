@@ -1,5 +1,7 @@
+import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
-import { authGuard, redirigirRaizGuard, soloAnonimoGuard } from './core/auth/auth.guard';
+import { authGuard, soloAnonimoGuard } from './core/auth/auth.guard';
+import { AuthStore } from './core/auth/auth.store';
 import { AuthLayout } from './core/layout/auth-layout/auth-layout';
 import { Shell } from './core/layout/shell/shell';
 
@@ -7,8 +9,8 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    canActivate: [redirigirRaizGuard],
-    children: [],
+    redirectTo: () =>
+      inject(AuthStore).estaAutenticado() ? '/app/inicio' : '/auth/login',
   },
   {
     path: 'auth',
