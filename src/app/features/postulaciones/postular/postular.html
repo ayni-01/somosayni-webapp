@@ -24,14 +24,7 @@
         <span class="sa-card__chip">Postulando a</span>
         <mat-card-title>{{ r.titulo }}</mat-card-title>
         <mat-card-subtitle>
-          {{ r.categoria }} ·
-          @switch (r.nivelDificultad) {
-            @case ('BASICO')     { Básico }
-            @case ('INTERMEDIO') { Intermedio }
-            @case ('AVANZADO')   { Avanzado }
-            @case ('EXPERTO')    { Experto }
-          }
-          · {{ r.cuposDisponibles }} cupos
+          {{ etiquetaCategoria(r.categoria) }} · {{ etiquetaNivel(r.nivelDificultad) }} · {{ r.cuposDisponibles }} cupos
         </mat-card-subtitle>
       </mat-card-header>
 

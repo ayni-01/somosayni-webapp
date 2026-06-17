@@ -14,7 +14,7 @@ import { HabilidadesApi } from '../../../core/api/habilidades-api';
 import { RetosApi } from '../../../core/api/retos-api';
 import { MetricasApi } from '../../../core/api/metricas-api';
 import { Postulacion } from '../../../shared/models/postulacion.model';
-import { NivelDificultad, Reto } from '../../../shared/models/reto.model';
+import { Categoria, NivelDificultad, Reto } from '../../../shared/models/reto.model';
 import { MetricasEmpresa } from '../../../shared/models/metricas.model';
 import { Portafolio } from '../../../shared/models/habilidad.model';
 
@@ -110,12 +110,24 @@ export class Home {
     }
   }
 
-  etiquetaNivel(nivel: NivelDificultad): string {
-    switch (nivel) {
-      case 'BASICO': return 'Básico';
-      case 'INTERMEDIO': return 'Intermedio';
-      case 'AVANZADO': return 'Avanzado';
-      case 'EXPERTO': return 'Experto';
+  etiquetaCategoria(c: Categoria): string {
+    switch (c) {
+      case 'FRONTEND': return 'Frontend';
+      case 'BACKEND': return 'Backend';
+      case 'FULLSTACK': return 'Fullstack';
+      case 'DATA': return 'Data';
+      case 'DEVOPS': return 'DevOps';
+      case 'UX_UI': return 'UX / UI';
+      case 'QA': return 'QA / Testing';
+      case 'MOBILE': return 'Mobile';
+    }
+  }
+
+  etiquetaNivel(n: NivelDificultad): string {
+    switch (n) {
+      case 'JUNIOR': return 'Junior';
+      case 'TRAINEE': return 'Trainee';
+      case 'SENIOR': return 'Senior';
     }
   }
 }

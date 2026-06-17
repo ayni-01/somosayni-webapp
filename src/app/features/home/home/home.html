@@ -149,7 +149,7 @@
                 <div class="sa-fila__info">
                   <a class="sa-fila__titulo" [routerLink]="['/app/postulaciones/reto', r.id]">{{ r.titulo }}</a>
                   <p class="sa-fila__meta">
-                    {{ r.categoria }} · {{ etiquetaNivel(r.nivelDificultad) }} · {{ r.cuposDisponibles }} cupos
+                    {{ etiquetaCategoria(r.categoria) }} · {{ etiquetaNivel(r.nivelDificultad) }} · {{ r.cuposDisponibles }} cupos
                   </p>
                 </div>
                 <mat-chip class="sa-chip-estado" [attr.data-estado]="r.estado" disableRipple>

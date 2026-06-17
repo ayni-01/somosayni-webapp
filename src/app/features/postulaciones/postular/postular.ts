@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, of, tap } from 'rxjs';
 import { PostulacionesApi } from '../../../core/api/postulaciones-api';
 import { RetosApi } from '../../../core/api/retos-api';
-import { Reto } from '../../../shared/models/reto.model';
+import { Categoria, NivelDificultad, Reto } from '../../../shared/models/reto.model';
 
 @Component({
   selector: 'sa-postular',
@@ -45,6 +45,27 @@ export class Postular {
 
   constructor() {
     queueMicrotask(() => this.cargarReto());
+  }
+
+  etiquetaCategoria(c: Categoria): string {
+    switch (c) {
+      case 'FRONTEND': return 'Frontend';
+      case 'BACKEND': return 'Backend';
+      case 'FULLSTACK': return 'Fullstack';
+      case 'DATA': return 'Data';
+      case 'DEVOPS': return 'DevOps';
+      case 'UX_UI': return 'UX / UI';
+      case 'QA': return 'QA / Testing';
+      case 'MOBILE': return 'Mobile';
+    }
+  }
+
+  etiquetaNivel(n: NivelDificultad): string {
+    switch (n) {
+      case 'JUNIOR': return 'Junior';
+      case 'TRAINEE': return 'Trainee';
+      case 'SENIOR': return 'Senior';
+    }
   }
 
   enviar(): void {

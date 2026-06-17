@@ -23,9 +23,6 @@
       <mat-card-content class="sa-reto__content">
         <header class="sa-reto__header">
           <div class="sa-reto__chips">
-            <mat-chip class="sa-chip-estado" [attr.data-nivel]="r.nivelDificultad" disableRipple>
-              {{ etiquetaNivel(r.nivelDificultad) }}
-            </mat-chip>
             <mat-chip class="sa-chip-estado" [attr.data-estado]="r.estado" disableRipple>
               @switch (r.estado) {
                 @case ('ACTIVO') { Activo }
@@ -34,12 +31,21 @@
                 @case ('BORRADOR') { Borrador }
               }
             </mat-chip>
+            <mat-chip class="sa-chip-estado" [attr.data-categoria]="r.categoria" disableRipple>
+              {{ etiquetaCategoria(r.categoria) }}
+            </mat-chip>
+            <mat-chip class="sa-chip-estado" [attr.data-nivel]="r.nivelDificultad" disableRipple>
+              {{ etiquetaNivel(r.nivelDificultad) }}
+            </mat-chip>
           </div>
 
           <h1 class="sa-reto__titulo">{{ r.titulo }}</h1>
-          <p class="sa-reto__categoria">{{ r.categoria }}</p>
 
           <dl class="sa-reto__meta">
+            <div>
+              <dt>Nivel</dt>
+              <dd>{{ etiquetaNivel(r.nivelDificultad) }}</dd>
+            </div>
             <div>
               <dt>Cupos disponibles</dt>
               <dd>{{ r.cuposDisponibles }}</dd>
@@ -54,12 +60,7 @@
               <div>
                 <dt>Recompensa</dt>
                 <dd>
-                  @switch (r.recompensa.tipo) {
-                    @case ('MONETARIA')     { Monetaria }
-                    @case ('CERTIFICACION') { Certificación }
-                    @case ('EXPERIENCIA')   { Experiencia }
-                    @case ('MIXTA')         { Mixta }
-                  }
+                  {{ etiquetaTipoRecompensa(r.recompensa.tipo) }}
                   @if (r.recompensa.monto > 0) {
                     · S/ {{ r.recompensa.monto }}
                   }

@@ -1,6 +1,7 @@
 export type EstadoReto = 'BORRADOR' | 'ACTIVO' | 'CERRADO' | 'ARCHIVADO';
-export type NivelDificultad = 'BASICO' | 'INTERMEDIO' | 'AVANZADO' | 'EXPERTO';
-export type TipoRecompensa = 'MONETARIA' | 'CERTIFICACION' | 'EXPERIENCIA' | 'MIXTA';
+export type NivelDificultad = 'JUNIOR' | 'TRAINEE' | 'SENIOR';
+export type Categoria = 'FRONTEND' | 'BACKEND' | 'FULLSTACK' | 'DATA' | 'DEVOPS' | 'UX_UI' | 'QA' | 'MOBILE';
+export type TipoRecompensa = 'MONETARIA' | 'CONTRATACION' | 'DIPLOMA';
 
 export interface Recompensa {
   tipo: TipoRecompensa;
@@ -13,7 +14,7 @@ export interface Reto {
   empresaId: string;
   titulo: string;
   descripcion: string;
-  categoria: string;
+  categoria: Categoria;
   requisitos: string[];
   entregables: string[];
   recompensa: Recompensa | null;
@@ -26,7 +27,7 @@ export interface Reto {
 export interface PublicarRetoRequest {
   titulo: string;
   descripcion: string;
-  categoria: string;
+  categoria: Categoria;
   requisitos: string[];
   entregables: string[];
   tipoRecompensa: TipoRecompensa;
@@ -37,7 +38,7 @@ export interface PublicarRetoRequest {
 }
 
 export interface FiltroRetos {
-  categoria?: string;
+  categoria?: Categoria;
   nivelDificultad?: NivelDificultad;
   estado?: EstadoReto;
   empresaId?: string;

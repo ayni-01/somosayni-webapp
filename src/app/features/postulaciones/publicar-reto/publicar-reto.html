@@ -29,9 +29,13 @@
 
         <mat-form-field appearance="outline">
           <mat-label>Categoría</mat-label>
-          <input matInput formControlName="categoria" placeholder="Ej: Desarrollo Web, Datos, Diseño UX..." required>
+          <mat-select formControlName="categoria" required>
+            @for (c of categorias; track c) {
+              <mat-option [value]="c">{{ etiquetaCategoria(c) }}</mat-option>
+            }
+          </mat-select>
           @if (form.controls.categoria.hasError('required') && form.controls.categoria.touched) {
-            <mat-error>Ingresa una categoría</mat-error>
+            <mat-error>Selecciona una categoría</mat-error>
           }
         </mat-form-field>
 
@@ -39,14 +43,7 @@
           <legend>Nivel de dificultad</legend>
           <mat-radio-group formControlName="nivelDificultad" aria-label="Nivel de dificultad">
             @for (n of niveles; track n) {
-              <mat-radio-button [value]="n">
-                @switch (n) {
-                  @case ('BASICO')     { Básico }
-                  @case ('INTERMEDIO') { Intermedio }
-                  @case ('AVANZADO')   { Avanzado }
-                  @case ('EXPERTO')    { Experto }
-                }
-              </mat-radio-button>
+              <mat-radio-button [value]="n">{{ etiquetaNivel(n) }}</mat-radio-button>
             }
           </mat-radio-group>
         </fieldset>
@@ -67,14 +64,7 @@
           <legend>Tipo de recompensa</legend>
           <mat-radio-group formControlName="tipoRecompensa" aria-label="Tipo de recompensa">
             @for (t of tiposRecompensa; track t) {
-              <mat-radio-button [value]="t">
-                @switch (t) {
-                  @case ('MONETARIA')     { Monetaria }
-                  @case ('CERTIFICACION') { Certificación }
-                  @case ('EXPERIENCIA')   { Experiencia }
-                  @case ('MIXTA')         { Mixta }
-                }
-              </mat-radio-button>
+              <mat-radio-button [value]="t">{{ etiquetaTipoRecompensa(t) }}</mat-radio-button>
             }
           </mat-radio-group>
         </fieldset>
