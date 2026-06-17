@@ -30,6 +30,13 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/identidad/identidad.routes').then((m) => m.IDENTIDAD_ROUTES),
       },
+      {
+        path: 'postulaciones',
+        loadChildren: () =>
+          import('./features/postulaciones/postulaciones.routes').then(
+            (m) => m.POSTULACIONES_ROUTES,
+          ),
+      },
     ],
   },
   {
