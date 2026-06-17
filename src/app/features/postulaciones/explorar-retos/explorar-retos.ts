@@ -9,12 +9,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
-import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs';
+import { switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RetosApi } from '../../../core/api/retos-api';
-import { FiltroRetos, NivelDificultad, Reto } from '../../../shared/models/reto.model';
+import { Categoria, FiltroRetos, NivelDificultad, Reto } from '../../../shared/models/reto.model';
 
-const NIVELES: NivelDificultad[] = ['BASICO', 'INTERMEDIO', 'AVANZADO', 'EXPERTO'];
+const CATEGORIAS: Categoria[] = ['FRONTEND', 'BACKEND', 'FULLSTACK', 'DATA', 'DEVOPS', 'UX_UI', 'QA', 'MOBILE'];
+const NIVELES: NivelDificultad[] = ['JUNIOR', 'TRAINEE', 'SENIOR'];
 
 @Component({
   selector: 'sa-explorar-retos',
@@ -31,9 +32,10 @@ const NIVELES: NivelDificultad[] = ['BASICO', 'INTERMEDIO', 'AVANZADO', 'EXPERTO
 export class ExplorarRetos {
   private readonly retosApi = inject(RetosApi);
 
+  readonly categorias = CATEGORIAS;
   readonly niveles = NIVELES;
 
-  readonly categoria = new FormControl('', { nonNullable: true });
+  readonly categoria = new FormControl<Categoria | ''>('', { nonNullable: true });
   readonly nivelDificultad = new FormControl<NivelDificultad | ''>('', { nonNullable: true });
 
   readonly cargando = signal(true);
@@ -41,8 +43,6 @@ export class ExplorarRetos {
 
   constructor() {
     this.categoria.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
       switchMap(() => this.cargar()),
       takeUntilDestroyed(),
     ).subscribe();
@@ -60,19 +60,31 @@ export class ExplorarRetos {
     this.nivelDificultad.setValue('');
   }
 
-  etiquetaNivel(nivel: NivelDificultad): string {
-    switch (nivel) {
-      case 'BASICO': return 'Básico';
-      case 'INTERMEDIO': return 'Intermedio';
-      case 'AVANZADO': return 'Avanzado';
-      case 'EXPERTO': return 'Experto';
+  etiquetaCategoria(c: Categoria): string {
+    switch (c) {
+      case 'FRONTEND': return 'Frontend';
+      case 'BACKEND': return 'Backend';
+      case 'FULLSTACK': return 'Fullstack';
+      case 'DATA': return 'Data';
+      case 'DEVOPS': return 'DevOps';
+      case 'UX_UI': return 'UX / UI';
+      case 'QA': return 'QA / Testing';
+      case 'MOBILE': return 'Mobile';
+    }
+  }
+
+  etiquetaNivel(n: NivelDificultad): string {
+    switch (n) {
+      case 'JUNIOR': return 'Junior';
+      case 'TRAINEE': return 'Trainee';
+      case 'SENIOR': return 'Senior';
     }
   }
 
   private cargar() {
     this.cargando.set(true);
     const filtros: FiltroRetos = {
-      categoria: this.categoria.value || undefined,
+      categoria: (this.categoria.value as Categoria) || undefined,
       nivelDificultad: (this.nivelDificultad.value as NivelDificultad) || undefined,
       estado: 'ACTIVO',
     };

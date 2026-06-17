@@ -4,23 +4,25 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { RetosApi } from '../../../core/api/retos-api';
-import { NivelDificultad, TipoRecompensa } from '../../../shared/models/reto.model';
+import { Categoria, NivelDificultad, TipoRecompensa } from '../../../shared/models/reto.model';
 
-const NIVELES: NivelDificultad[] = ['BASICO', 'INTERMEDIO', 'AVANZADO', 'EXPERTO'];
-const TIPOS_RECOMPENSA: TipoRecompensa[] = ['MONETARIA', 'CERTIFICACION', 'EXPERIENCIA', 'MIXTA'];
+const CATEGORIAS: Categoria[] = ['FRONTEND', 'BACKEND', 'FULLSTACK', 'DATA', 'DEVOPS', 'UX_UI', 'QA', 'MOBILE'];
+const NIVELES: NivelDificultad[] = ['JUNIOR', 'TRAINEE', 'SENIOR'];
+const TIPOS_RECOMPENSA: TipoRecompensa[] = ['MONETARIA', 'CONTRATACION', 'DIPLOMA'];
 
 @Component({
   selector: 'sa-publicar-reto',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    MatFormFieldModule, MatInputModule, MatButtonModule, MatRadioModule, MatCardModule, MatIconModule,
+    MatFormFieldModule, MatInputModule, MatButtonModule, MatRadioModule, MatSelectModule, MatCardModule, MatIconModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './publicar-reto.html',
@@ -33,16 +35,17 @@ export class PublicarReto {
   private readonly router = inject(Router);
 
   readonly enviando = signal(false);
+  readonly categorias = CATEGORIAS;
   readonly niveles = NIVELES;
   readonly tiposRecompensa = TIPOS_RECOMPENSA;
 
   readonly form = this.fb.group({
     titulo: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
     descripcion: ['', [Validators.required, Validators.minLength(20)]],
-    categoria: ['', [Validators.required]],
-    nivelDificultad: ['INTERMEDIO' as NivelDificultad, [Validators.required]],
+    categoria: ['BACKEND' as Categoria, [Validators.required]],
+    nivelDificultad: ['TRAINEE' as NivelDificultad, [Validators.required]],
     cuposDisponibles: [5, [Validators.required, Validators.min(1), Validators.max(50)]],
-    tipoRecompensa: ['CERTIFICACION' as TipoRecompensa, [Validators.required]],
+    tipoRecompensa: ['MONETARIA' as TipoRecompensa, [Validators.required]],
     montoRecompensa: [0, [Validators.required, Validators.min(0)]],
     fechaLimite: [''],
     requisitos: this.fb.array<FormControl<string>>([this.crearControl('')]),
@@ -71,6 +74,35 @@ export class PublicarReto {
 
   quitarEntregable(i: number): void {
     if (this.entregables.length > 1) this.entregables.removeAt(i);
+  }
+
+  etiquetaCategoria(c: Categoria): string {
+    switch (c) {
+      case 'FRONTEND': return 'Frontend';
+      case 'BACKEND': return 'Backend';
+      case 'FULLSTACK': return 'Fullstack';
+      case 'DATA': return 'Data';
+      case 'DEVOPS': return 'DevOps';
+      case 'UX_UI': return 'UX / UI';
+      case 'QA': return 'QA / Testing';
+      case 'MOBILE': return 'Mobile';
+    }
+  }
+
+  etiquetaNivel(n: NivelDificultad): string {
+    switch (n) {
+      case 'JUNIOR': return 'Junior';
+      case 'TRAINEE': return 'Trainee';
+      case 'SENIOR': return 'Senior';
+    }
+  }
+
+  etiquetaTipoRecompensa(t: TipoRecompensa): string {
+    switch (t) {
+      case 'MONETARIA': return 'Monetaria';
+      case 'CONTRATACION': return 'Contratación';
+      case 'DIPLOMA': return 'Diploma';
+    }
   }
 
   publicar(): void {

@@ -11,7 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { RetosApi } from '../../../core/api/retos-api';
 import { AuthStore } from '../../../core/auth/auth.store';
-import { NivelDificultad, Reto } from '../../../shared/models/reto.model';
+import { Categoria, NivelDificultad, Reto } from '../../../shared/models/reto.model';
 import { ConfirmDialog, ConfirmDialogData } from '../../../shared/ui/confirm-dialog/confirm-dialog';
 
 @Component({
@@ -39,12 +39,24 @@ export class MisRetos {
     this.cargar();
   }
 
-  etiquetaNivel(nivel: NivelDificultad): string {
-    switch (nivel) {
-      case 'BASICO': return 'Básico';
-      case 'INTERMEDIO': return 'Intermedio';
-      case 'AVANZADO': return 'Avanzado';
-      case 'EXPERTO': return 'Experto';
+  etiquetaCategoria(c: Categoria): string {
+    switch (c) {
+      case 'FRONTEND': return 'Frontend';
+      case 'BACKEND': return 'Backend';
+      case 'FULLSTACK': return 'Fullstack';
+      case 'DATA': return 'Data';
+      case 'DEVOPS': return 'DevOps';
+      case 'UX_UI': return 'UX / UI';
+      case 'QA': return 'QA / Testing';
+      case 'MOBILE': return 'Mobile';
+    }
+  }
+
+  etiquetaNivel(n: NivelDificultad): string {
+    switch (n) {
+      case 'JUNIOR': return 'Junior';
+      case 'TRAINEE': return 'Trainee';
+      case 'SENIOR': return 'Senior';
     }
   }
 

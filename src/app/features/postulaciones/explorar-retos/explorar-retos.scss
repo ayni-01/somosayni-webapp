@@ -17,7 +17,7 @@
 
 .sa-filtros {
   display: grid;
-  grid-template-columns: 2fr 1fr auto;
+  grid-template-columns: 1fr 1fr auto;
   gap: 12px;
   align-items: start;
   margin-bottom: 24px;
@@ -47,15 +47,16 @@
   }
 
   &__header {
-    display: flex; justify-content: space-between; align-items: center;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    gap: 12px;
     font-size: 12px; color: var(--sa-color-text-muted);
   }
 
-  &__cupos { font-weight: 500; }
+  &__chips { display: flex; gap: 6px; flex-wrap: wrap; }
+
+  &__cupos { font-weight: 500; white-space: nowrap; }
 
   &__titulo { margin: 4px 0 0 0; font-size: 16px; font-weight: 700; color: var(--sa-color-text); }
-
-  &__categoria { margin: 0; font-size: 12px; font-weight: 600; color: var(--sa-color-primary); text-transform: uppercase; letter-spacing: 0.4px; }
 
   &__descripcion {
     margin: 4px 0 12px 0;

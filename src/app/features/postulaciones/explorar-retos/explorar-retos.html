@@ -5,9 +5,14 @@
   </header>
 
   <div class="sa-filtros">
-    <mat-form-field appearance="outline" class="sa-filtros__texto">
+    <mat-form-field appearance="outline">
       <mat-label>Categoría</mat-label>
-      <input matInput [formControl]="categoria" placeholder="Ej: Desarrollo Web, Datos, Diseño...">
+      <mat-select [formControl]="categoria">
+        <mat-option value="">Todas</mat-option>
+        @for (c of categorias; track c) {
+          <mat-option [value]="c">{{ etiquetaCategoria(c) }}</mat-option>
+        }
+      </mat-select>
       <mat-icon matIconPrefix aria-hidden="true">category</mat-icon>
     </mat-form-field>
 
@@ -41,14 +46,18 @@
           <mat-card appearance="outlined" class="sa-card">
             <mat-card-content class="sa-card__content">
               <header class="sa-card__header">
-                <mat-chip class="sa-chip-estado" [attr.data-nivel]="reto.nivelDificultad" disableRipple>
-                  {{ etiquetaNivel(reto.nivelDificultad) }}
-                </mat-chip>
+                <div class="sa-card__chips">
+                  <mat-chip class="sa-chip-estado" [attr.data-nivel]="reto.nivelDificultad" disableRipple>
+                    {{ etiquetaNivel(reto.nivelDificultad) }}
+                  </mat-chip>
+                  <mat-chip class="sa-chip-estado" [attr.data-categoria]="reto.categoria" disableRipple>
+                    {{ etiquetaCategoria(reto.categoria) }}
+                  </mat-chip>
+                </div>
                 <span class="sa-card__cupos">{{ reto.cuposDisponibles }} cupos</span>
               </header>
 
               <h2 class="sa-card__titulo">{{ reto.titulo }}</h2>
-              <p class="sa-card__categoria">{{ reto.categoria }}</p>
               <p class="sa-card__descripcion">{{ reto.descripcion }}</p>
 
               <footer class="sa-card__footer">
