@@ -1,0 +1,78 @@
+<section class="sa-detalle">
+  <nav class="sa-detalle__breadcrumb">
+    <a routerLink="/app/postulaciones/explorar">
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+      Volver a explorar
+    </a>
+  </nav>
+
+  @if (cargando()) {
+    <p class="sa-detalle__cargando">Cargando reto...</p>
+  } @else if (error() || !reto()) {
+    <div class="sa-error">
+      <h1>No encontramos este reto</h1>
+      <p>Es posible que haya sido cerrado o archivado.</p>
+      <a mat-flat-button color="primary" routerLink="/app/postulaciones/explorar">Volver a explorar</a>
+    </div>
+  } @else {
+    @let r = reto()!;
+    <article class="sa-reto">
+      <header class="sa-reto__header">
+        <div class="sa-reto__chips">
+          <span class="sa-chip sa-chip--categoria">{{ r.categoria }}</span>
+          <span class="sa-chip sa-chip--nivel" [attr.data-nivel]="r.nivel">
+            @switch (r.nivel) {
+              @case ('BASICO') { Básico }
+              @case ('INTERMEDIO') { Intermedio }
+              @case ('AVANZADO') { Avanzado }
+            }
+          </span>
+          <span class="sa-chip sa-chip--estado" [attr.data-estado]="r.estado">
+            @switch (r.estado) {
+              @case ('ACTIVO') { Activo }
+              @case ('CERRADO') { Cerrado }
+              @case ('ARCHIVADO') { Archivado }
+              @case ('BORRADOR') { Borrador }
+            }
+          </span>
+        </div>
+
+        <h1 class="sa-reto__titulo">{{ r.titulo }}</h1>
+
+        <dl class="sa-reto__meta">
+          <div>
+            <dt>Cupos disponibles</dt>
+            <dd>{{ r.cuposDisponibles }} / {{ r.cuposTotal }}</dd>
+          </div>
+          <div>
+            <dt>Publicado</dt>
+            <dd>{{ r.creadoEn | date:'mediumDate' }}</dd>
+          </div>
+        </dl>
+      </header>
+
+      <mat-divider />
+
+      <section class="sa-reto__seccion">
+        <h2>Descripción y entregables</h2>
+        <p class="sa-reto__descripcion">{{ r.descripcion }}</p>
+      </section>
+
+      <footer class="sa-reto__footer">
+        @if (puedePostular()) {
+          <a mat-flat-button color="primary" [routerLink]="['/app/postulaciones/reto', r.id, 'postular']">
+            Postular a este reto
+          </a>
+        } @else if (esTalento()) {
+          <button mat-flat-button disabled>
+            @if (r.estado !== 'ACTIVO') {
+              Reto no disponible
+            } @else {
+              Sin cupos disponibles
+            }
+          </button>
+        }
+      </footer>
+    </article>
+  }
+</section>
