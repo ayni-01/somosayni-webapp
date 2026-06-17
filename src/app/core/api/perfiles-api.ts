@@ -17,4 +17,12 @@ export class PerfilesApi {
   crearEmpresa(body: Partial<PerfilEmpresa>): Observable<PerfilEmpresa> {
     return this.http.post<PerfilEmpresa>(`${this.base}/perfiles/empresa`, body);
   }
+
+  obtenerTalento(id: string): Observable<PerfilTalento> {
+    return this.http.get<PerfilTalento>(`${this.base}/perfiles/talento/${id}`);
+  }
+
+  editarTalento(id: string, body: Partial<PerfilTalento>): Observable<PerfilTalento> {
+    return this.http.put<PerfilTalento>(`${this.base}/perfiles/talento/${id}`, body);
+  }
 }

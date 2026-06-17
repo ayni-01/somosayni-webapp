@@ -1,0 +1,128 @@
+<section class="sa-perfil">
+  <header class="sa-perfil__header">
+    <h1>Mi perfil profesional</h1>
+    <p>Completa tu información para que las empresas conozcan tu trayectoria.</p>
+  </header>
+
+  @if (cargando()) {
+    <p class="sa-perfil__cargando">Cargando perfil...</p>
+  } @else {
+    <form class="sa-form" [formGroup]="form" (ngSubmit)="guardar()">
+      <section class="sa-section">
+        <h2>Datos básicos</h2>
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre completo</mat-label>
+          <input matInput formControlName="nombreCompleto" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Biografía</mat-label>
+          <textarea matInput formControlName="bio" rows="4" maxlength="500"></textarea>
+          <mat-hint align="end">{{ form.controls.bio.value?.length ?? 0 }}/500</mat-hint>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>URL del portafolio</mat-label>
+          <input matInput type="url" formControlName="portafolioUrl" placeholder="https://...">
+          @if (form.controls.portafolioUrl.hasError('pattern')) {
+            <mat-error>URL inválida (debe empezar con http:// o https://)</mat-error>
+          }
+        </mat-form-field>
+      </section>
+
+      <mat-divider />
+
+      <section class="sa-section" formArrayName="educacion">
+        <header class="sa-section__header">
+          <h2>Educación</h2>
+          <button mat-stroked-button type="button" (click)="agregarEducacion()">
+            <mat-icon aria-hidden="true">add</mat-icon>
+            Agregar
+          </button>
+        </header>
+
+        @for (grupo of educacion.controls; track $index; let i = $index) {
+          <div class="sa-card" [formGroupName]="i">
+            <div class="sa-card__grid">
+              <mat-form-field appearance="outline">
+                <mat-label>Institución</mat-label>
+                <input matInput formControlName="institucion" required>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Título</mat-label>
+                <input matInput formControlName="titulo" required>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Desde</mat-label>
+                <input matInput type="month" formControlName="desde" required>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Hasta</mat-label>
+                <input matInput type="month" formControlName="hasta">
+              </mat-form-field>
+            </div>
+            <button mat-icon-button type="button" (click)="quitarEducacion(i)" aria-label="Quitar educación">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        } @empty {
+          <p class="sa-empty-hint">Aún no agregaste estudios.</p>
+        }
+      </section>
+
+      <mat-divider />
+
+      <section class="sa-section" formArrayName="experiencia">
+        <header class="sa-section__header">
+          <h2>Experiencia</h2>
+          <button mat-stroked-button type="button" (click)="agregarExperiencia()">
+            <mat-icon aria-hidden="true">add</mat-icon>
+            Agregar
+          </button>
+        </header>
+
+        @for (grupo of experiencia.controls; track $index; let i = $index) {
+          <div class="sa-card" [formGroupName]="i">
+            <div class="sa-card__grid">
+              <mat-form-field appearance="outline">
+                <mat-label>Empresa</mat-label>
+                <input matInput formControlName="empresa" required>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Cargo</mat-label>
+                <input matInput formControlName="cargo" required>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Desde</mat-label>
+                <input matInput type="month" formControlName="desde" required>
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Hasta</mat-label>
+                <input matInput type="month" formControlName="hasta">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="sa-card__full">
+                <mat-label>Descripción</mat-label>
+                <textarea matInput formControlName="descripcion" rows="2" maxlength="500"></textarea>
+              </mat-form-field>
+            </div>
+            <button mat-icon-button type="button" (click)="quitarExperiencia(i)" aria-label="Quitar experiencia">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        } @empty {
+          <p class="sa-empty-hint">Aún no agregaste experiencia laboral.</p>
+        }
+      </section>
+
+      <footer class="sa-perfil__footer">
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || guardando()">
+          @if (guardando()) {
+            Guardando...
+          } @else {
+            Guardar cambios
+          }
+        </button>
+      </footer>
+    </form>
+  }
+</section>

@@ -25,6 +25,11 @@ export const routes: Routes = [
         path: 'inicio',
         loadChildren: () => import('./features/home/home.routes').then((m) => m.HOME_ROUTES),
       },
+      {
+        path: 'identidad',
+        loadChildren: () =>
+          import('./features/identidad/identidad.routes').then((m) => m.IDENTIDAD_ROUTES),
+      },
     ],
   },
   {
