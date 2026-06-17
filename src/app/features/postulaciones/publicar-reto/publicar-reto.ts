@@ -58,7 +58,7 @@ export class PublicarReto {
         next: () => {
           this.enviando.set(false);
           this.snack.open('Reto publicado', 'Cerrar', { duration: 3000 });
-          this.router.navigateByUrl('/app/postulaciones/explorar');
+          this.router.navigateByUrl('/app/postulaciones/mis-retos');
         },
         error: () => this.enviando.set(false),
       }),

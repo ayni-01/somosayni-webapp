@@ -1,0 +1,114 @@
+.sa-mis-retos {
+  max-width: 960px;
+  margin: 0 auto;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+
+    h1 {
+      margin: 0 0 4px 0;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--sa-color-text);
+    }
+
+    p {
+      margin: 0;
+      color: var(--sa-color-text-muted);
+      font-size: 14px;
+    }
+  }
+
+  &__cargando {
+    text-align: center;
+    color: var(--sa-color-text-muted);
+    padding: 48px 0;
+  }
+}
+
+.sa-vacio {
+  text-align: center;
+  padding: 64px 24px;
+  background: var(--sa-color-accent-soft);
+  border-radius: var(--sa-radius);
+
+  h2 {
+    margin: 0 0 8px 0;
+    font-size: 20px;
+    color: var(--sa-color-text);
+  }
+
+  p {
+    margin: 0 0 20px 0;
+    color: var(--sa-color-text-muted);
+  }
+}
+
+.sa-lista {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sa-fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px;
+  background: var(--sa-color-card);
+  border: 1px solid var(--sa-color-stroke);
+  border-radius: var(--sa-radius);
+  flex-wrap: wrap;
+
+  &__info {
+    flex: 1;
+    min-width: 240px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &__estado {
+    align-self: flex-start;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+
+    &[data-estado='ACTIVO']    { background: rgba(22, 163, 74, 0.1); color: var(--sa-status-success); }
+    &[data-estado='CERRADO']   { background: rgba(107, 114, 128, 0.1); color: var(--sa-status-neutral); }
+    &[data-estado='ARCHIVADO'] { background: rgba(107, 114, 128, 0.1); color: var(--sa-status-neutral); }
+    &[data-estado='BORRADOR']  { background: rgba(202, 138, 4, 0.1); color: var(--sa-status-warning); }
+  }
+
+  &__titulo {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--sa-color-text);
+  }
+
+  &__meta {
+    margin: 0;
+    font-size: 13px;
+    color: var(--sa-color-text-muted);
+  }
+
+  &__acciones {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
