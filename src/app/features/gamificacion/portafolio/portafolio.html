@@ -1,0 +1,67 @@
+<section class="sa-portafolio">
+  <header class="sa-portafolio__header">
+    <h1>Mi portafolio</h1>
+    <p>Las habilidades e insignias que has ganado al completar retos.</p>
+  </header>
+
+  @if (cargando()) {
+    <p class="sa-portafolio__cargando">Cargando portafolio...</p>
+  } @else {
+    @let p = portafolio();
+
+    <section class="sa-bloque">
+      <header class="sa-bloque__header">
+        <mat-icon aria-hidden="true">workspace_premium</mat-icon>
+        <h2>Insignias ganadas</h2>
+        <span class="sa-bloque__contador">{{ p?.insignias?.length ?? 0 }}</span>
+      </header>
+
+      @if (p && p.insignias.length > 0) {
+        <div class="sa-grid">
+          @for (insignia of p.insignias; track insignia.id) {
+            <article class="sa-insignia">
+              <div class="sa-insignia__icono">
+                <mat-icon aria-hidden="true">military_tech</mat-icon>
+              </div>
+              <h3 class="sa-insignia__titulo">{{ insignia.titulo }}</h3>
+              <p class="sa-insignia__tipo">{{ insignia.tipo }}</p>
+              <p class="sa-insignia__fecha">Obtenida {{ insignia.otorgadaEn | date:'mediumDate' }}</p>
+              <a class="sa-insignia__reto" [routerLink]="['/app/postulaciones/reto', insignia.retoId]">
+                Ver reto
+                <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+              </a>
+            </article>
+          }
+        </div>
+      } @else {
+        <div class="sa-vacio">
+          <p>Aún no has ganado insignias. Postúlate a retos y aprueba sus evaluaciones para conseguir tus primeras insignias.</p>
+          <a mat-flat-button color="primary" routerLink="/app/postulaciones/explorar">Explorar retos</a>
+        </div>
+      }
+    </section>
+
+    <section class="sa-bloque">
+      <header class="sa-bloque__header">
+        <mat-icon aria-hidden="true">verified</mat-icon>
+        <h2>Habilidades validadas</h2>
+        <span class="sa-bloque__contador">{{ p?.habilidades?.length ?? 0 }}</span>
+      </header>
+
+      @if (p && p.habilidades.length > 0) {
+        <ul class="sa-habilidades">
+          @for (h of p.habilidades; track h.id) {
+            <li class="sa-habilidad">
+              <span class="sa-habilidad__nombre">{{ h.nombre }}</span>
+              <span class="sa-habilidad__nivel" [attr.data-nivel]="h.nivel">{{ etiquetaNivel(h.nivel) }}</span>
+            </li>
+          }
+        </ul>
+      } @else {
+        <div class="sa-vacio">
+          <p>Tus habilidades se irán acumulando a medida que apruebes retos en distintas áreas.</p>
+        </div>
+      }
+    </section>
+  }
+</section>
