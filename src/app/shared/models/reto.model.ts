@@ -24,4 +24,5 @@ export interface FiltroRetos {
   texto?: string;
   estado?: EstadoReto;
   modalidad?: Modalidad;
+  empresaId?: string;
 }
