@@ -1,38 +1,47 @@
 <section class="sa-perfil">
-  <header class="sa-perfil__header">
-    <h1>Mi perfil profesional</h1>
-    <p>Completa tu información para que las empresas conozcan tu trayectoria.</p>
-  </header>
+  <mat-card appearance="outlined" class="sa-perfil__card">
+    <mat-card-header class="sa-perfil__header">
+      <mat-card-title>Mi perfil profesional</mat-card-title>
+      <mat-card-subtitle>Completa tu información para que las empresas conozcan tu trayectoria.</mat-card-subtitle>
+    </mat-card-header>
 
-  @if (cargando()) {
-    <p class="sa-perfil__cargando">Cargando perfil...</p>
-  } @else {
-    <form class="sa-form" [formGroup]="form" (ngSubmit)="guardar()">
-      <mat-form-field appearance="outline">
-        <mat-label>Nombre completo</mat-label>
-        <input matInput formControlName="nombreCompleto" required>
-      </mat-form-field>
+    @if (cargando()) {
+      <mat-card-content>
+        <div class="sa-cargando">
+          <mat-progress-spinner mode="indeterminate" diameter="36" />
+          <span>Cargando perfil...</span>
+        </div>
+      </mat-card-content>
+    } @else {
+      <mat-card-content>
+        <form class="sa-form" [formGroup]="form" (ngSubmit)="guardar()" id="perfil-talento-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre completo</mat-label>
+            <input matInput formControlName="nombreCompleto" required>
+          </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Ubicación</mat-label>
-        <input matInput formControlName="ubicacion" placeholder="Ej: Lima, Perú">
-      </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Ubicación</mat-label>
+            <input matInput formControlName="ubicacion" placeholder="Ej: Lima, Perú">
+          </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Sobre mí</mat-label>
-        <textarea matInput formControlName="sobreMi" rows="6" maxlength="500"></textarea>
-        <mat-hint align="end">{{ form.controls.sobreMi.value?.length ?? 0 }}/500</mat-hint>
-      </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Sobre mí</mat-label>
+            <textarea matInput formControlName="sobreMi" rows="6" maxlength="500"></textarea>
+            <mat-hint align="end">{{ form.controls.sobreMi.value?.length ?? 0 }}/500</mat-hint>
+          </mat-form-field>
+        </form>
+      </mat-card-content>
 
-      <footer class="sa-perfil__footer">
-        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || guardando()">
+      <mat-card-actions align="end" class="sa-perfil__actions">
+        <button mat-flat-button color="primary" type="submit" form="perfil-talento-form" [disabled]="form.invalid || guardando()">
           @if (guardando()) {
             Guardando...
           } @else {
             Guardar cambios
           }
         </button>
-      </footer>
-    </form>
-  }
+      </mat-card-actions>
+    }
+  </mat-card>
 </section>

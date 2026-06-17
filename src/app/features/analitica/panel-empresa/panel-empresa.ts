@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/cor
 import { DecimalPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { catchError, forkJoin, of, tap } from 'rxjs';
 import { MetricasApi } from '../../../core/api/metricas-api';
 import { AuthStore } from '../../../core/auth/auth.store';
@@ -10,7 +12,7 @@ import { EmbudoReto, MetricasEmpresa } from '../../../shared/models/metricas.mod
 @Component({
   selector: 'sa-panel-empresa',
   standalone: true,
-  imports: [DecimalPipe, RouterLink, MatIconModule],
+  imports: [DecimalPipe, RouterLink, MatIconModule, MatCardModule, MatProgressSpinnerModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './panel-empresa.html',
   styleUrl: './panel-empresa.scss',

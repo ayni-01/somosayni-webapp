@@ -5,7 +5,10 @@
   </header>
 
   @if (cargando()) {
-    <p class="sa-portafolio__cargando">Cargando portafolio...</p>
+    <div class="sa-cargando">
+      <mat-progress-spinner mode="indeterminate" diameter="36" />
+      <span>Cargando portafolio...</span>
+    </div>
   } @else {
     @let p = portafolio();
 
@@ -19,27 +22,32 @@
       @if (p && p.insignias.length > 0) {
         <div class="sa-grid">
           @for (insignia of p.insignias; track insignia.id) {
-            <article class="sa-insignia">
-              <div class="sa-insignia__icono">
-                <mat-icon aria-hidden="true">military_tech</mat-icon>
-              </div>
-              <h3 class="sa-insignia__titulo">{{ insignia.titulo }}</h3>
-              <p class="sa-insignia__tipo">{{ insignia.tipo }}</p>
-              <p class="sa-insignia__fecha">Obtenida {{ insignia.otorgadaEn | date:'mediumDate' }}</p>
-              <a class="sa-insignia__reto" [routerLink]="['/app/postulaciones/reto', insignia.retoId]">
-                Ver reto
-                <mat-icon aria-hidden="true">arrow_forward</mat-icon>
-              </a>
-            </article>
+            <mat-card appearance="outlined" class="sa-insignia">
+              <mat-card-content class="sa-insignia__content">
+                <div class="sa-insignia__icono">
+                  <mat-icon aria-hidden="true">military_tech</mat-icon>
+                </div>
+                <h3 class="sa-insignia__titulo">{{ insignia.titulo }}</h3>
+                <p class="sa-insignia__tipo">{{ insignia.tipo }}</p>
+                <p class="sa-insignia__fecha">Obtenida {{ insignia.otorgadaEn | date:'mediumDate' }}</p>
+                <a class="sa-insignia__reto" [routerLink]="['/app/postulaciones/reto', insignia.retoId]">
+                  Ver reto
+                  <mat-icon aria-hidden="true">arrow_forward</mat-icon>
+                </a>
+              </mat-card-content>
+            </mat-card>
           }
         </div>
       } @else {
         <div class="sa-vacio">
+          <mat-icon class="sa-vacio__icon" aria-hidden="true">workspace_premium</mat-icon>
           <p>Aún no has ganado insignias. Postúlate a retos y aprueba sus evaluaciones para conseguir tus primeras insignias.</p>
           <a mat-flat-button color="primary" routerLink="/app/postulaciones/explorar">Explorar retos</a>
         </div>
       }
     </section>
+
+    <mat-divider class="sa-bloque__divisor" />
 
     <section class="sa-bloque">
       <header class="sa-bloque__header">
@@ -53,12 +61,15 @@
           @for (h of p.habilidades; track h.id) {
             <li class="sa-habilidad">
               <span class="sa-habilidad__nombre">{{ h.nombre }}</span>
-              <span class="sa-habilidad__nivel" [attr.data-nivel]="h.nivel">{{ etiquetaNivel(h.nivel) }}</span>
+              <mat-chip class="sa-chip-estado" [attr.data-nivel]="h.nivel" disableRipple>
+                {{ etiquetaNivel(h.nivel) }}
+              </mat-chip>
             </li>
           }
         </ul>
       } @else {
         <div class="sa-vacio">
+          <mat-icon class="sa-vacio__icon" aria-hidden="true">verified</mat-icon>
           <p>Tus habilidades se irán acumulando a medida que apruebes retos en distintas áreas.</p>
         </div>
       }

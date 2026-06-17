@@ -3,6 +3,9 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, signal } f
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 import { catchError, of, tap } from 'rxjs';
 import { RetosApi } from '../../../core/api/retos-api';
@@ -12,7 +15,11 @@ import { Reto } from '../../../shared/models/reto.model';
 @Component({
   selector: 'sa-detalle-reto',
   standalone: true,
-  imports: [RouterLink, DatePipe, MatButtonModule, MatIconModule, MatDividerModule],
+  imports: [
+    RouterLink, DatePipe,
+    MatButtonModule, MatIconModule, MatDividerModule,
+    MatCardModule, MatChipsModule, MatProgressSpinnerModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './detalle-reto.html',
   styleUrl: './detalle-reto.scss',

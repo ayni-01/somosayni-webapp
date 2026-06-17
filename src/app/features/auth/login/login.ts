@@ -50,7 +50,12 @@ export class Login {
       tap({
         next: respuesta => {
           this.enviando.set(false);
-          this.authStore.iniciarSesion(respuesta.token, respuesta.usuario);
+          this.authStore.iniciarSesion(respuesta.token, {
+            id: respuesta.usuarioId,
+            email: respuesta.email,
+            rol: respuesta.rol,
+            creadoEn: '',
+          });
           this.router.navigateByUrl('/app/inicio');
         },
         error: () => this.enviando.set(false),

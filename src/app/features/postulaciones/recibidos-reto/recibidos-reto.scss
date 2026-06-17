@@ -41,12 +41,15 @@
       font-size: 14px;
     }
   }
+}
 
-  &__cargando {
-    text-align: center;
-    color: var(--sa-color-text-muted);
-    padding: 48px 0;
-  }
+.sa-cargando {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 0;
+  color: var(--sa-color-text-muted);
 }
 
 .sa-stats {
@@ -61,13 +64,14 @@
 }
 
 .sa-stat {
-  background: var(--sa-color-card);
-  border: 1px solid var(--sa-color-stroke);
   border-radius: var(--sa-radius);
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+
+  ::ng-deep .mat-mdc-card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
 
   &__label {
     font-size: 12px;
@@ -84,6 +88,9 @@
 }
 
 .sa-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   padding: 64px 24px;
   background: var(--sa-color-accent-soft);
@@ -91,7 +98,8 @@
 
   h2 {
     margin: 0 0 8px 0;
-    font-size: 20px;
+    font-size: 18px;
+    font-weight: 700;
     color: var(--sa-color-text);
   }
 
@@ -99,6 +107,15 @@
     margin: 0;
     color: var(--sa-color-text-muted);
   }
+}
+
+.sa-vacio__icon {
+  font-size: 56px;
+  width: 56px;
+  height: 56px;
+  color: var(--sa-color-primary);
+  opacity: 0.6;
+  margin-bottom: 12px;
 }
 
 .sa-lista {
@@ -111,15 +128,16 @@
 }
 
 .sa-fila {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  padding: 20px;
-  background: var(--sa-color-card);
-  border: 1px solid var(--sa-color-stroke);
   border-radius: var(--sa-radius);
-  flex-wrap: wrap;
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding: 20px;
+  }
 
   &__info {
     flex: 1;
@@ -161,20 +179,5 @@
     display: flex;
     align-items: center;
     gap: 12px;
-  }
-
-  &__estado {
-    padding: 4px 12px;
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-
-    &[data-estado='ENVIADA']     { background: rgba(43, 142, 243, 0.1); color: var(--sa-status-info); }
-    &[data-estado='EN_REVISION'] { background: rgba(202, 138, 4, 0.1); color: var(--sa-status-warning); }
-    &[data-estado='APROBADA']    { background: rgba(22, 163, 74, 0.1); color: var(--sa-status-success); }
-    &[data-estado='RECHAZADA']   { background: rgba(220, 38, 38, 0.1); color: #dc2626; }
-    &[data-estado='FINALIZADA']  { background: rgba(107, 114, 128, 0.1); color: var(--sa-status-neutral); }
   }
 }

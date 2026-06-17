@@ -55,12 +55,13 @@
   > mat-icon {
     color: var(--sa-color-primary);
     background: var(--sa-color-accent-soft);
-    border-radius: 8px;
-    padding: 4px;
-    width: 32px;
-    height: 32px;
+    border-radius: 10px;
+    padding: 6px;
+    width: 44px;
+    height: 44px;
     display: grid;
     place-items: center;
+    font-size: 24px;
   }
 
   strong {
@@ -75,6 +76,10 @@
     color: var(--sa-color-text-muted);
     font-size: 11px;
   }
+}
+
+::ng-deep .sa-shell__sidenav .mat-mdc-list-item .mdc-list-item__primary-text {
+  letter-spacing: 0.3px;
 }
 
 .sa-active {

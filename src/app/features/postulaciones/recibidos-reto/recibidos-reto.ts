@@ -3,6 +3,9 @@ import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { catchError, forkJoin, of, tap } from 'rxjs';
 import { PostulacionesApi } from '../../../core/api/postulaciones-api';
 import { RetosApi } from '../../../core/api/retos-api';
@@ -12,7 +15,10 @@ import { Reto } from '../../../shared/models/reto.model';
 @Component({
   selector: 'sa-recibidos-reto',
   standalone: true,
-  imports: [DatePipe, RouterLink, MatButtonModule, MatIconModule],
+  imports: [
+    DatePipe, RouterLink,
+    MatButtonModule, MatIconModule, MatCardModule, MatChipsModule, MatProgressSpinnerModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './recibidos-reto.html',
   styleUrl: './recibidos-reto.scss',

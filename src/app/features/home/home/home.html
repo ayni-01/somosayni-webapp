@@ -15,26 +15,35 @@
   }
 
   @if (cargando()) {
-    <p class="sa-dash__cargando">Cargando tu información...</p>
+    <div class="sa-cargando">
+      <mat-progress-spinner mode="indeterminate" diameter="36" />
+      <span>Cargando tu información...</span>
+    </div>
   } @else if (esTalento()) {
     @let s = statsTalento();
 
     <div class="sa-stats">
-      <div class="sa-stat">
-        <mat-icon class="sa-stat__icon" aria-hidden="true">pending_actions</mat-icon>
-        <span class="sa-stat__label">En progreso</span>
-        <span class="sa-stat__valor">{{ s.enProgreso }}</span>
-      </div>
-      <div class="sa-stat">
-        <mat-icon class="sa-stat__icon" aria-hidden="true">task_alt</mat-icon>
-        <span class="sa-stat__label">Completadas</span>
-        <span class="sa-stat__valor">{{ s.completadas }}</span>
-      </div>
-      <div class="sa-stat sa-stat--destacado">
-        <mat-icon class="sa-stat__icon" aria-hidden="true">workspace_premium</mat-icon>
-        <span class="sa-stat__label">Insignias</span>
-        <span class="sa-stat__valor">{{ s.insignias }}</span>
-      </div>
+      <mat-card appearance="outlined" class="sa-stat">
+        <mat-card-content>
+          <mat-icon class="sa-stat__icon" aria-hidden="true">pending_actions</mat-icon>
+          <span class="sa-stat__label">En progreso</span>
+          <span class="sa-stat__valor">{{ s.enProgreso }}</span>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="sa-stat">
+        <mat-card-content>
+          <mat-icon class="sa-stat__icon" aria-hidden="true">task_alt</mat-icon>
+          <span class="sa-stat__label">Completadas</span>
+          <span class="sa-stat__valor">{{ s.completadas }}</span>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="sa-stat sa-stat--destacado">
+        <mat-card-content>
+          <mat-icon class="sa-stat__icon" aria-hidden="true">workspace_premium</mat-icon>
+          <span class="sa-stat__label">Insignias</span>
+          <span class="sa-stat__valor">{{ s.insignias }}</span>
+        </mat-card-content>
+      </mat-card>
     </div>
 
     <div class="sa-acciones">
@@ -48,6 +57,8 @@
       </a>
     </div>
 
+    <mat-divider class="sa-bloque__divisor" />
+
     <section class="sa-bloque">
       <header class="sa-bloque__header">
         <h2>Tus retos en progreso</h2>
@@ -56,24 +67,27 @@
 
       @if (retosEnProgreso().length === 0) {
         <div class="sa-vacio">
+          <mat-icon class="sa-vacio__icon" aria-hidden="true">inbox</mat-icon>
           <p>Aún no has postulado a ningún reto. Explora el catálogo para empezar.</p>
           <a mat-flat-button color="primary" routerLink="/app/postulaciones/explorar">Explorar retos</a>
         </div>
       } @else {
         <ul class="sa-lista">
           @for (p of retosEnProgreso(); track p.id) {
-            <li class="sa-fila">
-              <div class="sa-fila__info">
-                <a class="sa-fila__titulo" [routerLink]="['/app/postulaciones/reto', p.retoId]">Reto {{ p.retoId }}</a>
-                <p class="sa-fila__meta">Enviada {{ p.creadaEn | date:'mediumDate' }}</p>
-              </div>
-              <span class="sa-fila__estado" [attr.data-estado]="p.estado">
-                @switch (p.estado) {
-                  @case ('ENVIADA') { Enviada }
-                  @case ('EN_REVISION') { En revisión }
-                }
-              </span>
-            </li>
+            <mat-card appearance="outlined" class="sa-fila">
+              <mat-card-content class="sa-fila__content">
+                <div class="sa-fila__info">
+                  <a class="sa-fila__titulo" [routerLink]="['/app/postulaciones/reto', p.retoId]">Reto {{ p.retoId }}</a>
+                  <p class="sa-fila__meta">Enviada {{ p.creadaEn | date:'mediumDate' }}</p>
+                </div>
+                <mat-chip class="sa-chip-estado" [attr.data-estado]="p.estado" disableRipple>
+                  @switch (p.estado) {
+                    @case ('ENVIADA') { Enviada }
+                    @case ('EN_REVISION') { En revisión }
+                  }
+                </mat-chip>
+              </mat-card-content>
+            </mat-card>
           }
         </ul>
       }
@@ -82,21 +96,27 @@
     @let m = metricas();
 
     <div class="sa-stats">
-      <div class="sa-stat">
-        <mat-icon class="sa-stat__icon" aria-hidden="true">flag</mat-icon>
-        <span class="sa-stat__label">Retos activos</span>
-        <span class="sa-stat__valor">{{ m?.retosActivos ?? 0 }}</span>
-      </div>
-      <div class="sa-stat">
-        <mat-icon class="sa-stat__icon" aria-hidden="true">inbox</mat-icon>
-        <span class="sa-stat__label">Postulaciones</span>
-        <span class="sa-stat__valor">{{ m?.postulacionesRecibidas ?? 0 }}</span>
-      </div>
-      <div class="sa-stat sa-stat--destacado">
-        <mat-icon class="sa-stat__icon" aria-hidden="true">trending_up</mat-icon>
-        <span class="sa-stat__label">Tasa conversión</span>
-        <span class="sa-stat__valor">{{ (m?.tasaConversion ?? 0) | number:'1.0-1' }}%</span>
-      </div>
+      <mat-card appearance="outlined" class="sa-stat">
+        <mat-card-content>
+          <mat-icon class="sa-stat__icon" aria-hidden="true">flag</mat-icon>
+          <span class="sa-stat__label">Retos activos</span>
+          <span class="sa-stat__valor">{{ m?.retosActivos ?? 0 }}</span>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="sa-stat">
+        <mat-card-content>
+          <mat-icon class="sa-stat__icon" aria-hidden="true">inbox</mat-icon>
+          <span class="sa-stat__label">Postulaciones</span>
+          <span class="sa-stat__valor">{{ m?.postulacionesRecibidas ?? 0 }}</span>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="sa-stat sa-stat--destacado">
+        <mat-card-content>
+          <mat-icon class="sa-stat__icon" aria-hidden="true">trending_up</mat-icon>
+          <span class="sa-stat__label">Tasa conversión</span>
+          <span class="sa-stat__valor">{{ (m?.tasaConversion ?? 0) | number:'1.0-1' }}%</span>
+        </mat-card-content>
+      </mat-card>
     </div>
 
     <div class="sa-acciones">
@@ -110,6 +130,8 @@
       </a>
     </div>
 
+    <mat-divider class="sa-bloque__divisor" />
+
     <section class="sa-bloque">
       <header class="sa-bloque__header">
         <h2>Tus retos publicados</h2>
@@ -118,33 +140,36 @@
 
       @if (retosRecientes().length === 0) {
         <div class="sa-vacio">
+          <mat-icon class="sa-vacio__icon" aria-hidden="true">flag</mat-icon>
           <p>Aún no has publicado ningún reto. Crea tu primer reto para empezar a convocar talento.</p>
           <a mat-flat-button color="primary" routerLink="/app/postulaciones/publicar">Publicar reto</a>
         </div>
       } @else {
         <ul class="sa-lista">
           @for (r of retosRecientes(); track r.id) {
-            <li class="sa-fila">
-              <div class="sa-fila__info">
-                <a class="sa-fila__titulo" [routerLink]="['/app/postulaciones/reto', r.id]">{{ r.titulo }}</a>
-                <p class="sa-fila__meta">
-                  @switch (r.modalidad) {
-                    @case ('REMOTO') { Remoto }
-                    @case ('PRESENCIAL') { Presencial }
-                    @case ('HIBRIDO') { Híbrido }
+            <mat-card appearance="outlined" class="sa-fila">
+              <mat-card-content class="sa-fila__content">
+                <div class="sa-fila__info">
+                  <a class="sa-fila__titulo" [routerLink]="['/app/postulaciones/reto', r.id]">{{ r.titulo }}</a>
+                  <p class="sa-fila__meta">
+                    @switch (r.modalidad) {
+                      @case ('REMOTO') { Remoto }
+                      @case ('PRESENCIAL') { Presencial }
+                      @case ('HIBRIDO') { Híbrido }
+                    }
+                    · {{ r.duracionDias }} días · publicado {{ r.creadoEn | date:'mediumDate' }}
+                  </p>
+                </div>
+                <mat-chip class="sa-chip-estado" [attr.data-estado]="r.estado" disableRipple>
+                  @switch (r.estado) {
+                    @case ('ACTIVO') { Activo }
+                    @case ('CERRADO') { Cerrado }
+                    @case ('ARCHIVADO') { Archivado }
+                    @case ('BORRADOR') { Borrador }
                   }
-                  · {{ r.duracionDias }} días · publicado {{ r.creadoEn | date:'mediumDate' }}
-                </p>
-              </div>
-              <span class="sa-fila__estado" [attr.data-estado]="r.estado">
-                @switch (r.estado) {
-                  @case ('ACTIVO') { Activo }
-                  @case ('CERRADO') { Cerrado }
-                  @case ('ARCHIVADO') { Archivado }
-                  @case ('BORRADOR') { Borrador }
-                }
-              </span>
-            </li>
+                </mat-chip>
+              </mat-card-content>
+            </mat-card>
           }
         </ul>
       }

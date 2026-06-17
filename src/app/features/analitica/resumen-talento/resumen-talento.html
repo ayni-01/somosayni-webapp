@@ -5,26 +5,35 @@
   </header>
 
   @if (cargando()) {
-    <p class="sa-resumen__cargando">Cargando resumen...</p>
+    <div class="sa-cargando">
+      <mat-progress-spinner mode="indeterminate" diameter="36" />
+      <span>Cargando resumen...</span>
+    </div>
   } @else {
     @let s = stats();
 
     <div class="sa-stats">
-      <div class="sa-stat">
-        <mat-icon class="sa-stat__icon" aria-hidden="true">task_alt</mat-icon>
-        <span class="sa-stat__label">Retos completados</span>
-        <span class="sa-stat__valor">{{ s.completados }}</span>
-      </div>
-      <div class="sa-stat">
-        <mat-icon class="sa-stat__icon" aria-hidden="true">pending_actions</mat-icon>
-        <span class="sa-stat__label">En progreso</span>
-        <span class="sa-stat__valor">{{ s.enProgreso }}</span>
-      </div>
-      <div class="sa-stat sa-stat--destacado">
-        <mat-icon class="sa-stat__icon" aria-hidden="true">workspace_premium</mat-icon>
-        <span class="sa-stat__label">Insignias ganadas</span>
-        <span class="sa-stat__valor">{{ s.insignias }}</span>
-      </div>
+      <mat-card appearance="outlined" class="sa-stat">
+        <mat-card-content>
+          <mat-icon class="sa-stat__icon" aria-hidden="true">task_alt</mat-icon>
+          <span class="sa-stat__label">Retos completados</span>
+          <span class="sa-stat__valor">{{ s.completados }}</span>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="sa-stat">
+        <mat-card-content>
+          <mat-icon class="sa-stat__icon" aria-hidden="true">pending_actions</mat-icon>
+          <span class="sa-stat__label">En progreso</span>
+          <span class="sa-stat__valor">{{ s.enProgreso }}</span>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="sa-stat sa-stat--destacado">
+        <mat-card-content>
+          <mat-icon class="sa-stat__icon" aria-hidden="true">workspace_premium</mat-icon>
+          <span class="sa-stat__label">Insignias ganadas</span>
+          <span class="sa-stat__valor">{{ s.insignias }}</span>
+        </mat-card-content>
+      </mat-card>
     </div>
 
     <section class="sa-bloque">
@@ -34,26 +43,29 @@
 
       @if (retosEnProgreso().length === 0) {
         <div class="sa-vacio">
+          <mat-icon class="sa-vacio__icon" aria-hidden="true">pending_actions</mat-icon>
           <p>No tienes postulaciones activas en este momento.</p>
           <a class="sa-vacio__link" routerLink="/app/postulaciones/explorar">Explorar retos</a>
         </div>
       } @else {
         <ul class="sa-lista">
           @for (p of retosEnProgreso(); track p.id) {
-            <li class="sa-fila">
-              <div class="sa-fila__info">
-                <a class="sa-fila__titulo" [routerLink]="['/app/postulaciones/reto', p.retoId]">
-                  Reto: {{ p.retoId }}
-                </a>
-                <p class="sa-fila__meta">Enviada {{ p.creadaEn | date:'mediumDate' }}</p>
-              </div>
-              <span class="sa-fila__estado" [attr.data-estado]="p.estado">
-                @switch (p.estado) {
-                  @case ('ENVIADA') { Enviada }
-                  @case ('EN_REVISION') { En revisión }
-                }
-              </span>
-            </li>
+            <mat-card appearance="outlined" class="sa-fila">
+              <mat-card-content class="sa-fila__content">
+                <div class="sa-fila__info">
+                  <a class="sa-fila__titulo" [routerLink]="['/app/postulaciones/reto', p.retoId]">
+                    Reto: {{ p.retoId }}
+                  </a>
+                  <p class="sa-fila__meta">Enviada {{ p.creadaEn | date:'mediumDate' }}</p>
+                </div>
+                <mat-chip class="sa-chip-estado" [attr.data-estado]="p.estado" disableRipple>
+                  @switch (p.estado) {
+                    @case ('ENVIADA') { Enviada }
+                    @case ('EN_REVISION') { En revisión }
+                  }
+                </mat-chip>
+              </mat-card-content>
+            </mat-card>
           }
         </ul>
       }

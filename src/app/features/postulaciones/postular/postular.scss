@@ -24,12 +24,15 @@
       }
     }
   }
+}
 
-  &__cargando {
-    text-align: center;
-    color: var(--sa-color-text-muted);
-    padding: 48px 0;
-  }
+.sa-cargando {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 0;
+  color: var(--sa-color-text-muted);
 }
 
 .sa-error {
@@ -51,24 +54,22 @@
 }
 
 .sa-card {
-  background: var(--sa-color-card);
-  border: 1px solid var(--sa-color-stroke);
   border-radius: var(--sa-radius);
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
 
   &__header {
-    h1 {
-      margin: 4px 0 8px 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding-bottom: 16px;
+
+    ::ng-deep .mat-mdc-card-title {
       font-size: 24px;
       font-weight: 700;
       color: var(--sa-color-text);
+      margin-top: 4px;
     }
 
-    p {
-      margin: 0;
+    ::ng-deep .mat-mdc-card-subtitle {
       color: var(--sa-color-text-muted);
       font-size: 13px;
     }
@@ -86,9 +87,8 @@
     letter-spacing: 0.4px;
   }
 
-  &__footer {
-    display: flex;
-    justify-content: flex-end;
+  &__actions {
+    padding: 8px 16px 16px;
     gap: 8px;
 
     button, a {

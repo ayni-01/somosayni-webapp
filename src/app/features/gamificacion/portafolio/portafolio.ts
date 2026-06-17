@@ -3,6 +3,10 @@ import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
 import { catchError, of, tap } from 'rxjs';
 import { HabilidadesApi } from '../../../core/api/habilidades-api';
 import { AuthStore } from '../../../core/auth/auth.store';
@@ -11,7 +15,11 @@ import { NivelHabilidad, Portafolio as PortafolioModel } from '../../../shared/m
 @Component({
   selector: 'sa-portafolio',
   standalone: true,
-  imports: [DatePipe, RouterLink, MatIconModule, MatButtonModule],
+  imports: [
+    DatePipe, RouterLink,
+    MatIconModule, MatButtonModule, MatCardModule, MatChipsModule,
+    MatProgressSpinnerModule, MatDividerModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './portafolio.html',
   styleUrl: './portafolio.scss',

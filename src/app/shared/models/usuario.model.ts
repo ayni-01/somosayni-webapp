@@ -20,7 +20,9 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string;
-  usuario: Usuario;
+  usuarioId: string;
+  email: string;
+  rol: RolUsuario;
 }
 
 export interface CambiarPasswordRequest {

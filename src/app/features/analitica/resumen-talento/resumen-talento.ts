@@ -2,6 +2,9 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { catchError, forkJoin, of, tap } from 'rxjs';
 import { PostulacionesApi } from '../../../core/api/postulaciones-api';
 import { HabilidadesApi } from '../../../core/api/habilidades-api';
@@ -12,7 +15,10 @@ import { Portafolio } from '../../../shared/models/habilidad.model';
 @Component({
   selector: 'sa-resumen-talento',
   standalone: true,
-  imports: [DatePipe, RouterLink, MatIconModule],
+  imports: [
+    DatePipe, RouterLink,
+    MatIconModule, MatCardModule, MatChipsModule, MatProgressSpinnerModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './resumen-talento.html',
   styleUrl: './resumen-talento.scss',
