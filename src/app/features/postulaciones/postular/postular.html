@@ -1,0 +1,59 @@
+<section class="sa-postular">
+  <nav class="sa-postular__breadcrumb">
+    <a [routerLink]="['/app/postulaciones/reto', id()]">
+      <mat-icon aria-hidden="true">arrow_back</mat-icon>
+      Volver al detalle del reto
+    </a>
+  </nav>
+
+  @if (cargando()) {
+    <p class="sa-postular__cargando">Cargando reto...</p>
+  } @else if (error() || !reto()) {
+    <div class="sa-error">
+      <h1>No encontramos este reto</h1>
+      <p>Es posible que haya sido cerrado o archivado.</p>
+      <a mat-flat-button color="primary" routerLink="/app/postulaciones/explorar">Volver a explorar</a>
+    </div>
+  } @else {
+    @let r = reto()!;
+    <article class="sa-card">
+      <header class="sa-card__header">
+        <span class="sa-card__chip">Postulando a</span>
+        <h1>{{ r.titulo }}</h1>
+        <p>
+          @switch (r.modalidad) {
+            @case ('REMOTO') { Remoto }
+            @case ('PRESENCIAL') { Presencial }
+            @case ('HIBRIDO') { Híbrido }
+          }
+          · {{ r.duracionDias }} días
+        </p>
+      </header>
+
+      <form class="sa-form" [formGroup]="form" (ngSubmit)="enviar()">
+        <mat-form-field appearance="outline">
+          <mat-label>URL de tu solución</mat-label>
+          <input matInput type="url" formControlName="urlSolucion" placeholder="https://github.com/..." required>
+          <mat-hint>Repositorio, demo en vivo, o documento con tu propuesta.</mat-hint>
+          @if (form.controls.urlSolucion.hasError('required') && form.controls.urlSolucion.touched) {
+            <mat-error>Ingresa la URL de tu solución</mat-error>
+          }
+          @if (form.controls.urlSolucion.hasError('pattern') && form.controls.urlSolucion.touched) {
+            <mat-error>URL inválida (debe empezar con http:// o https://)</mat-error>
+          }
+        </mat-form-field>
+
+        <footer class="sa-card__footer">
+          <a mat-button [routerLink]="['/app/postulaciones/reto', r.id]">Cancelar</a>
+          <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || enviando()">
+            @if (enviando()) {
+              Enviando...
+            } @else {
+              Enviar postulación
+            }
+          </button>
+        </footer>
+      </form>
+    </article>
+  }
+</section>

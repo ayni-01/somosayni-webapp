@@ -12,6 +12,11 @@ export const POSTULACIONES_ROUTES: Routes = [
     loadComponent: () => import('./detalle-reto/detalle-reto').then(m => m.DetalleReto),
   },
   {
+    path: 'reto/:id/postular',
+    canActivate: [rolGuard(['TALENTO'])],
+    loadComponent: () => import('./postular/postular').then(m => m.Postular),
+  },
+  {
     path: 'publicar',
     canActivate: [rolGuard(['EMPRESA'])],
     loadComponent: () => import('./publicar-reto/publicar-reto').then(m => m.PublicarReto),
