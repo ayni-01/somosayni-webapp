@@ -1,0 +1,42 @@
+<button mat-icon-button [matMenuTriggerFor]="menu" (click)="abrirMenu()" aria-label="Notificaciones">
+  <mat-icon [matBadge]="noLeidas()" matBadgeColor="warn" [matBadgeHidden]="noLeidas() === 0">notifications</mat-icon>
+</button>
+
+<mat-menu #menu="matMenu" xPosition="before" class="sa-noti-menu">
+  <div class="sa-noti">
+    <header class="sa-noti__header">
+      <h3>Notificaciones</h3>
+      @if (noLeidas() > 0) {
+        <span class="sa-noti__badge">{{ noLeidas() }} sin leer</span>
+      }
+    </header>
+
+    <mat-divider />
+
+    @if (cargando()) {
+      <p class="sa-noti__estado">Cargando...</p>
+    } @else if (notificaciones().length === 0) {
+      <p class="sa-noti__estado">No tienes notificaciones aún.</p>
+    } @else {
+      <ul class="sa-noti__lista">
+        @for (n of notificaciones(); track n.id) {
+          <li
+            class="sa-noti__item"
+            [class.sa-noti__item--leida]="n.leida"
+            (click)="marcarLeida(n)"
+          >
+            <mat-icon class="sa-noti__icono" [attr.data-tipo]="n.tipo">{{ iconoPara(n.tipo) }}</mat-icon>
+            <div class="sa-noti__cuerpo">
+              <span class="sa-noti__tipo">{{ etiquetaTipo(n.tipo) }}</span>
+              <p class="sa-noti__mensaje">{{ n.mensaje }}</p>
+              <span class="sa-noti__fecha">{{ n.creadaEn | date:'short' }}</span>
+            </div>
+            @if (!n.leida) {
+              <span class="sa-noti__pulso" aria-hidden="true"></span>
+            }
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</mat-menu>
