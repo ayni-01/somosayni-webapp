@@ -1,13 +1,19 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/auth/auth.guard';
+import { authGuard, redirigirRaizGuard, soloAnonimoGuard } from './core/auth/auth.guard';
 import { AuthLayout } from './core/layout/auth-layout/auth-layout';
 import { Shell } from './core/layout/shell/shell';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
+  {
+    path: '',
+    pathMatch: 'full',
+    canActivate: [redirigirRaizGuard],
+    children: [],
+  },
   {
     path: 'auth',
     component: AuthLayout,
+    canActivate: [soloAnonimoGuard],
     children: [
       {
         path: '',
