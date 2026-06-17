@@ -1,0 +1,45 @@
+<div class="sa-login">
+  <h1 class="sa-login__titulo">Bienvenido</h1>
+  <p class="sa-login__subtitulo">Accede a tu cuenta para continuar</p>
+
+  <form class="sa-form" [formGroup]="form" (ngSubmit)="submit()">
+    <mat-form-field appearance="outline">
+      <mat-label>Correo electrónico</mat-label>
+      <input matInput type="email" formControlName="correo" autocomplete="email" required>
+      @if (form.controls.correo.hasError('required') && form.controls.correo.touched) {
+        <mat-error>Ingresa tu correo</mat-error>
+      }
+      @if (form.controls.correo.hasError('email') && form.controls.correo.touched) {
+        <mat-error>Correo inválido</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Contraseña</mat-label>
+      <input matInput type="password" formControlName="password" autocomplete="current-password" required>
+      @if (form.controls.password.hasError('required') && form.controls.password.touched) {
+        <mat-error>Ingresa tu contraseña</mat-error>
+      }
+      @if (form.controls.password.hasError('minlength') && form.controls.password.touched) {
+        <mat-error>Mínimo 8 caracteres</mat-error>
+      }
+    </mat-form-field>
+
+    <div class="sa-login__row">
+      <mat-checkbox formControlName="recordarme">Recordarme</mat-checkbox>
+      <a class="sa-login__link-secundario" routerLink="/auth/recuperar">¿Olvidaste tu contraseña?</a>
+    </div>
+
+    <button mat-flat-button color="primary" type="submit" class="sa-form__submit" [disabled]="form.invalid || enviando()">
+      @if (enviando()) {
+        Entrando...
+      } @else {
+        Entrar
+      }
+    </button>
+  </form>
+
+  <p class="sa-login__footer">
+    <a routerLink="/auth/registro">Crear cuenta</a>
+  </p>
+</div>
