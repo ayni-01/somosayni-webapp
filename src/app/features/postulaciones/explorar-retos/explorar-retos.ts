@@ -12,9 +12,9 @@ import { RouterLink } from '@angular/router';
 import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RetosApi } from '../../../core/api/retos-api';
-import { FiltroRetos, Modalidad, Reto } from '../../../shared/models/reto.model';
+import { FiltroRetos, NivelDificultad, Reto } from '../../../shared/models/reto.model';
 
-const MODALIDADES: Modalidad[] = ['REMOTO', 'PRESENCIAL', 'HIBRIDO'];
+const NIVELES: NivelDificultad[] = ['BASICO', 'INTERMEDIO', 'AVANZADO', 'EXPERTO'];
 
 @Component({
   selector: 'sa-explorar-retos',
@@ -31,23 +31,23 @@ const MODALIDADES: Modalidad[] = ['REMOTO', 'PRESENCIAL', 'HIBRIDO'];
 export class ExplorarRetos {
   private readonly retosApi = inject(RetosApi);
 
-  readonly modalidades = MODALIDADES;
+  readonly niveles = NIVELES;
 
-  readonly texto = new FormControl('', { nonNullable: true });
-  readonly modalidad = new FormControl<Modalidad | ''>('', { nonNullable: true });
+  readonly categoria = new FormControl('', { nonNullable: true });
+  readonly nivelDificultad = new FormControl<NivelDificultad | ''>('', { nonNullable: true });
 
   readonly cargando = signal(true);
   readonly resultados = signal<Reto[]>([]);
 
   constructor() {
-    this.texto.valueChanges.pipe(
+    this.categoria.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
       switchMap(() => this.cargar()),
       takeUntilDestroyed(),
     ).subscribe();
 
-    this.modalidad.valueChanges.pipe(
+    this.nivelDificultad.valueChanges.pipe(
       switchMap(() => this.cargar()),
       takeUntilDestroyed(),
     ).subscribe();
@@ -56,15 +56,24 @@ export class ExplorarRetos {
   }
 
   limpiarFiltros(): void {
-    this.texto.setValue('');
-    this.modalidad.setValue('');
+    this.categoria.setValue('');
+    this.nivelDificultad.setValue('');
+  }
+
+  etiquetaNivel(nivel: NivelDificultad): string {
+    switch (nivel) {
+      case 'BASICO': return 'Básico';
+      case 'INTERMEDIO': return 'Intermedio';
+      case 'AVANZADO': return 'Avanzado';
+      case 'EXPERTO': return 'Experto';
+    }
   }
 
   private cargar() {
     this.cargando.set(true);
     const filtros: FiltroRetos = {
-      texto: this.texto.value || undefined,
-      modalidad: (this.modalidad.value as Modalidad) || undefined,
+      categoria: this.categoria.value || undefined,
+      nivelDificultad: (this.nivelDificultad.value as NivelDificultad) || undefined,
       estado: 'ACTIVO',
     };
     return this.retosApi.buscar(filtros).pipe(

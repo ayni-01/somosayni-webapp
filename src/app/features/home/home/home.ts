@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,7 +14,7 @@ import { HabilidadesApi } from '../../../core/api/habilidades-api';
 import { RetosApi } from '../../../core/api/retos-api';
 import { MetricasApi } from '../../../core/api/metricas-api';
 import { Postulacion } from '../../../shared/models/postulacion.model';
-import { Reto } from '../../../shared/models/reto.model';
+import { NivelDificultad, Reto } from '../../../shared/models/reto.model';
 import { MetricasEmpresa } from '../../../shared/models/metricas.model';
 import { Portafolio } from '../../../shared/models/habilidad.model';
 
@@ -22,7 +22,7 @@ import { Portafolio } from '../../../shared/models/habilidad.model';
   selector: 'app-home',
   standalone: true,
   imports: [
-    DatePipe, DecimalPipe, RouterLink,
+    DatePipe, RouterLink,
     MatIconModule, MatButtonModule, MatCardModule, MatChipsModule,
     MatProgressSpinnerModule, MatDividerModule,
   ],
@@ -51,15 +51,15 @@ export class Home {
   readonly statsTalento = computed(() => {
     const lista = this.postulaciones();
     return {
-      enProgreso: lista.filter((p) => p.estado === 'ENVIADA' || p.estado === 'EN_REVISION').length,
-      completadas: lista.filter((p) => p.estado === 'APROBADA' || p.estado === 'FINALIZADA').length,
+      enProgreso: lista.filter((p) => p.estado === 'EN_REVISION').length,
+      completadas: lista.filter((p) => p.estado === 'APROBADO').length,
       insignias: this.portafolio()?.insignias.length ?? 0,
     };
   });
 
   readonly retosEnProgreso = computed(() => {
     return this.postulaciones()
-      .filter((p) => p.estado === 'ENVIADA' || p.estado === 'EN_REVISION')
+      .filter((p) => p.estado === 'EN_REVISION')
       .slice(0, 3);
   });
 
@@ -107,6 +107,15 @@ export class Home {
         .subscribe();
     } else {
       this.cargando.set(false);
+    }
+  }
+
+  etiquetaNivel(nivel: NivelDificultad): string {
+    switch (nivel) {
+      case 'BASICO': return 'Básico';
+      case 'INTERMEDIO': return 'Intermedio';
+      case 'AVANZADO': return 'Avanzado';
+      case 'EXPERTO': return 'Experto';
     }
   }
 }

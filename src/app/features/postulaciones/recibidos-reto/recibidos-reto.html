@@ -59,14 +59,14 @@
                 <p class="sa-fila__meta">
                   Solución: <a [href]="p.urlSolucion" target="_blank" rel="noopener">{{ p.urlSolucion }}</a>
                 </p>
-                <p class="sa-fila__fecha">Recibida {{ p.creadaEn | date:'mediumDate' }}</p>
+                <p class="sa-fila__fecha">Recibida {{ p.fechaEnvio | date:'mediumDate' }}</p>
               </div>
 
               <div class="sa-fila__acciones">
                 <mat-chip class="sa-chip-estado" [attr.data-estado]="p.estado" disableRipple>
                   {{ etiquetaEstado(p.estado) }}
                 </mat-chip>
-                @if (p.estado === 'ENVIADA' || p.estado === 'EN_REVISION') {
+                @if (p.estado === 'EN_REVISION') {
                   <a mat-flat-button color="primary"
                      [routerLink]="['/app/postulaciones/postulacion', p.id, 'evaluar']"
                      [queryParams]="{ reto: id() }">

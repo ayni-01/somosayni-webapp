@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,14 +11,14 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { RetosApi } from '../../../core/api/retos-api';
 import { AuthStore } from '../../../core/auth/auth.store';
-import { Reto } from '../../../shared/models/reto.model';
+import { NivelDificultad, Reto } from '../../../shared/models/reto.model';
 import { ConfirmDialog, ConfirmDialogData } from '../../../shared/ui/confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'sa-mis-retos',
   standalone: true,
   imports: [
-    DatePipe, RouterLink,
+    RouterLink,
     MatButtonModule, MatIconModule, MatMenuModule,
     MatCardModule, MatChipsModule, MatProgressSpinnerModule,
   ],
@@ -38,6 +37,15 @@ export class MisRetos {
 
   constructor() {
     this.cargar();
+  }
+
+  etiquetaNivel(nivel: NivelDificultad): string {
+    switch (nivel) {
+      case 'BASICO': return 'Básico';
+      case 'INTERMEDIO': return 'Intermedio';
+      case 'AVANZADO': return 'Avanzado';
+      case 'EXPERTO': return 'Experto';
+    }
   }
 
   cerrar(reto: Reto): void {

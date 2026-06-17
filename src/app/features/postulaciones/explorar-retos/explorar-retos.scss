@@ -51,9 +51,11 @@
     font-size: 12px; color: var(--sa-color-text-muted);
   }
 
-  &__duracion { font-weight: 500; }
+  &__cupos { font-weight: 500; }
 
   &__titulo { margin: 4px 0 0 0; font-size: 16px; font-weight: 700; color: var(--sa-color-text); }
+
+  &__categoria { margin: 0; font-size: 12px; font-weight: 600; color: var(--sa-color-primary); text-transform: uppercase; letter-spacing: 0.4px; }
 
   &__descripcion {
     margin: 4px 0 12px 0;

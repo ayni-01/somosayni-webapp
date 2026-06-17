@@ -1,4 +1,4 @@
-export type TipoNotificacion = 'APROBADO' | 'RECHAZADO' | 'NUEVO_RETO' | 'POSTULACION' | 'INSIGNIA' | 'SISTEMA';
+export type TipoNotificacion = 'NUEVA_POSTULACION' | 'APROBADO' | 'RECHAZADO' | 'RETO_CERRADO';
 
 export interface Notificacion {
   id: string;
@@ -6,7 +6,7 @@ export interface Notificacion {
   tipo: TipoNotificacion;
   mensaje: string;
   leida: boolean;
-  creadaEn: string;
+  fechaCreacion: string;
 }
 
 export interface CrearNotificacionRequest {

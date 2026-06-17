@@ -5,12 +5,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
 import { catchError, of, tap } from 'rxjs';
 import { HabilidadesApi } from '../../../core/api/habilidades-api';
 import { AuthStore } from '../../../core/auth/auth.store';
-import { NivelHabilidad, Portafolio as PortafolioModel } from '../../../shared/models/habilidad.model';
+import { NivelHabilidad, Portafolio as PortafolioModel, TipoInsignia } from '../../../shared/models/habilidad.model';
 
 @Component({
   selector: 'sa-portafolio',
@@ -18,7 +19,7 @@ import { NivelHabilidad, Portafolio as PortafolioModel } from '../../../shared/m
   imports: [
     DatePipe, RouterLink,
     MatIconModule, MatButtonModule, MatCardModule, MatChipsModule,
-    MatProgressSpinnerModule, MatDividerModule,
+    MatProgressBarModule, MatProgressSpinnerModule, MatDividerModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './portafolio.html',
@@ -49,6 +50,15 @@ export class Portafolio {
       case 'BASICO': return 'Básico';
       case 'INTERMEDIO': return 'Intermedio';
       case 'AVANZADO': return 'Avanzado';
+      case 'EXPERTO': return 'Experto';
+    }
+  }
+
+  etiquetaTipoInsignia(tipo: TipoInsignia): string {
+    switch (tipo) {
+      case 'TOP_10': return 'Top 10';
+      case 'VERIFICADO': return 'Verificado';
+      case 'CREATIVIDAD': return 'Creatividad';
     }
   }
 }

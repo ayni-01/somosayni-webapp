@@ -46,23 +46,19 @@ export class NotificacionesBell {
 
   iconoPara(tipo: TipoNotificacion): string {
     switch (tipo) {
-      case 'APROBADO':    return 'check_circle';
-      case 'RECHAZADO':   return 'cancel';
-      case 'NUEVO_RETO':  return 'emoji_events';
-      case 'POSTULACION': return 'inbox';
-      case 'INSIGNIA':    return 'workspace_premium';
-      case 'SISTEMA':     return 'info';
+      case 'NUEVA_POSTULACION': return 'inbox';
+      case 'APROBADO':          return 'check_circle';
+      case 'RECHAZADO':         return 'cancel';
+      case 'RETO_CERRADO':      return 'lock';
     }
   }
 
   etiquetaTipo(tipo: TipoNotificacion): string {
     switch (tipo) {
-      case 'APROBADO':    return 'Aprobada';
-      case 'RECHAZADO':   return 'Rechazada';
-      case 'NUEVO_RETO':  return 'Nuevo reto';
-      case 'POSTULACION': return 'Postulación';
-      case 'INSIGNIA':    return 'Insignia';
-      case 'SISTEMA':     return 'Sistema';
+      case 'NUEVA_POSTULACION': return 'Nueva postulación';
+      case 'APROBADO':          return 'Aprobado';
+      case 'RECHAZADO':         return 'Rechazado';
+      case 'RETO_CERRADO':      return 'Reto cerrado';
     }
   }
 

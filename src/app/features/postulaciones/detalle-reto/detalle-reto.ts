@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
 import { catchError, of, tap } from 'rxjs';
 import { RetosApi } from '../../../core/api/retos-api';
 import { AuthStore } from '../../../core/auth/auth.store';
-import { Reto } from '../../../shared/models/reto.model';
+import { NivelDificultad, Reto } from '../../../shared/models/reto.model';
 
 @Component({
   selector: 'sa-detalle-reto',
@@ -42,6 +42,15 @@ export class DetalleReto {
 
   constructor() {
     queueMicrotask(() => this.cargar());
+  }
+
+  etiquetaNivel(nivel: NivelDificultad): string {
+    switch (nivel) {
+      case 'BASICO': return 'Básico';
+      case 'INTERMEDIO': return 'Intermedio';
+      case 'AVANZADO': return 'Avanzado';
+      case 'EXPERTO': return 'Experto';
+    }
   }
 
   private cargar(): void {

@@ -1,25 +1,25 @@
-export type NivelHabilidad = 'BASICO' | 'INTERMEDIO' | 'AVANZADO';
-export type TipoInsignia = 'VERIFICADO';
+export type NivelHabilidad = 'BASICO' | 'INTERMEDIO' | 'AVANZADO' | 'EXPERTO';
+export type TipoInsignia = 'TOP_10' | 'VERIFICADO' | 'CREATIVIDAD';
 
 export interface HabilidadValidada {
   id: string;
   talentoId: string;
   nombre: string;
   nivel: NivelHabilidad;
-  actualizadaEn: string;
+  porcentaje: number;
 }
 
 export interface Insignia {
   id: string;
   talentoId: string;
   retoId: string;
+  empresaId: string;
   titulo: string;
   tipo: TipoInsignia;
-  otorgadaEn: string;
+  fechaOtorgada: string;
 }
 
 export interface Portafolio {
-  talentoId: string;
   habilidades: HabilidadValidada[];
   insignias: Insignia[];
 }
