@@ -29,4 +29,28 @@ describe('RetosApi', () => {
     expect(req.request.body.titulo).toBe('X');
     req.flush({});
   });
+
+  it('buscar envia GET a /retos con params', () => {
+    api.buscar({ categoria: 'Tecnología', page: 0, size: 10 }).subscribe();
+    const req = http.expectOne(r => r.url === 'http://api/retos/retos');
+    expect(req.request.method).toBe('GET');
+    expect(req.request.params.get('categoria')).toBe('Tecnología');
+    expect(req.request.params.get('page')).toBe('0');
+    req.flush({ content: [], totalElements: 0, totalPages: 0, page: 0, size: 10 });
+  });
+
+  it('buscar sin filtros omite parametros vacios', () => {
+    api.buscar({ categoria: '', texto: undefined as any }).subscribe();
+    const req = http.expectOne('http://api/retos/retos');
+    expect(req.request.params.has('categoria')).toBe(false);
+    expect(req.request.params.has('texto')).toBe(false);
+    req.flush({ content: [], totalElements: 0, totalPages: 0, page: 0, size: 10 });
+  });
+
+  it('detalle envia GET a /retos/:id', () => {
+    api.detalle('xyz').subscribe();
+    const req = http.expectOne('http://api/retos/retos/xyz');
+    expect(req.request.method).toBe('GET');
+    req.flush({});
+  });
 });
