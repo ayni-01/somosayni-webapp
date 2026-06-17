@@ -36,36 +36,42 @@
   </div>
 
   @if (cargando()) {
-    <p class="sa-explorar__cargando">Cargando retos...</p>
+    <div class="sa-cargando">
+      <mat-progress-spinner mode="indeterminate" diameter="36" />
+      <span>Cargando retos...</span>
+    </div>
   } @else {
     @if (resultados().length > 0) {
       <div class="sa-grid">
         @for (reto of resultados(); track reto.id) {
-          <article class="sa-card">
-            <header class="sa-card__header">
-              <span class="sa-card__modalidad" [attr.data-modalidad]="reto.modalidad">
-                @switch (reto.modalidad) {
-                  @case ('REMOTO') { Remoto }
-                  @case ('PRESENCIAL') { Presencial }
-                  @case ('HIBRIDO') { Híbrido }
-                }
-              </span>
-              <span class="sa-card__duracion">{{ reto.duracionDias }} días</span>
-            </header>
+          <mat-card appearance="outlined" class="sa-card">
+            <mat-card-content class="sa-card__content">
+              <header class="sa-card__header">
+                <mat-chip class="sa-chip-estado" [attr.data-modalidad]="reto.modalidad" disableRipple>
+                  @switch (reto.modalidad) {
+                    @case ('REMOTO') { Remoto }
+                    @case ('PRESENCIAL') { Presencial }
+                    @case ('HIBRIDO') { Híbrido }
+                  }
+                </mat-chip>
+                <span class="sa-card__duracion">{{ reto.duracionDias }} días</span>
+              </header>
 
-            <h2 class="sa-card__titulo">{{ reto.titulo }}</h2>
-            <p class="sa-card__descripcion">{{ reto.descripcion }}</p>
+              <h2 class="sa-card__titulo">{{ reto.titulo }}</h2>
+              <p class="sa-card__descripcion">{{ reto.descripcion }}</p>
 
-            <footer class="sa-card__footer">
-              <a mat-flat-button color="primary" [routerLink]="['/app/postulaciones/reto', reto.id]">
-                Ver detalles
-              </a>
-            </footer>
-          </article>
+              <footer class="sa-card__footer">
+                <a mat-flat-button color="primary" [routerLink]="['/app/postulaciones/reto', reto.id]">
+                  Ver detalles
+                </a>
+              </footer>
+            </mat-card-content>
+          </mat-card>
         }
       </div>
     } @else {
       <div class="sa-vacio">
+        <mat-icon class="sa-vacio__icon" aria-hidden="true">search</mat-icon>
         <h2>No encontramos retos con esos filtros</h2>
         <p>Ajusta los filtros o limpia la búsqueda para ver más oportunidades.</p>
       </div>

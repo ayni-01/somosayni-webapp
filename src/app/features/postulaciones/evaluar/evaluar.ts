@@ -7,6 +7,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { tap } from 'rxjs';
 import { PostulacionesApi } from '../../../core/api/postulaciones-api';
@@ -18,7 +19,7 @@ import { ResultadoEvaluacion } from '../../../shared/models/postulacion.model';
   imports: [
     ReactiveFormsModule, RouterLink,
     MatFormFieldModule, MatInputModule, MatRadioModule, MatSliderModule,
-    MatButtonModule, MatIconModule,
+    MatButtonModule, MatIconModule, MatCardModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './evaluar.html',

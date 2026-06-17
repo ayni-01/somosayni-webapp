@@ -4,7 +4,15 @@
     h1 { margin: 0 0 4px 0; font-size: 28px; font-weight: 700; color: var(--sa-color-text); }
     p { margin: 0; color: var(--sa-color-text-muted); font-size: 14px; max-width: 640px; }
   }
-  &__cargando { color: var(--sa-color-text-muted); text-align: center; padding: 48px 0; }
+}
+
+.sa-cargando {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 0;
+  color: var(--sa-color-text-muted);
 }
 
 .sa-filtros {
@@ -24,34 +32,28 @@
 }
 
 .sa-card {
-  display: flex; flex-direction: column; gap: 8px;
-  padding: 20px;
-  background: var(--sa-color-card);
-  border: 1px solid var(--sa-color-stroke);
   border-radius: var(--sa-radius);
   transition: box-shadow 0.2s ease;
+
   &:hover { box-shadow: var(--sa-shadow); }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+    height: 100%;
+    box-sizing: border-box;
+  }
 
   &__header {
     display: flex; justify-content: space-between; align-items: center;
     font-size: 12px; color: var(--sa-color-text-muted);
   }
 
-  &__modalidad {
-    padding: 2px 8px;
-    border-radius: 999px;
-    font-weight: 600;
-    font-size: 11px;
-    text-transform: uppercase;
-
-    &[data-modalidad='REMOTO']     { background: rgba(43, 142, 243, 0.1); color: var(--sa-status-info); }
-    &[data-modalidad='PRESENCIAL'] { background: rgba(22, 163, 74, 0.1); color: var(--sa-status-success); }
-    &[data-modalidad='HIBRIDO']    { background: rgba(202, 138, 4, 0.1); color: var(--sa-status-warning); }
-  }
-
   &__duracion { font-weight: 500; }
 
-  &__titulo { margin: 0; font-size: 16px; font-weight: 700; color: var(--sa-color-text); }
+  &__titulo { margin: 4px 0 0 0; font-size: 16px; font-weight: 700; color: var(--sa-color-text); }
 
   &__descripcion {
     margin: 4px 0 12px 0;
@@ -68,10 +70,23 @@
 }
 
 .sa-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   padding: 64px 24px;
   background: var(--sa-color-accent-soft);
   border-radius: var(--sa-radius);
-  h2 { margin: 0 0 8px 0; font-size: 18px; color: var(--sa-color-text); }
+
+  h2 { margin: 0 0 8px 0; font-size: 18px; font-weight: 700; color: var(--sa-color-text); }
   p { margin: 0; color: var(--sa-color-text-muted); }
+}
+
+.sa-vacio__icon {
+  font-size: 56px;
+  width: 56px;
+  height: 56px;
+  color: var(--sa-color-primary);
+  opacity: 0.6;
+  margin-bottom: 12px;
 }

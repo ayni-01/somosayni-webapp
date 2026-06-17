@@ -7,7 +7,10 @@
   </nav>
 
   @if (cargando()) {
-    <p class="sa-recibidos__cargando">Cargando postulaciones...</p>
+    <div class="sa-cargando">
+      <mat-progress-spinner mode="indeterminate" diameter="36" />
+      <span>Cargando postulaciones...</span>
+    </div>
   } @else {
     @let r = reto();
     @let s = resumen();
@@ -20,48 +23,59 @@
     }
 
     <div class="sa-stats">
-      <div class="sa-stat">
-        <span class="sa-stat__label">Total recibidas</span>
-        <span class="sa-stat__valor">{{ s.total }}</span>
-      </div>
-      <div class="sa-stat">
-        <span class="sa-stat__label">Pendientes</span>
-        <span class="sa-stat__valor">{{ s.pendientes }}</span>
-      </div>
-      <div class="sa-stat">
-        <span class="sa-stat__label">Aprobadas</span>
-        <span class="sa-stat__valor">{{ s.aprobadas }}</span>
-      </div>
+      <mat-card appearance="outlined" class="sa-stat">
+        <mat-card-content>
+          <span class="sa-stat__label">Total recibidas</span>
+          <span class="sa-stat__valor">{{ s.total }}</span>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="sa-stat">
+        <mat-card-content>
+          <span class="sa-stat__label">Pendientes</span>
+          <span class="sa-stat__valor">{{ s.pendientes }}</span>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="sa-stat">
+        <mat-card-content>
+          <span class="sa-stat__label">Aprobadas</span>
+          <span class="sa-stat__valor">{{ s.aprobadas }}</span>
+        </mat-card-content>
+      </mat-card>
     </div>
 
     @if (postulaciones().length === 0) {
       <div class="sa-vacio">
+        <mat-icon class="sa-vacio__icon" aria-hidden="true">mark_email_unread</mat-icon>
         <h2>Aún no hay postulaciones</h2>
         <p>Cuando los talentos envíen sus soluciones, aparecerán aquí para que las revises.</p>
       </div>
     } @else {
       <ul class="sa-lista">
         @for (p of postulaciones(); track p.id) {
-          <li class="sa-fila">
-            <div class="sa-fila__info">
-              <span class="sa-fila__titulo">Talento: {{ p.talentoId }}</span>
-              <p class="sa-fila__meta">
-                Solución: <a [href]="p.urlSolucion" target="_blank" rel="noopener">{{ p.urlSolucion }}</a>
-              </p>
-              <p class="sa-fila__fecha">Recibida {{ p.creadaEn | date:'mediumDate' }}</p>
-            </div>
+          <mat-card appearance="outlined" class="sa-fila">
+            <mat-card-content class="sa-fila__content">
+              <div class="sa-fila__info">
+                <span class="sa-fila__titulo">Talento: {{ p.talentoId }}</span>
+                <p class="sa-fila__meta">
+                  Solución: <a [href]="p.urlSolucion" target="_blank" rel="noopener">{{ p.urlSolucion }}</a>
+                </p>
+                <p class="sa-fila__fecha">Recibida {{ p.creadaEn | date:'mediumDate' }}</p>
+              </div>
 
-            <div class="sa-fila__acciones">
-              <span class="sa-fila__estado" [attr.data-estado]="p.estado">{{ etiquetaEstado(p.estado) }}</span>
-              @if (p.estado === 'ENVIADA' || p.estado === 'EN_REVISION') {
-                <a mat-flat-button color="primary"
-                   [routerLink]="['/app/postulaciones/postulacion', p.id, 'evaluar']"
-                   [queryParams]="{ reto: id() }">
-                  Evaluar
-                </a>
-              }
-            </div>
-          </li>
+              <div class="sa-fila__acciones">
+                <mat-chip class="sa-chip-estado" [attr.data-estado]="p.estado" disableRipple>
+                  {{ etiquetaEstado(p.estado) }}
+                </mat-chip>
+                @if (p.estado === 'ENVIADA' || p.estado === 'EN_REVISION') {
+                  <a mat-flat-button color="primary"
+                     [routerLink]="['/app/postulaciones/postulacion', p.id, 'evaluar']"
+                     [queryParams]="{ reto: id() }">
+                    Evaluar
+                  </a>
+                }
+              </div>
+            </mat-card-content>
+          </mat-card>
         }
       </ul>
     }

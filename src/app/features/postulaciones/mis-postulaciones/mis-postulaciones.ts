@@ -3,6 +3,9 @@ import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { catchError, of, tap } from 'rxjs';
 import { PostulacionesApi } from '../../../core/api/postulaciones-api';
 import { AuthStore } from '../../../core/auth/auth.store';
@@ -11,7 +14,10 @@ import { EstadoPostulacion, Postulacion } from '../../../shared/models/postulaci
 @Component({
   selector: 'sa-mis-postulaciones',
   standalone: true,
-  imports: [DatePipe, RouterLink, MatButtonModule, MatIconModule],
+  imports: [
+    DatePipe, RouterLink,
+    MatButtonModule, MatIconModule, MatCardModule, MatChipsModule, MatProgressSpinnerModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './mis-postulaciones.html',
   styleUrl: './mis-postulaciones.scss',

@@ -6,6 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { RetosApi } from '../../../core/api/retos-api';
 import { AuthStore } from '../../../core/auth/auth.store';
@@ -15,7 +18,11 @@ import { ConfirmDialog, ConfirmDialogData } from '../../../shared/ui/confirm-dia
 @Component({
   selector: 'sa-mis-retos',
   standalone: true,
-  imports: [DatePipe, RouterLink, MatButtonModule, MatIconModule, MatMenuModule],
+  imports: [
+    DatePipe, RouterLink,
+    MatButtonModule, MatIconModule, MatMenuModule,
+    MatCardModule, MatChipsModule, MatProgressSpinnerModule,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './mis-retos.html',
   styleUrl: './mis-retos.scss',

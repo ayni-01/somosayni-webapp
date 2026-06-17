@@ -5,3 +5,34 @@ body {
   margin: 0;
   min-height: 100dvh;
 }
+
+.sa-chip-estado.mat-mdc-standard-chip {
+  --mdc-chip-container-height: 26px;
+  --mdc-chip-label-text-size: 11px;
+  --mdc-chip-label-text-weight: 600;
+  --mdc-chip-label-text-tracking: 0.4px;
+  --mdc-chip-outline-width: 0;
+  pointer-events: none;
+
+  .mdc-evolution-chip__text-label {
+    text-transform: uppercase;
+  }
+
+  &[data-estado='ENVIADA']     { --mdc-chip-elevated-container-color: rgba(43, 142, 243, 0.1);  --mdc-chip-label-text-color: #2b8ef3; }
+  &[data-estado='EN_REVISION'] { --mdc-chip-elevated-container-color: rgba(202, 138, 4, 0.1);   --mdc-chip-label-text-color: #ca8a04; }
+  &[data-estado='APROBADA']    { --mdc-chip-elevated-container-color: rgba(22, 163, 74, 0.1);   --mdc-chip-label-text-color: #16a34a; }
+  &[data-estado='RECHAZADA']   { --mdc-chip-elevated-container-color: rgba(220, 38, 38, 0.1);   --mdc-chip-label-text-color: #dc2626; }
+  &[data-estado='FINALIZADA']  { --mdc-chip-elevated-container-color: rgba(107, 114, 128, 0.1); --mdc-chip-label-text-color: #6b7280; }
+  &[data-estado='ACTIVO']      { --mdc-chip-elevated-container-color: rgba(22, 163, 74, 0.1);   --mdc-chip-label-text-color: #16a34a; }
+  &[data-estado='CERRADO']     { --mdc-chip-elevated-container-color: rgba(107, 114, 128, 0.1); --mdc-chip-label-text-color: #6b7280; }
+  &[data-estado='ARCHIVADO']   { --mdc-chip-elevated-container-color: rgba(107, 114, 128, 0.1); --mdc-chip-label-text-color: #6b7280; }
+  &[data-estado='BORRADOR']    { --mdc-chip-elevated-container-color: rgba(202, 138, 4, 0.1);   --mdc-chip-label-text-color: #ca8a04; }
+
+  &[data-modalidad='REMOTO']     { --mdc-chip-elevated-container-color: rgba(43, 142, 243, 0.1);  --mdc-chip-label-text-color: #2b8ef3; }
+  &[data-modalidad='PRESENCIAL'] { --mdc-chip-elevated-container-color: rgba(22, 163, 74, 0.1);   --mdc-chip-label-text-color: #16a34a; }
+  &[data-modalidad='HIBRIDO']    { --mdc-chip-elevated-container-color: rgba(202, 138, 4, 0.1);   --mdc-chip-label-text-color: #ca8a04; }
+
+  &[data-nivel='BASICO']     { --mdc-chip-elevated-container-color: rgba(43, 142, 243, 0.1);  --mdc-chip-label-text-color: #2b8ef3; }
+  &[data-nivel='INTERMEDIO'] { --mdc-chip-elevated-container-color: rgba(202, 138, 4, 0.1);   --mdc-chip-label-text-color: #ca8a04; }
+  &[data-nivel='AVANZADO']   { --mdc-chip-elevated-container-color: rgba(22, 163, 74, 0.1);   --mdc-chip-label-text-color: #16a34a; }
+}

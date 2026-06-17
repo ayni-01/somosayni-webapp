@@ -5,6 +5,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
 import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -19,7 +22,7 @@ const MODALIDADES: Modalidad[] = ['REMOTO', 'PRESENCIAL', 'HIBRIDO'];
   imports: [
     ReactiveFormsModule, RouterLink,
     MatFormFieldModule, MatInputModule, MatSelectModule,
-    MatButtonModule, MatIconModule,
+    MatButtonModule, MatIconModule, MatCardModule, MatChipsModule, MatProgressSpinnerModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './explorar-retos.html',
