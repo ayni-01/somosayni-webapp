@@ -40,7 +40,6 @@ export class PerfilEmpresa {
     razonSocial: ['', [Validators.required, Validators.minLength(2)]],
     ruc: ['', [Validators.required, Validators.pattern(RUC_PATTERN)]],
     sector: ['', [Validators.required]],
-    logoUrl: ['', [Validators.pattern(/^https?:\/\/.+/)]],
   });
 
   constructor() {
@@ -62,12 +61,10 @@ export class PerfilEmpresa {
     this.guardando.set(true);
 
     const valor = this.form.getRawValue();
-    const payload: Partial<PerfilEmpresaModel> = {
-      usuarioId: usuario.id,
+    const payload = {
       razonSocial: valor.razonSocial!,
       ruc: valor.ruc!,
       sector: valor.sector!,
-      logoUrl: valor.logoUrl || null,
     };
 
     this.perfilesApi.editarEmpresa(usuario.id, payload).pipe(
@@ -88,7 +85,6 @@ export class PerfilEmpresa {
       razonSocial: perfil.razonSocial,
       ruc: perfil.ruc,
       sector: perfil.sector,
-      logoUrl: perfil.logoUrl ?? '',
     });
   }
 }

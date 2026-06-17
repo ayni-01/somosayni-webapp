@@ -33,7 +33,8 @@ export class RegistroEmpresaForm {
 
   readonly form = this.fb.group({
     razonSocial: ['', [Validators.required, Validators.minLength(2)]],
-    correo: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.email]],
+    ruc: ['', [Validators.required, Validators.pattern(/^\d{11}$/)]],
     sector: ['', [Validators.required]],
     password: ['', [Validators.required, Validators.minLength(8)]],
     confirmar: ['', [Validators.required]],
@@ -43,27 +44,23 @@ export class RegistroEmpresaForm {
     if (this.form.invalid || this.enviando()) return;
     this.enviando.set(true);
 
-    const { razonSocial, correo, sector, password } = this.form.getRawValue();
+    const { razonSocial, email, ruc, sector, password } = this.form.getRawValue();
 
     this.identidadApi.registrar({
-      nombreCompleto: razonSocial!,
-      correo: correo!,
+      email: email!,
       password: password!,
       rol: 'EMPRESA',
     }).pipe(
-      switchMap(usuario => this.perfilesApi.crearEmpresa({
-        usuarioId: usuario.id,
+      switchMap(() => this.perfilesApi.crearEmpresa({
         razonSocial: razonSocial!,
-        ruc: '',
+        ruc: ruc!,
         sector: sector!,
-        logoUrl: null,
-        estado: 'PENDIENTE',
       })),
       tap({
         next: () => {
           this.enviando.set(false);
           this.snack.open('Cuenta de empresa creada. Inicia sesión para continuar.', 'Cerrar', { duration: 4000 });
-          this.router.navigate(['/auth/login'], { queryParams: { correo } });
+          this.router.navigate(['/auth/login'], { queryParams: { email } });
         },
         error: () => this.enviando.set(false),
       }),

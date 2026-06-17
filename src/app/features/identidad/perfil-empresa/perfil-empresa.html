@@ -51,21 +51,6 @@
         }
       </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>URL del logo</mat-label>
-        <input matInput type="url" formControlName="logoUrl" placeholder="https://...">
-        @if (form.controls.logoUrl.hasError('pattern')) {
-          <mat-error>URL inválida (debe empezar con http:// o https://)</mat-error>
-        }
-      </mat-form-field>
-
-      @if (form.controls.logoUrl.value) {
-        <div class="sa-logo-preview">
-          <span class="sa-logo-preview__label">Vista previa del logo:</span>
-          <img [src]="form.controls.logoUrl.value" alt="Vista previa del logo">
-        </div>
-      }
-
       <footer class="sa-perfil__footer">
         <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || guardando()">
           @if (guardando()) {
