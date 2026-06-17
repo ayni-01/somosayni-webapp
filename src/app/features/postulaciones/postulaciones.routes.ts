@@ -16,4 +16,9 @@ export const POSTULACIONES_ROUTES: Routes = [
     canActivate: [rolGuard(['EMPRESA'])],
     loadComponent: () => import('./publicar-reto/publicar-reto').then(m => m.PublicarReto),
   },
+  {
+    path: 'mis-retos',
+    canActivate: [rolGuard(['EMPRESA'])],
+    loadComponent: () => import('./mis-retos/mis-retos').then(m => m.MisRetos),
+  },
 ];
