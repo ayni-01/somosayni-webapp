@@ -1,7 +1,6 @@
-import { inject } from '@angular/core';
 import { Routes } from '@angular/router';
 import { authGuard, soloAnonimoGuard } from './core/auth/auth.guard';
-import { AuthStore } from './core/auth/auth.store';
+import { RootRedirector } from './core/auth/root-redirector';
 import { AuthLayout } from './core/layout/auth-layout/auth-layout';
 import { Shell } from './core/layout/shell/shell';
 
@@ -9,8 +8,7 @@ export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: () =>
-      inject(AuthStore).estaAutenticado() ? '/app/inicio' : '/auth/login',
+    component: RootRedirector,
   },
   {
     path: 'auth',
