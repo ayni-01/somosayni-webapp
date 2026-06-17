@@ -8,4 +8,9 @@ export const IDENTIDAD_ROUTES: Routes = [
     canActivate: [rolGuard(['TALENTO'])],
     loadComponent: () => import('./perfil-talento/perfil-talento').then(m => m.PerfilTalento),
   },
+  {
+    path: 'empresa',
+    canActivate: [rolGuard(['EMPRESA'])],
+    loadComponent: () => import('./perfil-empresa/perfil-empresa').then(m => m.PerfilEmpresa),
+  },
 ];
