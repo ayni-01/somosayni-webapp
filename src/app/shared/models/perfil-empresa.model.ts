@@ -6,6 +6,11 @@ export interface PerfilEmpresa {
   razonSocial: string;
   ruc: string;
   sector: string;
-  logoUrl: string | null;
   estado: EstadoValidacion;
+}
+
+export interface CrearEmpresaRequest {
+  razonSocial: string;
+  ruc: string;
+  sector: string;
 }
