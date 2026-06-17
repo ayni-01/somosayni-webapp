@@ -1,7 +1,7 @@
 <section class="sa-publicar">
   <header class="sa-publicar__header">
     <h1>Publicar nuevo reto</h1>
-    <p>Define el problema, los entregables esperados y la dificultad para convocar talento.</p>
+    <p>Define el problema, la modalidad de trabajo y la duración esperada para convocar talento.</p>
   </header>
 
   <form class="sa-form" [formGroup]="form" (ngSubmit)="publicar()">
@@ -25,27 +25,15 @@
       }
     </mat-form-field>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Categoría</mat-label>
-      <mat-select formControlName="categoria" required>
-        @for (c of categorias; track c) {
-          <mat-option [value]="c">{{ c }}</mat-option>
-        }
-      </mat-select>
-      @if (form.controls.categoria.hasError('required') && form.controls.categoria.touched) {
-        <mat-error>Selecciona una categoría</mat-error>
-      }
-    </mat-form-field>
-
-    <fieldset class="sa-nivel">
-      <legend>Nivel de dificultad</legend>
-      <mat-radio-group formControlName="nivel" aria-label="Nivel de dificultad">
-        @for (n of niveles; track n) {
-          <mat-radio-button [value]="n">
-            @switch (n) {
-              @case ('BASICO') { Básico }
-              @case ('INTERMEDIO') { Intermedio }
-              @case ('AVANZADO') { Avanzado }
+    <fieldset class="sa-modalidad">
+      <legend>Modalidad de trabajo</legend>
+      <mat-radio-group formControlName="modalidad" aria-label="Modalidad">
+        @for (m of modalidades; track m) {
+          <mat-radio-button [value]="m">
+            @switch (m) {
+              @case ('REMOTO') { Remoto }
+              @case ('PRESENCIAL') { Presencial }
+              @case ('HIBRIDO') { Híbrido }
             }
           </mat-radio-button>
         }
@@ -53,14 +41,14 @@
     </fieldset>
 
     <mat-form-field appearance="outline" class="sa-form__corto">
-      <mat-label>Cupos totales</mat-label>
-      <input matInput type="number" formControlName="cuposTotal" min="1" max="50" required>
-      <mat-hint>Entre 1 y 50</mat-hint>
-      @if (form.controls.cuposTotal.hasError('min') && form.controls.cuposTotal.touched) {
-        <mat-error>Mínimo 1</mat-error>
+      <mat-label>Duración (días)</mat-label>
+      <input matInput type="number" formControlName="duracionDias" min="1" max="180" required>
+      <mat-hint>Entre 1 y 180 días</mat-hint>
+      @if (form.controls.duracionDias.hasError('min') && form.controls.duracionDias.touched) {
+        <mat-error>Mínimo 1 día</mat-error>
       }
-      @if (form.controls.cuposTotal.hasError('max') && form.controls.cuposTotal.touched) {
-        <mat-error>Máximo 50</mat-error>
+      @if (form.controls.duracionDias.hasError('max') && form.controls.duracionDias.touched) {
+        <mat-error>Máximo 180 días</mat-error>
       }
     </mat-form-field>
 

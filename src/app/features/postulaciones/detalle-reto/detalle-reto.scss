@@ -144,22 +144,15 @@
   font-weight: 600;
   letter-spacing: 0.3px;
 
-  &--categoria {
-    background: var(--sa-color-accent-soft);
-    color: var(--sa-color-primary);
-  }
-
-  &--nivel {
+  &--modalidad {
     text-transform: uppercase;
-
-    &[data-nivel='BASICO']     { background: rgba(22, 163, 74, 0.1); color: var(--sa-status-success); }
-    &[data-nivel='INTERMEDIO'] { background: rgba(43, 142, 243, 0.1); color: var(--sa-status-info); }
-    &[data-nivel='AVANZADO']   { background: rgba(202, 138, 4, 0.1); color: var(--sa-status-warning); }
+    &[data-modalidad='REMOTO']     { background: rgba(43, 142, 243, 0.1); color: var(--sa-status-info); }
+    &[data-modalidad='PRESENCIAL'] { background: rgba(22, 163, 74, 0.1); color: var(--sa-status-success); }
+    &[data-modalidad='HIBRIDO']    { background: rgba(202, 138, 4, 0.1); color: var(--sa-status-warning); }
   }
 
   &--estado {
     text-transform: uppercase;
-
     &[data-estado='ACTIVO']    { background: rgba(22, 163, 74, 0.1); color: var(--sa-status-success); }
     &[data-estado='CERRADO']   { background: rgba(107, 114, 128, 0.1); color: var(--sa-status-neutral); }
     &[data-estado='ARCHIVADO'] { background: rgba(107, 114, 128, 0.1); color: var(--sa-status-neutral); }

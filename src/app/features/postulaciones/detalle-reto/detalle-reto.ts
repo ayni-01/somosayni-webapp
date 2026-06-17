@@ -30,7 +30,7 @@ export class DetalleReto {
   readonly esTalento = computed(() => this.authStore.usuario()?.rol === 'TALENTO');
   readonly puedePostular = computed(() => {
     const r = this.reto();
-    return !!r && r.estado === 'ACTIVO' && r.cuposDisponibles > 0 && this.esTalento();
+    return !!r && r.estado === 'ACTIVO' && this.esTalento();
   });
 
   constructor() {

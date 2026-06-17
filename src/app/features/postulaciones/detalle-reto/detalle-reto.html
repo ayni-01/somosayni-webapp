@@ -19,12 +19,11 @@
     <article class="sa-reto">
       <header class="sa-reto__header">
         <div class="sa-reto__chips">
-          <span class="sa-chip sa-chip--categoria">{{ r.categoria }}</span>
-          <span class="sa-chip sa-chip--nivel" [attr.data-nivel]="r.nivel">
-            @switch (r.nivel) {
-              @case ('BASICO') { Básico }
-              @case ('INTERMEDIO') { Intermedio }
-              @case ('AVANZADO') { Avanzado }
+          <span class="sa-chip sa-chip--modalidad" [attr.data-modalidad]="r.modalidad">
+            @switch (r.modalidad) {
+              @case ('REMOTO') { Remoto }
+              @case ('PRESENCIAL') { Presencial }
+              @case ('HIBRIDO') { Híbrido }
             }
           </span>
           <span class="sa-chip sa-chip--estado" [attr.data-estado]="r.estado">
@@ -41,8 +40,8 @@
 
         <dl class="sa-reto__meta">
           <div>
-            <dt>Cupos disponibles</dt>
-            <dd>{{ r.cuposDisponibles }} / {{ r.cuposTotal }}</dd>
+            <dt>Duración</dt>
+            <dd>{{ r.duracionDias }} días</dd>
           </div>
           <div>
             <dt>Publicado</dt>
@@ -64,13 +63,7 @@
             Postular a este reto
           </a>
         } @else if (esTalento()) {
-          <button mat-flat-button disabled>
-            @if (r.estado !== 'ACTIVO') {
-              Reto no disponible
-            } @else {
-              Sin cupos disponibles
-            }
-          </button>
+          <button mat-flat-button disabled>Reto no disponible</button>
         }
       </footer>
     </article>
