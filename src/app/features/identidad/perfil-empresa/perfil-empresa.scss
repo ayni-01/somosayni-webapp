@@ -2,33 +2,29 @@
   max-width: 720px;
   margin: 0 auto;
 
-  &__header {
-    margin-bottom: 24px;
+  &__card {
+    border-radius: var(--sa-radius);
+  }
 
-    h1 {
-      margin: 0 0 4px 0;
+  &__header {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 8px;
+
+    ::ng-deep .mat-mdc-card-title {
       font-size: 28px;
       font-weight: 700;
       color: var(--sa-color-text);
     }
 
-    p {
-      margin: 0;
+    ::ng-deep .mat-mdc-card-subtitle {
       color: var(--sa-color-text-muted);
       font-size: 14px;
     }
   }
 
-  &__cargando {
-    color: var(--sa-color-text-muted);
-    text-align: center;
-    padding: 48px 0;
-  }
-
-  &__footer {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 16px;
+  &__actions {
+    padding: 8px 16px 16px;
 
     button {
       height: 48px;
@@ -38,36 +34,24 @@
   }
 }
 
+.sa-cargando {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 0;
+  color: var(--sa-color-text-muted);
+}
+
 .sa-estado {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-  border-radius: var(--sa-radius);
+  gap: 12px;
   margin-bottom: 16px;
   font-size: 14px;
 
   &__label {
     color: var(--sa-color-text-muted);
-  }
-
-  &__valor {
-    font-weight: 600;
-  }
-
-  &[data-estado='VALIDADA'] {
-    background: rgba(22, 163, 74, 0.1);
-    color: var(--sa-status-success);
-  }
-
-  &[data-estado='PENDIENTE'] {
-    background: rgba(202, 138, 4, 0.1);
-    color: var(--sa-status-warning);
-  }
-
-  &[data-estado='RECHAZADA'] {
-    background: rgba(220, 38, 38, 0.1);
-    color: #dc2626;
   }
 }
 

@@ -1,65 +1,76 @@
 <section class="sa-perfil">
-  <header class="sa-perfil__header">
-    <h1>Perfil corporativo</h1>
-    <p>Completa los datos de tu empresa para validar tu identidad ante los postulantes.</p>
-  </header>
+  <mat-card appearance="outlined" class="sa-perfil__card">
+    <mat-card-header class="sa-perfil__header">
+      <mat-card-title>Perfil corporativo</mat-card-title>
+      <mat-card-subtitle>Completa los datos de tu empresa para validar tu identidad ante los postulantes.</mat-card-subtitle>
+    </mat-card-header>
 
-  @if (cargando()) {
-    <p class="sa-perfil__cargando">Cargando perfil...</p>
-  } @else {
-    @if (estado()) {
-      <div class="sa-estado" [attr.data-estado]="estado()">
-        <span class="sa-estado__label">Estado de validación:</span>
-        @switch (estado()) {
-          @case ('VALIDADA') { <span class="sa-estado__valor">Validada</span> }
-          @case ('PENDIENTE') { <span class="sa-estado__valor">Pendiente de revisión</span> }
-          @case ('RECHAZADA') { <span class="sa-estado__valor">Rechazada</span> }
+    @if (cargando()) {
+      <mat-card-content>
+        <div class="sa-cargando">
+          <mat-progress-spinner mode="indeterminate" diameter="36" />
+          <span>Cargando perfil...</span>
+        </div>
+      </mat-card-content>
+    } @else {
+      <mat-card-content>
+        @if (estado()) {
+          <div class="sa-estado">
+            <span class="sa-estado__label">Estado de validación:</span>
+            <mat-chip class="sa-chip-estado" [attr.data-validacion]="estado()" disableRipple>
+              @switch (estado()) {
+                @case ('VALIDADA')  { Validada }
+                @case ('PENDIENTE') { Pendiente de revisión }
+                @case ('RECHAZADA') { Rechazada }
+              }
+            </mat-chip>
+          </div>
         }
-      </div>
-    }
 
-    <form class="sa-form" [formGroup]="form" (ngSubmit)="guardar()">
-      <mat-form-field appearance="outline">
-        <mat-label>Razón social</mat-label>
-        <input matInput formControlName="razonSocial" autocomplete="organization" required>
-        @if (form.controls.razonSocial.hasError('required') && form.controls.razonSocial.touched) {
-          <mat-error>Ingresa la razón social</mat-error>
-        }
-      </mat-form-field>
+        <form class="sa-form" [formGroup]="form" (ngSubmit)="guardar()" id="perfil-empresa-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Razón social</mat-label>
+            <input matInput formControlName="razonSocial" autocomplete="organization" required>
+            @if (form.controls.razonSocial.hasError('required') && form.controls.razonSocial.touched) {
+              <mat-error>Ingresa la razón social</mat-error>
+            }
+          </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>RUC</mat-label>
-        <input matInput formControlName="ruc" inputmode="numeric" maxlength="11" required>
-        <mat-hint>11 dígitos</mat-hint>
-        @if (form.controls.ruc.hasError('pattern') && form.controls.ruc.touched) {
-          <mat-error>RUC debe tener 11 dígitos</mat-error>
-        }
-        @if (form.controls.ruc.hasError('required') && form.controls.ruc.touched) {
-          <mat-error>Ingresa el RUC</mat-error>
-        }
-      </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>RUC</mat-label>
+            <input matInput formControlName="ruc" inputmode="numeric" maxlength="11" required>
+            <mat-hint>11 dígitos</mat-hint>
+            @if (form.controls.ruc.hasError('pattern') && form.controls.ruc.touched) {
+              <mat-error>RUC debe tener 11 dígitos</mat-error>
+            }
+            @if (form.controls.ruc.hasError('required') && form.controls.ruc.touched) {
+              <mat-error>Ingresa el RUC</mat-error>
+            }
+          </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>Sector</mat-label>
-        <mat-select formControlName="sector" required>
-          @for (s of sectores; track s) {
-            <mat-option [value]="s">{{ s }}</mat-option>
-          }
-        </mat-select>
-        @if (form.controls.sector.hasError('required') && form.controls.sector.touched) {
-          <mat-error>Selecciona un sector</mat-error>
-        }
-      </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Sector</mat-label>
+            <mat-select formControlName="sector" required>
+              @for (s of sectores; track s) {
+                <mat-option [value]="s">{{ s }}</mat-option>
+              }
+            </mat-select>
+            @if (form.controls.sector.hasError('required') && form.controls.sector.touched) {
+              <mat-error>Selecciona un sector</mat-error>
+            }
+          </mat-form-field>
+        </form>
+      </mat-card-content>
 
-      <footer class="sa-perfil__footer">
-        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid || guardando()">
+      <mat-card-actions align="end" class="sa-perfil__actions">
+        <button mat-flat-button color="primary" type="submit" form="perfil-empresa-form" [disabled]="form.invalid || guardando()">
           @if (guardando()) {
             Guardando...
           } @else {
             Guardar cambios
           }
         </button>
-      </footer>
-    </form>
-  }
+      </mat-card-actions>
+    }
+  </mat-card>
 </section>

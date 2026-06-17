@@ -35,4 +35,8 @@ body {
   &[data-nivel='BASICO']     { --mdc-chip-elevated-container-color: rgba(43, 142, 243, 0.1);  --mdc-chip-label-text-color: #2b8ef3; }
   &[data-nivel='INTERMEDIO'] { --mdc-chip-elevated-container-color: rgba(202, 138, 4, 0.1);   --mdc-chip-label-text-color: #ca8a04; }
   &[data-nivel='AVANZADO']   { --mdc-chip-elevated-container-color: rgba(22, 163, 74, 0.1);   --mdc-chip-label-text-color: #16a34a; }
+
+  &[data-validacion='VALIDADA']  { --mdc-chip-elevated-container-color: rgba(22, 163, 74, 0.1);   --mdc-chip-label-text-color: #16a34a; }
+  &[data-validacion='PENDIENTE'] { --mdc-chip-elevated-container-color: rgba(202, 138, 4, 0.1);   --mdc-chip-label-text-color: #ca8a04; }
+  &[data-validacion='RECHAZADA'] { --mdc-chip-elevated-container-color: rgba(220, 38, 38, 0.1);   --mdc-chip-label-text-color: #dc2626; }
 }
