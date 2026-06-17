@@ -54,4 +54,18 @@ describe('PerfilesApi', () => {
     expect(req.request.method).toBe('PUT');
     req.flush({});
   });
+
+  it('obtenerEmpresa → GET /perfiles/empresa/:id', () => {
+    api.obtenerEmpresa('123').subscribe();
+    const req = http.expectOne('http://api/perfiles/perfiles/empresa/123');
+    expect(req.request.method).toBe('GET');
+    req.flush({});
+  });
+
+  it('editarEmpresa → PUT /perfiles/empresa/:id', () => {
+    api.editarEmpresa('123', {} as any).subscribe();
+    const req = http.expectOne('http://api/perfiles/perfiles/empresa/123');
+    expect(req.request.method).toBe('PUT');
+    req.flush({});
+  });
 });
