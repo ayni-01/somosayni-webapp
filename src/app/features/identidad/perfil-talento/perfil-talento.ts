@@ -1,10 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, of, tap } from 'rxjs';
 import { PerfilesApi } from '../../../core/api/perfiles-api';
@@ -16,7 +19,8 @@ import { PerfilTalento as PerfilTalentoModel } from '../../../shared/models/perf
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    MatFormFieldModule, MatInputModule, MatButtonModule, MatCardModule, MatProgressSpinnerModule,
+    MatFormFieldModule, MatInputModule, MatButtonModule, MatCardModule,
+    MatIconModule, MatProgressBarModule, MatProgressSpinnerModule, MatDividerModule,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './perfil-talento.html',
@@ -31,15 +35,59 @@ export class PerfilTalento {
   readonly cargando = signal(true);
   readonly guardando = signal(false);
 
+  readonly usuario = this.authStore.usuario;
+
   readonly form = this.fb.group({
     nombreCompleto: ['', [Validators.required, Validators.minLength(3)]],
     ubicacion: [''],
     sobreMi: ['', [Validators.maxLength(500)]],
   });
 
+  private readonly valor = signal({ nombreCompleto: '', ubicacion: '', sobreMi: '' });
+
+  readonly iniciales = computed(() => {
+    const fuente = this.valor().nombreCompleto || this.usuario()?.email || '?';
+    return fuente
+      .split(/\s+|@/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map(p => p[0]?.toUpperCase() ?? '')
+      .join('');
+  });
+
+  readonly progreso = computed(() => {
+    const v = this.valor();
+    const completados =
+      (v.nombreCompleto?.trim() ? 1 : 0) +
+      (v.ubicacion?.trim() ? 1 : 0) +
+      (v.sobreMi?.trim() && v.sobreMi.trim().length >= 20 ? 1 : 0);
+    return Math.round((completados / 3) * 100);
+  });
+
+  readonly etiquetaProgreso = computed(() => {
+    const p = this.progreso();
+    if (p === 100) return 'Perfil completo';
+    if (p >= 66) return 'Casi listo';
+    if (p >= 33) return 'En progreso';
+    return 'Comencemos';
+  });
+
+  readonly contadorSobreMi = computed(() => this.valor().sobreMi?.length ?? 0);
+
   constructor() {
+    this.form.valueChanges.subscribe(v => {
+      this.valor.set({
+        nombreCompleto: v.nombreCompleto ?? '',
+        ubicacion: v.ubicacion ?? '',
+        sobreMi: v.sobreMi ?? '',
+      });
+    });
+
     const usuarioId = this.authStore.usuario()?.id;
-    if (!usuarioId) return;
+    if (!usuarioId) {
+      this.cargando.set(false);
+      return;
+    }
 
     this.perfilesApi.obtenerTalento(usuarioId).pipe(
       catchError(() => of(null)),
