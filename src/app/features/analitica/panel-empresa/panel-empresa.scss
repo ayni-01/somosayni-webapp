@@ -154,3 +154,23 @@
   &--ok { color: var(--sa-status-success); }
   &--ko { color: #dc2626; }
 }
+
+@media (max-width: 640px) {
+  .sa-panel__header {
+    h1 {
+      font-size: 22px;
+    }
+  }
+
+  .sa-tabla {
+    &__head {
+      display: none;
+    }
+
+    &__fila {
+      grid-template-columns: 1fr;
+      gap: 6px;
+      padding: 14px 16px;
+    }
+  }
+}

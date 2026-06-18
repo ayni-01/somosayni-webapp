@@ -244,3 +244,40 @@
     }
   }
 }
+
+@media (max-width: 640px) {
+  .sa-hero {
+    padding: 16px;
+    grid-template-columns: auto 1fr;
+    gap: 16px;
+
+    &__titulo {
+      font-size: 22px;
+      white-space: normal;
+    }
+  }
+
+  .sa-avatar {
+    width: 72px;
+    height: 72px;
+    font-size: 26px;
+    border-width: 3px;
+  }
+
+  .sa-card {
+    &__header {
+      padding: 16px 16px 12px;
+    }
+
+    &__content {
+      padding: 16px;
+    }
+  }
+
+  .sa-acciones {
+    &__guardar {
+      width: 100%;
+      min-width: 0;
+    }
+  }
+}

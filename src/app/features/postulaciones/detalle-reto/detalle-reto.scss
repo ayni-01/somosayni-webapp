@@ -145,3 +145,30 @@
     }
   }
 }
+
+@media (max-width: 640px) {
+  .sa-reto {
+    &__content {
+      padding: 16px;
+      gap: 16px;
+    }
+
+    &__titulo {
+      font-size: 22px;
+    }
+
+    &__meta {
+      gap: 16px;
+    }
+
+    &__footer {
+      flex-direction: column;
+      align-items: stretch;
+
+      button, a {
+        width: 100%;
+        min-width: 0;
+      }
+    }
+  }
+}

@@ -181,3 +181,27 @@
     gap: 12px;
   }
 }
+
+@media (max-width: 640px) {
+  .sa-recibidos__header {
+    h1 {
+      font-size: 22px;
+    }
+  }
+
+  .sa-fila__content {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .sa-fila__info {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .sa-fila__acciones {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
