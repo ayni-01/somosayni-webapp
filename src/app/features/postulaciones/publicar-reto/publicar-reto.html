@@ -2,7 +2,7 @@
   <mat-card appearance="outlined" class="sa-publicar__card">
     <mat-card-header class="sa-publicar__header">
       <mat-card-title>Publicar nuevo reto</mat-card-title>
-      <mat-card-subtitle>Define el problema, la modalidad de trabajo y la duración esperada para convocar talento.</mat-card-subtitle>
+      <mat-card-subtitle>Define el problema, los requisitos y la recompensa para convocar al mejor talento.</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
@@ -20,39 +20,109 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Descripción y entregables</mat-label>
+          <mat-label>Descripción</mat-label>
           <textarea matInput formControlName="descripcion" rows="6" required></textarea>
           @if (form.controls.descripcion.hasError('minlength') && form.controls.descripcion.touched) {
             <mat-error>Mínimo 20 caracteres</mat-error>
           }
         </mat-form-field>
 
-        <fieldset class="sa-modalidad">
-          <legend>Modalidad de trabajo</legend>
-          <mat-radio-group formControlName="modalidad" aria-label="Modalidad">
-            @for (m of modalidades; track m) {
-              <mat-radio-button [value]="m">
-                @switch (m) {
-                  @case ('REMOTO') { Remoto }
-                  @case ('PRESENCIAL') { Presencial }
-                  @case ('HIBRIDO') { Híbrido }
-                }
-              </mat-radio-button>
+        <mat-form-field appearance="outline">
+          <mat-label>Categoría</mat-label>
+          <mat-select formControlName="categoria" required>
+            @for (c of categorias; track c) {
+              <mat-option [value]="c">{{ etiquetaCategoria(c) }}</mat-option>
+            }
+          </mat-select>
+          @if (form.controls.categoria.hasError('required') && form.controls.categoria.touched) {
+            <mat-error>Selecciona una categoría</mat-error>
+          }
+        </mat-form-field>
+
+        <fieldset class="sa-grupo">
+          <legend>Nivel de dificultad</legend>
+          <mat-radio-group formControlName="nivelDificultad" aria-label="Nivel de dificultad">
+            @for (n of niveles; track n) {
+              <mat-radio-button [value]="n">{{ etiquetaNivel(n) }}</mat-radio-button>
             }
           </mat-radio-group>
         </fieldset>
 
         <mat-form-field appearance="outline" class="sa-form__corto">
-          <mat-label>Duración (días)</mat-label>
-          <input matInput type="number" formControlName="duracionDias" min="1" max="180" required>
-          <mat-hint>Entre 1 y 180 días</mat-hint>
-          @if (form.controls.duracionDias.hasError('min') && form.controls.duracionDias.touched) {
-            <mat-error>Mínimo 1 día</mat-error>
+          <mat-label>Cupos disponibles</mat-label>
+          <input matInput type="number" formControlName="cuposDisponibles" min="1" max="50" required>
+          <mat-hint>Entre 1 y 50 talentos</mat-hint>
+          @if (form.controls.cuposDisponibles.hasError('min') && form.controls.cuposDisponibles.touched) {
+            <mat-error>Mínimo 1 cupo</mat-error>
           }
-          @if (form.controls.duracionDias.hasError('max') && form.controls.duracionDias.touched) {
-            <mat-error>Máximo 180 días</mat-error>
+          @if (form.controls.cuposDisponibles.hasError('max') && form.controls.cuposDisponibles.touched) {
+            <mat-error>Máximo 50 cupos</mat-error>
           }
         </mat-form-field>
+
+        <fieldset class="sa-grupo">
+          <legend>Tipo de recompensa</legend>
+          <mat-radio-group formControlName="tipoRecompensa" aria-label="Tipo de recompensa">
+            @for (t of tiposRecompensa; track t) {
+              <mat-radio-button [value]="t">{{ etiquetaTipoRecompensa(t) }}</mat-radio-button>
+            }
+          </mat-radio-group>
+        </fieldset>
+
+        <mat-form-field appearance="outline" class="sa-form__corto">
+          <mat-label>Monto recompensa</mat-label>
+          <input matInput type="number" formControlName="montoRecompensa" min="0" required>
+          @if (form.controls.montoRecompensa.hasError('min') && form.controls.montoRecompensa.touched) {
+            <mat-error>No puede ser negativo</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="sa-form__corto">
+          <mat-label>Fecha límite</mat-label>
+          <input matInput type="date" formControlName="fechaLimite">
+        </mat-form-field>
+
+        <fieldset class="sa-grupo">
+          <legend>Requisitos</legend>
+          <div class="sa-lista-form">
+            @for (ctrl of requisitos.controls; track $index) {
+              <div class="sa-lista-form__fila">
+                <mat-form-field appearance="outline" class="sa-lista-form__campo">
+                  <mat-label>Requisito {{ $index + 1 }}</mat-label>
+                  <input matInput [formControl]="ctrl">
+                </mat-form-field>
+                <button mat-icon-button type="button" (click)="quitarRequisito($index)" [disabled]="requisitos.length <= 1" aria-label="Quitar requisito">
+                  <mat-icon>remove_circle_outline</mat-icon>
+                </button>
+              </div>
+            }
+            <button mat-stroked-button type="button" (click)="agregarRequisito()">
+              <mat-icon>add</mat-icon>
+              Agregar requisito
+            </button>
+          </div>
+        </fieldset>
+
+        <fieldset class="sa-grupo">
+          <legend>Entregables</legend>
+          <div class="sa-lista-form">
+            @for (ctrl of entregables.controls; track $index) {
+              <div class="sa-lista-form__fila">
+                <mat-form-field appearance="outline" class="sa-lista-form__campo">
+                  <mat-label>Entregable {{ $index + 1 }}</mat-label>
+                  <input matInput [formControl]="ctrl">
+                </mat-form-field>
+                <button mat-icon-button type="button" (click)="quitarEntregable($index)" [disabled]="entregables.length <= 1" aria-label="Quitar entregable">
+                  <mat-icon>remove_circle_outline</mat-icon>
+                </button>
+              </div>
+            }
+            <button mat-stroked-button type="button" (click)="agregarEntregable()">
+              <mat-icon>add</mat-icon>
+              Agregar entregable
+            </button>
+          </div>
+        </fieldset>
       </form>
     </mat-card-content>
 

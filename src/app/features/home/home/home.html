@@ -33,7 +33,7 @@
       <mat-card appearance="outlined" class="sa-stat">
         <mat-card-content>
           <mat-icon class="sa-stat__icon" aria-hidden="true">task_alt</mat-icon>
-          <span class="sa-stat__label">Completadas</span>
+          <span class="sa-stat__label">Aprobadas</span>
           <span class="sa-stat__valor">{{ s.completadas }}</span>
         </mat-card-content>
       </mat-card>
@@ -78,13 +78,10 @@
               <mat-card-content class="sa-fila__content">
                 <div class="sa-fila__info">
                   <a class="sa-fila__titulo" [routerLink]="['/app/postulaciones/reto', p.retoId]">Reto {{ p.retoId }}</a>
-                  <p class="sa-fila__meta">Enviada {{ p.creadaEn | date:'mediumDate' }}</p>
+                  <p class="sa-fila__meta">Enviada {{ p.fechaEnvio | date:'mediumDate' }}</p>
                 </div>
                 <mat-chip class="sa-chip-estado" [attr.data-estado]="p.estado" disableRipple>
-                  @switch (p.estado) {
-                    @case ('ENVIADA') { Enviada }
-                    @case ('EN_REVISION') { En revisión }
-                  }
+                  En revisión
                 </mat-chip>
               </mat-card-content>
             </mat-card>
@@ -106,15 +103,15 @@
       <mat-card appearance="outlined" class="sa-stat">
         <mat-card-content>
           <mat-icon class="sa-stat__icon" aria-hidden="true">inbox</mat-icon>
-          <span class="sa-stat__label">Postulaciones</span>
-          <span class="sa-stat__valor">{{ m?.postulacionesRecibidas ?? 0 }}</span>
+          <span class="sa-stat__label">Nuevas postulaciones</span>
+          <span class="sa-stat__valor">{{ m?.nuevasPostulaciones ?? 0 }}</span>
         </mat-card-content>
       </mat-card>
       <mat-card appearance="outlined" class="sa-stat sa-stat--destacado">
         <mat-card-content>
-          <mat-icon class="sa-stat__icon" aria-hidden="true">trending_up</mat-icon>
-          <span class="sa-stat__label">Tasa conversión</span>
-          <span class="sa-stat__valor">{{ (m?.tasaConversion ?? 0) | number:'1.0-1' }}%</span>
+          <mat-icon class="sa-stat__icon" aria-hidden="true">verified_user</mat-icon>
+          <span class="sa-stat__label">Talentos aprobados</span>
+          <span class="sa-stat__valor">{{ m?.talentosAprobados ?? 0 }}</span>
         </mat-card-content>
       </mat-card>
     </div>
@@ -152,12 +149,7 @@
                 <div class="sa-fila__info">
                   <a class="sa-fila__titulo" [routerLink]="['/app/postulaciones/reto', r.id]">{{ r.titulo }}</a>
                   <p class="sa-fila__meta">
-                    @switch (r.modalidad) {
-                      @case ('REMOTO') { Remoto }
-                      @case ('PRESENCIAL') { Presencial }
-                      @case ('HIBRIDO') { Híbrido }
-                    }
-                    · {{ r.duracionDias }} días · publicado {{ r.creadoEn | date:'mediumDate' }}
+                    {{ etiquetaCategoria(r.categoria) }} · {{ etiquetaNivel(r.nivelDificultad) }} · {{ r.cuposDisponibles }} cupos
                   </p>
                 </div>
                 <mat-chip class="sa-chip-estado" [attr.data-estado]="r.estado" disableRipple>

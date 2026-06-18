@@ -51,7 +51,7 @@
                 <p class="sa-fila__meta">
                   Solución: <a [href]="p.urlSolucion" target="_blank" rel="noopener">{{ p.urlSolucion }}</a>
                 </p>
-                <p class="sa-fila__fecha">Enviada {{ p.creadaEn | date:'mediumDate' }}</p>
+                <p class="sa-fila__fecha">Enviada {{ p.fechaEnvio | date:'mediumDate' }}</p>
               </div>
 
               <mat-chip class="sa-chip-estado" [attr.data-estado]="p.estado" disableRipple>

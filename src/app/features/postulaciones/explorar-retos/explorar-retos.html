@@ -5,29 +5,28 @@
   </header>
 
   <div class="sa-filtros">
-    <mat-form-field appearance="outline" class="sa-filtros__texto">
-      <mat-label>Buscar por palabra clave</mat-label>
-      <input matInput [formControl]="texto" placeholder="Ej: React, finanzas, diseño...">
-      <mat-icon matIconPrefix aria-hidden="true">search</mat-icon>
+    <mat-form-field appearance="outline">
+      <mat-label>Categoría</mat-label>
+      <mat-select [formControl]="categoria">
+        <mat-option value="">Todas</mat-option>
+        @for (c of categorias; track c) {
+          <mat-option [value]="c">{{ etiquetaCategoria(c) }}</mat-option>
+        }
+      </mat-select>
+      <mat-icon matIconPrefix aria-hidden="true">category</mat-icon>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Modalidad</mat-label>
-      <mat-select [formControl]="modalidad">
-        <mat-option value="">Todas</mat-option>
-        @for (m of modalidades; track m) {
-          <mat-option [value]="m">
-            @switch (m) {
-              @case ('REMOTO') { Remoto }
-              @case ('PRESENCIAL') { Presencial }
-              @case ('HIBRIDO') { Híbrido }
-            }
-          </mat-option>
+      <mat-label>Nivel de dificultad</mat-label>
+      <mat-select [formControl]="nivelDificultad">
+        <mat-option value="">Todos</mat-option>
+        @for (n of niveles; track n) {
+          <mat-option [value]="n">{{ etiquetaNivel(n) }}</mat-option>
         }
       </mat-select>
     </mat-form-field>
 
-    @if (texto.value || modalidad.value) {
+    @if (categoria.value || nivelDificultad.value) {
       <button mat-button type="button" (click)="limpiarFiltros()">
         <mat-icon aria-hidden="true">clear</mat-icon>
         Limpiar filtros
@@ -47,14 +46,15 @@
           <mat-card appearance="outlined" class="sa-card">
             <mat-card-content class="sa-card__content">
               <header class="sa-card__header">
-                <mat-chip class="sa-chip-estado" [attr.data-modalidad]="reto.modalidad" disableRipple>
-                  @switch (reto.modalidad) {
-                    @case ('REMOTO') { Remoto }
-                    @case ('PRESENCIAL') { Presencial }
-                    @case ('HIBRIDO') { Híbrido }
-                  }
-                </mat-chip>
-                <span class="sa-card__duracion">{{ reto.duracionDias }} días</span>
+                <div class="sa-card__chips">
+                  <mat-chip class="sa-chip-estado" [attr.data-nivel]="reto.nivelDificultad" disableRipple>
+                    {{ etiquetaNivel(reto.nivelDificultad) }}
+                  </mat-chip>
+                  <mat-chip class="sa-chip-estado" [attr.data-categoria]="reto.categoria" disableRipple>
+                    {{ etiquetaCategoria(reto.categoria) }}
+                  </mat-chip>
+                </div>
+                <span class="sa-card__cupos">{{ reto.cuposDisponibles }} cupos</span>
               </header>
 
               <h2 class="sa-card__titulo">{{ reto.titulo }}</h2>

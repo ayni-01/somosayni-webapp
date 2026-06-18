@@ -83,6 +83,13 @@
     line-height: 1.2;
   }
 
+  &__lista {
+    margin: 0;
+    padding-left: 20px;
+    color: var(--sa-color-text);
+    line-height: 1.7;
+  }
+
   &__meta {
     display: flex;
     gap: 32px;
@@ -135,6 +142,33 @@
       height: 48px;
       min-width: 200px;
       font-weight: 600;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .sa-reto {
+    &__content {
+      padding: 16px;
+      gap: 16px;
+    }
+
+    &__titulo {
+      font-size: 22px;
+    }
+
+    &__meta {
+      gap: 16px;
+    }
+
+    &__footer {
+      flex-direction: column;
+      align-items: stretch;
+
+      button, a {
+        width: 100%;
+        min-width: 0;
+      }
     }
   }
 }

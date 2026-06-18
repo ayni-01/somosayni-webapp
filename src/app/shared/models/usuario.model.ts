@@ -4,7 +4,6 @@ export interface Usuario {
   id: string;
   email: string;
   rol: RolUsuario;
-  creadoEn: string;
 }
 
 export interface RegistroRequest {
@@ -27,5 +26,5 @@ export interface LoginResponse {
 
 export interface CambiarPasswordRequest {
   passwordActual: string;
-  nuevaPassword: string;
+  passwordNueva: string;
 }

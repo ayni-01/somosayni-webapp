@@ -1,15 +1,16 @@
 export interface MetricasEmpresa {
   empresaId: string;
   retosActivos: number;
-  postulacionesRecibidas: number;
+  nuevasPostulaciones: number;
+  talentosEvaluados: number;
   talentosAprobados: number;
-  tasaConversion: number;
 }
 
 export interface EmbudoReto {
   retoId: string;
-  titulo: string;
-  postulacionesTotal: number;
-  aprobadas: number;
-  rechazadas: number;
+  tituloReto: string;
+  postulados: number;
+  evaluados: number;
+  aprobados: number;
+  tasaConversion: number;
 }

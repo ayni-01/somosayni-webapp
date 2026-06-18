@@ -34,14 +34,14 @@ export class ResumenTalento {
 
   readonly stats = computed(() => {
     const lista = this.postulaciones();
-    const completados = lista.filter(p => p.estado === 'APROBADA' || p.estado === 'FINALIZADA').length;
-    const enProgreso = lista.filter(p => p.estado === 'ENVIADA' || p.estado === 'EN_REVISION').length;
+    const completados = lista.filter(p => p.estado === 'APROBADO').length;
+    const enProgreso = lista.filter(p => p.estado === 'EN_REVISION').length;
     const insignias = this.portafolio()?.insignias.length ?? 0;
     return { completados, enProgreso, insignias };
   });
 
   readonly retosEnProgreso = computed(() => {
-    return this.postulaciones().filter(p => p.estado === 'ENVIADA' || p.estado === 'EN_REVISION');
+    return this.postulaciones().filter(p => p.estado === 'EN_REVISION');
   });
 
   constructor() {

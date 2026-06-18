@@ -35,8 +35,8 @@ export class RecibidosReto {
 
   readonly resumen = computed(() => {
     const lista = this.postulaciones();
-    const pendientes = lista.filter(p => p.estado === 'ENVIADA' || p.estado === 'EN_REVISION').length;
-    const aprobadas = lista.filter(p => p.estado === 'APROBADA').length;
+    const pendientes = lista.filter(p => p.estado === 'EN_REVISION').length;
+    const aprobadas = lista.filter(p => p.estado === 'APROBADO').length;
     return { total: lista.length, pendientes, aprobadas };
   });
 
@@ -46,11 +46,9 @@ export class RecibidosReto {
 
   etiquetaEstado(estado: EstadoPostulacion): string {
     switch (estado) {
-      case 'ENVIADA': return 'Enviada';
       case 'EN_REVISION': return 'En revisión';
-      case 'APROBADA': return 'Aprobada';
-      case 'RECHAZADA': return 'Rechazada';
-      case 'FINALIZADA': return 'Finalizada';
+      case 'APROBADO': return 'Aprobado';
+      case 'RECHAZADO': return 'Rechazado';
     }
   }
 

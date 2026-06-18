@@ -24,12 +24,12 @@
           @for (insignia of p.insignias; track insignia.id) {
             <mat-card appearance="outlined" class="sa-insignia">
               <mat-card-content class="sa-insignia__content">
-                <div class="sa-insignia__icono">
+                <div class="sa-insignia__icono" [attr.data-tipo]="insignia.tipo">
                   <mat-icon aria-hidden="true">military_tech</mat-icon>
                 </div>
                 <h3 class="sa-insignia__titulo">{{ insignia.titulo }}</h3>
-                <p class="sa-insignia__tipo">{{ insignia.tipo }}</p>
-                <p class="sa-insignia__fecha">Obtenida {{ insignia.otorgadaEn | date:'mediumDate' }}</p>
+                <p class="sa-insignia__tipo">{{ etiquetaTipoInsignia(insignia.tipo) }}</p>
+                <p class="sa-insignia__fecha">Obtenida {{ insignia.fechaOtorgada | date:'mediumDate' }}</p>
                 <a class="sa-insignia__reto" [routerLink]="['/app/postulaciones/reto', insignia.retoId]">
                   Ver reto
                   <mat-icon aria-hidden="true">arrow_forward</mat-icon>
@@ -60,10 +60,14 @@
         <ul class="sa-habilidades">
           @for (h of p.habilidades; track h.id) {
             <li class="sa-habilidad">
-              <span class="sa-habilidad__nombre">{{ h.nombre }}</span>
-              <mat-chip class="sa-chip-estado" [attr.data-nivel]="h.nivel" disableRipple>
-                {{ etiquetaNivel(h.nivel) }}
-              </mat-chip>
+              <div class="sa-habilidad__cabecera">
+                <span class="sa-habilidad__nombre">{{ h.nombre }}</span>
+                <mat-chip class="sa-chip-estado" [attr.data-nivel]="h.nivel" disableRipple>
+                  {{ etiquetaNivel(h.nivel) }}
+                </mat-chip>
+              </div>
+              <mat-progress-bar mode="determinate" [value]="h.porcentaje" />
+              <span class="sa-habilidad__porcentaje">{{ h.porcentaje }}%</span>
             </li>
           }
         </ul>

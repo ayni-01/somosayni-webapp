@@ -1,76 +1,102 @@
-<section class="sa-perfil">
-  <mat-card appearance="outlined" class="sa-perfil__card">
-    <mat-card-header class="sa-perfil__header">
-      <mat-card-title>Perfil corporativo</mat-card-title>
-      <mat-card-subtitle>Completa los datos de tu empresa para validar tu identidad ante los postulantes.</mat-card-subtitle>
-    </mat-card-header>
+@if (cargando()) {
+  <div class="sa-cargando">
+    <mat-progress-spinner mode="indeterminate" diameter="36" />
+    <span>Cargando perfil...</span>
+  </div>
+} @else if (!perfil()) {
+  <div class="sa-vacio-page">
+    <mat-icon aria-hidden="true">business</mat-icon>
+    <h1>Aún no has creado tu perfil corporativo</h1>
+    <p>Completa el registro empresarial para empezar a publicar retos.</p>
+  </div>
+} @else {
+  @let p = perfil()!;
 
-    @if (cargando()) {
-      <mat-card-content>
-        <div class="sa-cargando">
-          <mat-progress-spinner mode="indeterminate" diameter="36" />
-          <span>Cargando perfil...</span>
-        </div>
-      </mat-card-content>
-    } @else {
-      <mat-card-content>
-        @if (estado()) {
-          <div class="sa-estado">
-            <span class="sa-estado__label">Estado de validación:</span>
-            <mat-chip class="sa-chip-estado" [attr.data-validacion]="estado()" disableRipple>
-              @switch (estado()) {
-                @case ('VALIDADA')  { Validada }
-                @case ('PENDIENTE') { Pendiente de revisión }
-                @case ('RECHAZADA') { Rechazada }
-              }
-            </mat-chip>
-          </div>
+  <section class="sa-empresa">
+    <header class="sa-hero">
+      <div class="sa-avatar" role="img" [attr.aria-label]="'Logo de ' + p.razonSocial">
+        @if (p.logo) {
+          <img [src]="p.logo" alt="">
+        } @else {
+          <span class="sa-avatar__iniciales">{{ iniciales() }}</span>
         }
+      </div>
 
-        <form class="sa-form" [formGroup]="form" (ngSubmit)="guardar()" id="perfil-empresa-form">
-          <mat-form-field appearance="outline">
-            <mat-label>Razón social</mat-label>
-            <input matInput formControlName="razonSocial" autocomplete="organization" required>
-            @if (form.controls.razonSocial.hasError('required') && form.controls.razonSocial.touched) {
-              <mat-error>Ingresa la razón social</mat-error>
-            }
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>RUC</mat-label>
-            <input matInput formControlName="ruc" inputmode="numeric" maxlength="11" required>
-            <mat-hint>11 dígitos</mat-hint>
-            @if (form.controls.ruc.hasError('pattern') && form.controls.ruc.touched) {
-              <mat-error>RUC debe tener 11 dígitos</mat-error>
-            }
-            @if (form.controls.ruc.hasError('required') && form.controls.ruc.touched) {
-              <mat-error>Ingresa el RUC</mat-error>
-            }
-          </mat-form-field>
-
-          <mat-form-field appearance="outline">
-            <mat-label>Sector</mat-label>
-            <mat-select formControlName="sector" required>
-              @for (s of sectores; track s) {
-                <mat-option [value]="s">{{ s }}</mat-option>
-              }
-            </mat-select>
-            @if (form.controls.sector.hasError('required') && form.controls.sector.touched) {
-              <mat-error>Selecciona un sector</mat-error>
-            }
-          </mat-form-field>
-        </form>
-      </mat-card-content>
-
-      <mat-card-actions align="end" class="sa-perfil__actions">
-        <button mat-flat-button color="primary" type="submit" form="perfil-empresa-form" [disabled]="form.invalid || guardando()">
-          @if (guardando()) {
-            Guardando...
-          } @else {
-            Guardar cambios
+      <div class="sa-hero__cuerpo">
+        <span class="sa-hero__rol">Perfil corporativo</span>
+        <h1 class="sa-hero__titulo">{{ p.razonSocial }}</h1>
+        <div class="sa-hero__meta">
+          @if (sectorLegible()) {
+            <span class="sa-meta-item">
+              <mat-icon aria-hidden="true">domain</mat-icon>
+              {{ sectorLegible() }}
+            </span>
           }
-        </button>
-      </mat-card-actions>
-    }
-  </mat-card>
-</section>
+          @if (usuario(); as u) {
+            <span class="sa-meta-item">
+              <mat-icon aria-hidden="true">mail</mat-icon>
+              {{ u.email }}
+            </span>
+          }
+        </div>
+      </div>
+
+      <div class="sa-estado" [attr.data-estado]="estadoValidacion()">
+        <mat-icon aria-hidden="true">{{ iconoEstado() }}</mat-icon>
+        <div>
+          <span class="sa-estado__etiqueta">Validación</span>
+          <strong class="sa-estado__valor">{{ etiquetaEstado() }}</strong>
+        </div>
+      </div>
+    </header>
+
+    <div class="sa-aviso" role="status">
+      <mat-icon aria-hidden="true">lock</mat-icon>
+      <div>
+        <strong>Modo solo lectura</strong>
+        <p>La edición de datos corporativos no está disponible aún. Contacta al administrador para realizar cambios.</p>
+      </div>
+    </div>
+
+    <mat-card appearance="outlined" class="sa-card">
+      <mat-card-header class="sa-card__header">
+        <div class="sa-card__titulo-wrap">
+          <mat-icon class="sa-card__icono" aria-hidden="true">badge</mat-icon>
+          <div>
+            <mat-card-title>Datos generales</mat-card-title>
+            <mat-card-subtitle>Información oficial de tu empresa.</mat-card-subtitle>
+          </div>
+        </div>
+      </mat-card-header>
+      <mat-divider />
+      <mat-card-content class="sa-card__content">
+        <dl class="sa-campos">
+          <div class="sa-campo">
+            <dt>Razón social</dt>
+            <dd>{{ p.razonSocial }}</dd>
+          </div>
+          <div class="sa-campo">
+            <dt>RUC</dt>
+            <dd class="sa-mono">{{ p.ruc || '—' }}</dd>
+          </div>
+          <div class="sa-campo">
+            <dt>Sector</dt>
+            <dd>
+              @if (sectorLegible()) {
+                <span class="sa-pill">{{ sectorLegible() }}</span>
+              } @else {
+                <span class="sa-vacio-inline">No especificado</span>
+              }
+            </dd>
+          </div>
+          @if (p.descripcion) {
+            <div class="sa-campo sa-campo--full">
+              <dt>Descripción</dt>
+              <dd>{{ p.descripcion }}</dd>
+            </div>
+          }
+        </dl>
+      </mat-card-content>
+    </mat-card>
+  </section>
+}

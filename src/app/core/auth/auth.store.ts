@@ -62,7 +62,6 @@ function derivarUsuarioDeJwt(token: string): Usuario | null {
     id: String(payload['sub'] ?? payload['userId'] ?? payload['id'] ?? ''),
     email: String(payload['email'] ?? payload['sub'] ?? ''),
     rol,
-    creadoEn: '',
   };
 }
 

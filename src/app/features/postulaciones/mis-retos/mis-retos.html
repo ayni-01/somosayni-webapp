@@ -38,12 +38,7 @@
               </mat-chip>
               <h2 class="sa-fila__titulo">{{ reto.titulo }}</h2>
               <p class="sa-fila__meta">
-                @switch (reto.modalidad) {
-                  @case ('REMOTO') { Remoto }
-                  @case ('PRESENCIAL') { Presencial }
-                  @case ('HIBRIDO') { Híbrido }
-                }
-                · {{ reto.duracionDias }} días · publicado {{ reto.creadoEn | date:'mediumDate' }}
+                {{ etiquetaCategoria(reto.categoria) }} · {{ etiquetaNivel(reto.nivelDificultad) }} · {{ reto.cuposDisponibles }} cupos
               </p>
             </div>
 
