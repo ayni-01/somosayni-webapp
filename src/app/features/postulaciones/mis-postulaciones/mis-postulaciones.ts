@@ -6,10 +6,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialog } from '@angular/material/dialog';
 import { catchError, of, tap } from 'rxjs';
 import { PostulacionesApi } from '../../../core/api/postulaciones-api';
 import { AuthStore } from '../../../core/auth/auth.store';
 import { EstadoPostulacion, Postulacion } from '../../../shared/models/postulacion.model';
+import { FeedbackEnfoqueDialog } from '../feedback-enfoque-dialog/feedback-enfoque-dialog';
 
 @Component({
   selector: 'sa-mis-postulaciones',
@@ -25,6 +27,7 @@ import { EstadoPostulacion, Postulacion } from '../../../shared/models/postulaci
 export class MisPostulaciones {
   private readonly postulacionesApi = inject(PostulacionesApi);
   private readonly authStore = inject(AuthStore);
+  private readonly dialog = inject(MatDialog);
 
   readonly cargando = signal(true);
   readonly postulaciones = signal<Postulacion[]>([]);
@@ -47,6 +50,10 @@ export class MisPostulaciones {
         this.cargando.set(false);
       }),
     ).subscribe();
+  }
+
+  abrirFeedback(postulacionId: string): void {
+    this.dialog.open(FeedbackEnfoqueDialog, { data: { postulacionId } });
   }
 
   etiquetaEstado(estado: EstadoPostulacion): string {

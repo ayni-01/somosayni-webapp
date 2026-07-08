@@ -89,6 +89,35 @@
         </ul>
       }
     </section>
+
+    <mat-divider class="sa-bloque__divisor" />
+
+    <section class="sa-bloque">
+      <header class="sa-bloque__header">
+        <h2>Recomendado para ti</h2>
+      </header>
+
+      @if (recomendaciones().length === 0) {
+        <div class="sa-vacio">
+          <mat-icon class="sa-vacio__icon" aria-hidden="true">school</mat-icon>
+          <p>Aún no hay recomendaciones de aprendizaje. Sigue postulando para recibir sugerencias.</p>
+        </div>
+      } @else {
+        <ul class="sa-lista">
+          @for (rec of recomendaciones(); track rec.tema) {
+            <mat-card appearance="outlined" class="sa-fila">
+              <mat-card-content class="sa-fila__content">
+                <div class="sa-fila__info">
+                  <span class="sa-fila__titulo">{{ rec.tema }}</span>
+                  <p class="sa-fila__meta">{{ rec.motivo }}</p>
+                </div>
+                <mat-chip class="sa-chip-estado" disableRipple>{{ rec.nivelSugerido }}</mat-chip>
+              </mat-card-content>
+            </mat-card>
+          }
+        </ul>
+      }
+    </section>
   } @else if (esEmpresa()) {
     @let m = metricas();
 
