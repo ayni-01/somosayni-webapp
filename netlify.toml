@@ -1,6 +1,6 @@
 [build]
   command = "npm run build"
-  publish = "dist/somosayni-webapp"
+  publish = "dist/somosayni-webapp/browser"
 
 [[redirects]]
   from = "/*"
