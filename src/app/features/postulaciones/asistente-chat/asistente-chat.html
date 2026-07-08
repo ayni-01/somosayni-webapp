@@ -1,0 +1,58 @@
+@if (!abierto()) {
+  <button class="sa-chat-fab" type="button" (click)="abrir()" aria-label="Abrir asistente del reto">
+    <mat-icon aria-hidden="true">smart_toy</mat-icon>
+    <span>Pregúntale al asistente</span>
+  </button>
+}
+
+@if (abierto()) {
+  <section class="sa-chat" role="dialog" aria-label="Asistente del reto" (keydown.escape)="cerrar()">
+    <header class="sa-chat__header">
+      <span class="sa-chat__avatar" aria-hidden="true"><mat-icon>smart_toy</mat-icon></span>
+      <div class="sa-chat__identity">
+        <strong>Asistente Ayni</strong>
+        <small>Resuelve dudas sobre este reto</small>
+      </div>
+      <button class="sa-chat__close" type="button" (click)="cerrar()" aria-label="Cerrar asistente">
+        <mat-icon>close</mat-icon>
+      </button>
+    </header>
+
+    <div class="sa-chat__body" #scroller aria-live="polite">
+      @if (mensajes().length === 0) {
+        <div class="sa-chat__welcome">
+          <span class="sa-chat__welcome-avatar" aria-hidden="true"><mat-icon>smart_toy</mat-icon></span>
+          <p>¡Hola! Te ayudo a entender este reto antes de postular. Prueba con:</p>
+          <div class="sa-chat__suggestions">
+            @for (s of sugerencias; track s) {
+              <button type="button" class="sa-chat__chip" (click)="usarSugerencia(s)">{{ s }}</button>
+            }
+          </div>
+        </div>
+      }
+
+      @for (m of mensajes(); track $index) {
+        <div class="sa-chat__msg" [class.sa-chat__msg--tu]="m.autor === 'tu'" [class.sa-chat__msg--ia]="m.autor === 'ia'">
+          @if (m.autor === 'ia') {
+            <span class="sa-chat__msg-avatar" aria-hidden="true"><mat-icon>smart_toy</mat-icon></span>
+          }
+          <p class="sa-chat__bubble">{{ m.texto }}</p>
+        </div>
+      }
+
+      @if (consultando()) {
+        <div class="sa-chat__msg sa-chat__msg--ia">
+          <span class="sa-chat__msg-avatar" aria-hidden="true"><mat-icon>smart_toy</mat-icon></span>
+          <p class="sa-chat__bubble sa-chat__typing"><span></span><span></span><span></span></p>
+        </div>
+      }
+    </div>
+
+    <form class="sa-chat__input" (ngSubmit)="enviar()">
+      <input #campo type="text" [formControl]="pregunta" placeholder="Escribe tu pregunta…" autocomplete="off" aria-label="Tu pregunta" />
+      <button type="submit" class="sa-chat__send" [disabled]="pregunta.invalid || consultando()" aria-label="Enviar pregunta">
+        <mat-icon>arrow_upward</mat-icon>
+      </button>
+    </form>
+  </section>
+}
