@@ -57,6 +57,13 @@
               <mat-chip class="sa-chip-estado" [attr.data-estado]="p.estado" disableRipple>
                 {{ etiquetaEstado(p.estado) }}
               </mat-chip>
+
+              @if (p.estado === 'EN_REVISION') {
+                <button mat-stroked-button color="primary" class="sa-fila__accion" (click)="abrirFeedback(p.id)">
+                  <mat-icon>smart_toy</mat-icon>
+                  Pedir feedback de mi enfoque
+                </button>
+              }
             </mat-card-content>
           </mat-card>
         }
