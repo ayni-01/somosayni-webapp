@@ -62,16 +62,16 @@ export class DetalleReto {
     if (!reto || !texto || this.consultando()) return;
     this.consultando.set(true);
     this.asistenteApi.consultarReto(reto.id, texto).pipe(
-      tap({
-        next: (res) => {
-          this.hilo.update((h) => [...h, { pregunta: texto, respuesta: res.respuesta }]);
-          this.pregunta.reset();
-          this.consultando.set(false);
-        },
-        error: () => {
-          this.consultando.set(false);
-          this.snack.open('No pudimos obtener respuesta. Intenta de nuevo.', 'Cerrar', { duration: 4000 });
-        },
+      catchError(() => {
+        this.consultando.set(false);
+        this.snack.open('No pudimos obtener respuesta. Intenta de nuevo.', 'Cerrar', { duration: 4000 });
+        return of(null);
+      }),
+      tap((res) => {
+        if (!res) return;
+        this.hilo.update((h) => [...h, { pregunta: texto, respuesta: res.respuesta }]);
+        this.pregunta.reset();
+        this.consultando.set(false);
       }),
     ).subscribe();
   }
