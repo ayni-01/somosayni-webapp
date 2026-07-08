@@ -8,6 +8,7 @@ export interface ApiEndpoints {
   habilidades: string;
   notificaciones: string;
   metricas: string;
+  asistente: string;
 }
 
 export const API_ENDPOINTS = new InjectionToken<ApiEndpoints>('API_ENDPOINTS');

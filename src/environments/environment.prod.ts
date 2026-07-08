@@ -8,5 +8,6 @@ export const environment = {
     habilidades: 'https://ayni-habilidades-service.onrender.com/api/v1',
     notificaciones: 'https://ayni-notificaciones-service.onrender.com/api/v1',
     metricas: 'https://ayni-metricas-service.onrender.com/api/v1',
+    asistente: 'https://ayni-asistente-ia-service.onrender.com/api/v1',
   },
 };
