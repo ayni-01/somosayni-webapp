@@ -13,10 +13,12 @@ import { PostulacionesApi } from '../../../core/api/postulaciones-api';
 import { HabilidadesApi } from '../../../core/api/habilidades-api';
 import { RetosApi } from '../../../core/api/retos-api';
 import { MetricasApi } from '../../../core/api/metricas-api';
+import { AsistenteApi } from '../../../core/api/asistente-api';
 import { Postulacion } from '../../../shared/models/postulacion.model';
 import { Categoria, NivelDificultad, Reto } from '../../../shared/models/reto.model';
 import { MetricasEmpresa } from '../../../shared/models/metricas.model';
 import { Portafolio } from '../../../shared/models/habilidad.model';
+import { RecomendacionAprendizaje } from '../../../shared/models/asistente.model';
 
 @Component({
   selector: 'app-home',
@@ -36,6 +38,7 @@ export class Home {
   private readonly habilidadesApi = inject(HabilidadesApi);
   private readonly retosApi = inject(RetosApi);
   private readonly metricasApi = inject(MetricasApi);
+  private readonly asistenteApi = inject(AsistenteApi);
 
   readonly usuario = this.authStore.usuario;
   readonly cargando = signal(true);
@@ -44,6 +47,7 @@ export class Home {
   readonly portafolio = signal<Portafolio | null>(null);
   readonly retos = signal<Reto[]>([]);
   readonly metricas = signal<MetricasEmpresa | null>(null);
+  readonly recomendaciones = signal<RecomendacionAprendizaje[]>([]);
 
   readonly esTalento = computed(() => this.usuario()?.rol === 'TALENTO');
   readonly esEmpresa = computed(() => this.usuario()?.rol === 'EMPRESA');
@@ -79,11 +83,15 @@ export class Home {
         portafolio: this.habilidadesApi
           .portafolio(usuario.id)
           .pipe(catchError(() => of(null as Portafolio | null))),
+        recomendaciones: this.asistenteApi
+          .recomendaciones()
+          .pipe(catchError(() => of({ recomendaciones: [] as RecomendacionAprendizaje[] }))),
       })
         .pipe(
-          tap(({ postulaciones, portafolio }) => {
+          tap(({ postulaciones, portafolio, recomendaciones }) => {
             this.postulaciones.set(postulaciones);
             this.portafolio.set(portafolio);
+            this.recomendaciones.set(recomendaciones.recomendaciones);
             this.cargando.set(false);
           }),
         )
