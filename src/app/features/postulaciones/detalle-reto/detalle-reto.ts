@@ -7,14 +7,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterLink } from '@angular/router';
-import { ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { AsistenteApi } from '../../../core/api/asistente-api';
 import { catchError, of, tap } from 'rxjs';
 import { RetosApi } from '../../../core/api/retos-api';
 import { AuthStore } from '../../../core/auth/auth.store';
+import { AsistenteChat } from '../asistente-chat/asistente-chat';
 import { Categoria, NivelDificultad, Reto, TipoRecompensa } from '../../../shared/models/reto.model';
 
 @Component({
@@ -24,7 +20,7 @@ import { Categoria, NivelDificultad, Reto, TipoRecompensa } from '../../../share
     RouterLink, DatePipe,
     MatButtonModule, MatIconModule, MatDividerModule,
     MatCardModule, MatChipsModule, MatProgressSpinnerModule,
-    ReactiveFormsModule, MatFormFieldModule, MatInputModule,
+    AsistenteChat,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './detalle-reto.html',
@@ -35,12 +31,6 @@ export class DetalleReto {
 
   private readonly retosApi = inject(RetosApi);
   private readonly authStore = inject(AuthStore);
-  private readonly asistenteApi = inject(AsistenteApi);
-  private readonly snack = inject(MatSnackBar);
-
-  readonly pregunta = new FormControl('', { nonNullable: true, validators: [Validators.required] });
-  readonly hilo = signal<{ pregunta: string; respuesta: string }[]>([]);
-  readonly consultando = signal(false);
 
   readonly cargando = signal(true);
   readonly reto = signal<Reto | null>(null);
@@ -54,26 +44,6 @@ export class DetalleReto {
 
   constructor() {
     queueMicrotask(() => this.cargar());
-  }
-
-  preguntar(): void {
-    const reto = this.reto();
-    const texto = this.pregunta.value.trim();
-    if (!reto || !texto || this.consultando()) return;
-    this.consultando.set(true);
-    this.asistenteApi.consultarReto(reto.id, texto).pipe(
-      catchError(() => {
-        this.consultando.set(false);
-        this.snack.open('No pudimos obtener respuesta. Intenta de nuevo.', 'Cerrar', { duration: 4000 });
-        return of(null);
-      }),
-      tap((res) => {
-        if (!res) return;
-        this.hilo.update((h) => [...h, { pregunta: texto, respuesta: res.respuesta }]);
-        this.pregunta.reset();
-        this.consultando.set(false);
-      }),
-    ).subscribe();
   }
 
   etiquetaCategoria(c: Categoria): string {
