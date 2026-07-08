@@ -48,7 +48,7 @@
       }
     </div>
 
-    <form class="sa-chat__input" (ngSubmit)="enviar()">
+    <form class="sa-chat__input" (submit)="$event.preventDefault(); enviar()">
       <input #campo type="text" [formControl]="pregunta" placeholder="Escribe tu pregunta…" autocomplete="off" aria-label="Tu pregunta" />
       <button type="submit" class="sa-chat__send" [disabled]="pregunta.invalid || consultando()" aria-label="Enviar pregunta">
         <mat-icon>arrow_upward</mat-icon>
