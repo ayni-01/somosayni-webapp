@@ -8,5 +8,6 @@ export const environment = {
     habilidades: 'http://localhost:8085/api/v1',
     notificaciones: 'http://localhost:8086/api/v1',
     metricas: 'http://localhost:8087/api/v1',
+    asistente: 'http://localhost:8088/api/v1',
   },
 };
