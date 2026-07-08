@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Feedback de tu enfoque</h2>
+
+<mat-dialog-content class="sa-feedback">
+  <p class="sa-feedback__ayuda">Describe cómo piensas resolver el reto y recibe retroalimentación antes de que evalúen tu entrega.</p>
+
+  <mat-form-field appearance="outline" class="sa-feedback__campo">
+    <mat-label>Tu enfoque de solución</mat-label>
+    <textarea matInput rows="5" [formControl]="enfoque" placeholder="Voy a usar..."></textarea>
+  </mat-form-field>
+
+  @if (cargando()) {
+    <div class="sa-feedback__cargando">
+      <mat-progress-spinner mode="indeterminate" diameter="28" />
+      <span>Analizando tu enfoque...</span>
+    </div>
+  }
+
+  @if (error()) {
+    <p class="sa-feedback__error">No pudimos generar el feedback. Intenta de nuevo.</p>
+  }
+
+  @if (feedback(); as texto) {
+    <div class="sa-feedback__resultado">
+      <h3>Retroalimentación</h3>
+      <p>{{ texto }}</p>
+    </div>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cerrar</button>
+  <button mat-flat-button color="primary" (click)="obtener()" [disabled]="enfoque.invalid || cargando()">
+    Obtener feedback
+  </button>
+</mat-dialog-actions>

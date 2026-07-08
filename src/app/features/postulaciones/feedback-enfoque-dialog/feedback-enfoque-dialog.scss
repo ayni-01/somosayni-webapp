@@ -1,0 +1,27 @@
+.sa-feedback {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: min(480px, 80vw);
+}
+
+.sa-feedback__campo {
+  width: 100%;
+}
+
+.sa-feedback__cargando {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sa-feedback__error {
+  color: var(--mat-sys-error, #b3261e);
+}
+
+.sa-feedback__resultado {
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--mat-sys-surface-container, #f3f3f3);
+  white-space: pre-wrap;
+}
